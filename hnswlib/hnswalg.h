@@ -8,6 +8,8 @@
 #include <assert.h>
 #include <unordered_set>
 #include <list>
+
+#define MAX(X,Y)=(X)>(Y)?(X):(Y)
 #include <memory>
 
 namespace hnswlib
@@ -1533,20 +1535,17 @@ namespace hnswlib
             return result;
         }
 
-        void checkIntegrity()
-        {
+        void checkIntegrity() {
             int connections_checked = 0;
-            std::vector<int> inbound_connections_num(cur_element_count, 0);
-            for (int i = 0; i < cur_element_count; i++)
-            {
-                for (int l = 0; l <= element_levels_[i]; l++)
-                {
+            std::vector <int > inbound_connections_num(cur_element_count, 0);
+            for (int i = 0; i < cur_element_count; i++) {
+                for (int l = 0; l <= element_levels_[i]; l++) {
                     linklistsizeint *ll_cur = get_linklist_at_level(i, l);
                     int size = getListCount(ll_cur);
-                    tableint *data = (tableint *)(ll_cur + 1);
+                    tableint *data = (tableint *) (ll_cur + 1);
                     std::unordered_set<tableint> s;
-                    for (int j = 0; j < size; j++)
-                    {
+                    for (int j = 0; j < size; j++) {
+                        assert(data[j] > 0);
                         assert(data[j] < cur_element_count);
                         assert(data[j] != i);
                         inbound_connections_num[data[j]]++;
@@ -1556,11 +1555,9 @@ namespace hnswlib
                     assert(s.size() == size);
                 }
             }
-            if (cur_element_count > 1)
-            {
+            if (cur_element_count > 1) {
                 int min1 = inbound_connections_num[0], max1 = inbound_connections_num[0];
-                for (int i = 0; i < cur_element_count; i++)
-                {
+                for (int i=0; i < cur_element_count; i++) {
                     assert(inbound_connections_num[i] > 0);
                     min1 = std::min(inbound_connections_num[i], min1);
                     max1 = std::max(inbound_connections_num[i], max1);
@@ -1570,4 +1567,111 @@ namespace hnswlib
             std::cout << "integrity ok, checked " << connections_checked << " connections\n";
         }
     };
-} // namespace hnswlib
+
+    template<typename dist_t>
+    HierarchicalNSW<dist_t>& HNSWMerger(HierarchicalNSW<dist_t> &index1, HierarchicalNSW<dist_t> &index2)
+    {
+        L2Space space(dim);
+        if(index2.cur_element_count > index1.cur_element_count){
+            std::swap(index1, index2);
+        }
+
+        size_t max_elements = index1.max_elements_+index2.max_elements_;
+        size_t M = MAX(index1.M_, index2.M_);
+        size_t ef_construction = MAX(index1.ef_construction_, index2.ef_construction_);
+
+        HierarchicalNSW<dist_t>* alg_hnsw = new HierarchicalNSW<dist_t>(&space, max_elements, M, ef_construction);
+        size_t maxLevel = MAX(index1.maxlevel_, index2.maxlevel_);
+
+
+        for(size_t level = maxLevel; level>=0;level--){
+            linklistsizeint *ll_cur1, *ll_cur2;
+            if(level==0){
+                // ll_cur1=index1.get_linklist()
+            }
+            {
+
+            }
+        }
+
+    {
+        element_levels_[cur_c] = curlevel;
+
+            std::unique_lock <std::mutex> templock(global);
+            int maxlevelcopy = maxlevel_;
+            if (curlevel <= maxlevelcopy)
+                templock.unlock();
+            tableint currObj = enterpoint_node_;
+            tableint enterpoint_copy = enterpoint_node_;
+
+            memset(data_level0_memory_ + cur_c * size_data_per_element_ + offsetLevel0_, 0, size_data_per_element_);
+
+            // Initialisation of the data and label
+            memcpy(getExternalLabeLp(cur_c), &label, sizeof(labeltype));
+            memcpy(getDataByInternalId(cur_c), data_point, data_size_);
+
+            if (curlevel) {
+                linkLists_[cur_c] = (char *) malloc(size_links_per_element_ * curlevel + 1);
+                if (linkLists_[cur_c] == nullptr)
+                    throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
+                memset(linkLists_[cur_c], 0, size_links_per_element_ * curlevel + 1);
+            }
+
+            if ((signed)currObj != -1) {
+                if (curlevel < maxlevelcopy) {
+                    dist_t curdist = fstdistfunc_(data_point, getDataByInternalId(currObj), dist_func_param_);
+                    for (int level = maxlevelcopy; level > curlevel; level--) {
+                        bool changed = true;
+                        while (changed) {
+                            changed = false;
+                            unsigned int *data;
+                            std::unique_lock <std::mutex> lock(link_list_locks_[currObj]);
+                            data = get_linklist(currObj, level);
+                            int size = getListCount(data);
+
+                            tableint *datal = (tableint *) (data + 1);
+                            for (int i = 0; i < size; i++) {
+                                tableint cand = datal[i];
+                                if (cand < 0 || cand > max_elements_)
+                                    throw std::runtime_error("cand error");
+                                dist_t d = fstdistfunc_(data_point, getDataByInternalId(cand), dist_func_param_);
+                                if (d < curdist) {
+                                    curdist = d;
+                                    currObj = cand;
+                                    changed = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                bool epDeleted = isMarkedDeleted(enterpoint_copy);
+                for (int level = std::min(curlevel, maxlevelcopy); level >= 0; level--) {
+                    if (level > maxlevelcopy || level < 0)  // possible?
+                        throw std::runtime_error("Level error");
+
+                    std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates = searchBaseLayer(
+                            currObj, data_point, level);
+                    if (epDeleted) {
+                        top_candidates.emplace(fstdistfunc_(data_point, getDataByInternalId(enterpoint_copy), dist_func_param_), enterpoint_copy);
+                        if (top_candidates.size() > ef_construction_)
+                            top_candidates.pop();
+                    }
+                    currObj = mutuallyConnectNewElement(data_point, cur_c, top_candidates, level, false);
+                }
+            } else {
+                // Do nothing for the first element
+                enterpoint_node_ = 0;
+                maxlevel_ = curlevel;
+            }
+
+            // Releasing lock for the maximum level
+            if (curlevel > maxlevelcopy) {
+                enterpoint_node_ = cur_c;
+                maxlevel_ = curlevel;
+            }
+            return cur_c;
+    }
+        return alg_hnsw;
+    }
+}  // namespace hnswlib

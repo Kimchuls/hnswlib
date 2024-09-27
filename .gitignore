@@ -13,3 +13,5 @@ var/
 *.pyc
 bash
 test*
+*.txt
+merge*

@@ -9,6 +9,41 @@
 #include <unordered_set>
 #include <list>
 #include <memory>
+#include <algorithm>
+#include <sys/time.h>
+#include <iostream>
+#include <vector>
+#include <set>
+#include <utility> // for std::pair
+
+double elapsed()
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec + tv.tv_usec * 1e-6;
+}
+#include <chrono>
+std::chrono::duration<double> total_duration(0);
+template <typename Func, typename... Args>
+auto MEASURE_FUNCTION_TIME(Func func, Args &&...args) -> decltype(func(std::forward<Args>(args)...))
+{
+    auto start = std::chrono::high_resolution_clock::now();
+    auto result = func(std::forward<Args>(args)...);
+    auto end = std::chrono::high_resolution_clock::now();
+    total_duration += end - start;
+    return result;
+}
+
+// template <typename Func>
+// float measureExecutionTime(const std::string& label, Func&& lambda) {
+//     auto start = std::chrono::high_resolution_clock::now();
+//     lambda();  // Execute the lambda
+//     auto end = std::chrono::high_resolution_clock::now();
+//     // std::chrono::duration<double> elapsed = end - start;
+//     return std::chrono::duration<double>(end - start).count();
+
+//     // std::cout << "[" << label << "] Execution Time: " << elapsed.count() << " seconds.\n";
+// }
 
 namespace hnswlib
 {
@@ -25,13 +60,16 @@ namespace hnswlib
         size_t max_elements_{0};
         mutable std::atomic<size_t> cur_element_count{0}; // current number of elements
         size_t size_data_per_element_{0};
+        size_t size_dist_per_element_{0};
         size_t size_links_per_element_{0};
+        size_t size_dist_links_per_element_{0};
         mutable std::atomic<size_t> num_deleted_{0}; // number of deleted elements
         size_t M_{0};
         size_t maxM_{0};
         size_t maxM0_{0};
         size_t ef_construction_{0};
         size_t ef_{0};
+        double time_counter_{0.0};
 
         double mult_{0.0}, revSize_{0.0};
         int maxlevel_{0};
@@ -51,6 +89,8 @@ namespace hnswlib
 
         char *data_level0_memory_{nullptr};
         char **linkLists_{nullptr};
+        char *dist_level0_memory_{nullptr};
+        char **dist_linkLists_{nullptr};
         std::vector<int> element_levels_; // keeps level of each element
 
         size_t data_size_{0};
@@ -124,12 +164,16 @@ namespace hnswlib
 
             size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint);
             size_data_per_element_ = size_links_level0_ + data_size_ + sizeof(labeltype);
+            size_dist_per_element_ = maxM0_ * sizeof(dist_t);
             offsetData_ = size_links_level0_;
             label_offset_ = size_links_level0_ + data_size_;
             offsetLevel0_ = 0;
 
             data_level0_memory_ = (char *)malloc(max_elements_ * size_data_per_element_);
             if (data_level0_memory_ == nullptr)
+                throw std::runtime_error("Not enough memory");
+            dist_level0_memory_ = (char *)malloc(max_elements_ * size_dist_per_element_);
+            if (dist_level0_memory_ == nullptr)
                 throw std::runtime_error("Not enough memory");
 
             cur_element_count = 0;
@@ -143,7 +187,11 @@ namespace hnswlib
             linkLists_ = (char **)malloc(sizeof(void *) * max_elements_);
             if (linkLists_ == nullptr)
                 throw std::runtime_error("Not enough memory: HierarchicalNSW failed to allocate linklists");
+            dist_linkLists_ = (char **)malloc(sizeof(void *) * max_elements_);
+            if (dist_linkLists_ == nullptr)
+                throw std::runtime_error("Not enough memory: HierarchicalNSW failed to allocate dist_linkLists_");
             size_links_per_element_ = maxM_ * sizeof(tableint) + sizeof(linklistsizeint);
+            size_dist_links_per_element_ = maxM_ * sizeof(dist_t);
             mult_ = 1 / log(1.0 * M_);
             revSize_ = 1.0 / mult_;
         }
@@ -157,12 +205,18 @@ namespace hnswlib
         {
             free(data_level0_memory_);
             data_level0_memory_ = nullptr;
+            free(dist_level0_memory_);
+            dist_level0_memory_ = nullptr;
             for (tableint i = 0; i < cur_element_count; i++)
             {
                 if (element_levels_[i] > 0)
+                {
                     free(linkLists_[i]);
+                    free(dist_linkLists_[i]);
+                }
             }
             free(linkLists_);
+            free(dist_linkLists_);
             linkLists_ = nullptr;
             cur_element_count = 0;
             visited_list_pool_.reset(nullptr);
@@ -489,9 +543,11 @@ namespace hnswlib
 
         void getNeighborsByHeuristic2(
             std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> &top_candidates,
-            const size_t M)
+            const size_t M,
+            bool collect_metrics = true,
+            tableint cur_c = -1)
         {
-            if (top_candidates.size() < M)
+            if (collect_metrics && top_candidates.size() < M)
             {
                 return;
             }
@@ -500,7 +556,8 @@ namespace hnswlib
             std::vector<std::pair<dist_t, tableint>> return_list;
             while (top_candidates.size() > 0)
             {
-                queue_closest.emplace(-top_candidates.top().first, top_candidates.top().second);
+                if (top_candidates.top().second != cur_c)
+                    queue_closest.emplace(-top_candidates.top().first, top_candidates.top().second);
                 top_candidates.pop();
             }
 
@@ -557,6 +614,21 @@ namespace hnswlib
             return level == 0 ? get_linklist0(internal_id) : get_linklist(internal_id, level);
         }
 
+        float *get_dist0(tableint internal_id) const
+        {
+            return (float *)(dist_level0_memory_ + internal_id * size_dist_per_element_);
+        }
+
+        float *get_dist(tableint internal_id, int level) const
+        {
+            return (float *)(dist_linkLists_[internal_id] + (level - 1) * size_dist_links_per_element_);
+        }
+
+        float *get_dist_at_level(tableint internal_id, int level) const
+        {
+            return level == 0 ? get_dist0(internal_id) : get_dist(internal_id, level);
+        }
+
         void setMaxLevel(int maxlevel)
         {
             maxlevel_ = maxlevel;
@@ -576,14 +648,17 @@ namespace hnswlib
         {
             size_t Mcurmax = level ? maxM_ : maxM0_;
             getNeighborsByHeuristic2(top_candidates, M_);
+
             if (top_candidates.size() > M_)
                 throw std::runtime_error("Should be not be more than M_ candidates returned by the heuristic");
 
             std::vector<tableint> selectedNeighbors;
+            std::vector<dist_t> selectedNeighborsDist;
             selectedNeighbors.reserve(M_);
             while (top_candidates.size() > 0)
             {
                 selectedNeighbors.push_back(top_candidates.top().second);
+                selectedNeighborsDist.push_back(top_candidates.top().first);
                 top_candidates.pop();
             }
 
@@ -609,6 +684,7 @@ namespace hnswlib
                 }
                 setListCount(ll_cur, selectedNeighbors.size());
                 tableint *data = (tableint *)(ll_cur + 1);
+                dist_t *distData = (dist_t *)get_dist_at_level(cur_c, level);
                 for (size_t idx = 0; idx < selectedNeighbors.size(); idx++)
                 {
                     if (data[idx] && !isUpdate)
@@ -617,6 +693,7 @@ namespace hnswlib
                         throw std::runtime_error("Trying to make a link on a non-existent level");
 
                     data[idx] = selectedNeighbors[idx];
+                    distData[idx] = selectedNeighborsDist[idx];
                 }
             }
 
@@ -640,6 +717,7 @@ namespace hnswlib
                     throw std::runtime_error("Trying to make a link on a non-existent level");
 
                 tableint *data = (tableint *)(ll_other + 1);
+                dist_t *distData = (dist_t *)get_dist_at_level(selectedNeighbors[idx], level);
 
                 bool is_cur_c_present = false;
                 if (isUpdate)
@@ -660,6 +738,7 @@ namespace hnswlib
                     if (sz_link_list_other < Mcurmax)
                     {
                         data[sz_link_list_other] = cur_c;
+                        distData[sz_link_list_other] = selectedNeighborsDist[idx];
                         setListCount(ll_other, sz_link_list_other + 1);
                     }
                     else
@@ -685,6 +764,7 @@ namespace hnswlib
                         while (candidates.size() > 0)
                         {
                             data[indx] = candidates.top().second;
+                            distData[indx] = candidates.top().first;
                             candidates.pop();
                             indx++;
                         }
@@ -709,28 +789,81 @@ namespace hnswlib
             return next_closest_entry_point;
         }
 
+        // void resizeIndex(size_t new_max_elements)
+        // {
+        //     if (new_max_elements < cur_element_count)
+        //         throw std::runtime_error("Cannot resize, max element is less than the current number of elements");
+
+        //     visited_list_pool_.reset(new VisitedListPool(1, new_max_elements));
+
+        //     element_levels_.resize(new_max_elements);
+
+        //     std::vector<std::mutex>(new_max_elements).swap(link_list_locks_);
+
+        //     // Reallocate base layer
+        //     char *data_level0_memory_new = (char *)realloc(data_level0_memory_, new_max_elements * size_data_per_element_);
+        //     if (data_level0_memory_new == nullptr)
+        //         throw std::runtime_error("Not enough memory: resizeIndex failed to allocate base layer");
+        //     data_level0_memory_ = data_level0_memory_new;
+        //     char *dist_level0_memory_new = (char *)realloc(dist_level0_memory_, new_max_elements * size_dist_per_element_);
+        //     if (dist_level0_memory_new == nullptr)
+        //         throw std::runtime_error("Not enough memory: resizeIndex failed to allocate base layer");
+        //     data_level0_memory_ = dist_level0_memory_new;
+
+        //     // Reallocate all other layers
+        //     char **linkLists_new = (char **)realloc(linkLists_, sizeof(void *) * new_max_elements);
+        //     if (linkLists_new == nullptr)
+        //         throw std::runtime_error("Not enough memory: resizeIndex failed to allocate other layers");
+        //     linkLists_ = linkLists_new;
+        //     char **dist_linkLists_new = (char **)realloc(dist_linkLists_, sizeof(void *) * new_max_elements);
+        //     if (dist_linkLists_new == nullptr)
+        //         throw std::runtime_error("Not enough memory: resizeIndex failed to allocate other layers");
+        //     linkLists_ = dist_linkLists_new;
+
+        //     max_elements_ = new_max_elements;
+        // }
+
         void resizeIndex(size_t new_max_elements)
         {
             if (new_max_elements < cur_element_count)
                 throw std::runtime_error("Cannot resize, max element is less than the current number of elements");
 
             visited_list_pool_.reset(new VisitedListPool(1, new_max_elements));
-
             element_levels_.resize(new_max_elements);
-
             std::vector<std::mutex>(new_max_elements).swap(link_list_locks_);
 
-            // Reallocate base layer
-            char *data_level0_memory_new = (char *)realloc(data_level0_memory_, new_max_elements * size_data_per_element_);
+            // Manually allocate and copy base layer
+            char *data_level0_memory_new = (char *)malloc(new_max_elements * size_data_per_element_);
             if (data_level0_memory_new == nullptr)
                 throw std::runtime_error("Not enough memory: resizeIndex failed to allocate base layer");
+            // memset(data_level0_memory_new, 0, new_max_elements * size_data_per_element_);
+            memcpy(data_level0_memory_new, data_level0_memory_, cur_element_count * size_data_per_element_);
+            free(data_level0_memory_);
             data_level0_memory_ = data_level0_memory_new;
 
-            // Reallocate all other layers
-            char **linkLists_new = (char **)realloc(linkLists_, sizeof(void *) * new_max_elements);
+            char *dist_level0_memory_new = (char *)malloc(new_max_elements * size_dist_per_element_);
+            if (dist_level0_memory_new == nullptr)
+                throw std::runtime_error("Not enough memory: resizeIndex failed to allocate base layer");
+            // memset(dist_level0_memory_new, 0, new_max_elements * size_dist_per_element_);
+            memcpy(dist_level0_memory_new, dist_level0_memory_, cur_element_count * size_dist_per_element_);
+            free(dist_level0_memory_);
+            dist_level0_memory_ = dist_level0_memory_new;
+
+            // Manually allocate and copy other layers
+            char **linkLists_new = (char **)malloc(sizeof(void *) * new_max_elements);
             if (linkLists_new == nullptr)
                 throw std::runtime_error("Not enough memory: resizeIndex failed to allocate other layers");
+            // memset(linkLists_new, 0, sizeof(void *) * new_max_elements);
+            memcpy(linkLists_new, linkLists_, sizeof(void *) * cur_element_count);
+            free(linkLists_);
             linkLists_ = linkLists_new;
+
+            char **dist_linkLists_new = (char **)malloc(sizeof(void *) * new_max_elements);
+            if (dist_linkLists_new == nullptr)
+                throw std::runtime_error("Not enough memory: resizeIndex failed to allocate other layers");
+            memcpy(dist_linkLists_new, dist_linkLists_, sizeof(void *) * cur_element_count);
+            free(dist_linkLists_);
+            dist_linkLists_ = dist_linkLists_new;
 
             max_elements_ = new_max_elements;
         }
@@ -742,6 +875,7 @@ namespace hnswlib
             size += sizeof(max_elements_);
             size += sizeof(cur_element_count);
             size += sizeof(size_data_per_element_);
+            size += sizeof(size_dist_per_element_);
             size += sizeof(label_offset_);
             size += sizeof(offsetData_);
             size += sizeof(maxlevel_);
@@ -754,12 +888,16 @@ namespace hnswlib
             size += sizeof(ef_construction_);
 
             size += cur_element_count * size_data_per_element_;
+            size += cur_element_count * size_dist_per_element_;
 
             for (size_t i = 0; i < cur_element_count; i++)
             {
                 unsigned int linkListSize = element_levels_[i] > 0 ? size_links_per_element_ * element_levels_[i] : 0;
                 size += sizeof(linkListSize);
                 size += linkListSize;
+                unsigned int distLinkListSize = element_levels_[i] > 0 ? size_dist_links_per_element_ * element_levels_[i] : 0;
+                size += sizeof(distLinkListSize);
+                size += distLinkListSize;
             }
             return size;
         }
@@ -773,6 +911,7 @@ namespace hnswlib
             writeBinaryPOD(output, max_elements_);
             writeBinaryPOD(output, cur_element_count);
             writeBinaryPOD(output, size_data_per_element_);
+            writeBinaryPOD(output, size_dist_per_element_);
             writeBinaryPOD(output, label_offset_);
             writeBinaryPOD(output, offsetData_);
             writeBinaryPOD(output, maxlevel_);
@@ -785,6 +924,7 @@ namespace hnswlib
             writeBinaryPOD(output, ef_construction_);
 
             output.write(data_level0_memory_, cur_element_count * size_data_per_element_);
+            output.write(dist_level0_memory_, cur_element_count * size_dist_per_element_);
 
             for (size_t i = 0; i < cur_element_count; i++)
             {
@@ -792,6 +932,10 @@ namespace hnswlib
                 writeBinaryPOD(output, linkListSize);
                 if (linkListSize)
                     output.write(linkLists_[i], linkListSize);
+                unsigned int distLinkListSize = element_levels_[i] > 0 ? size_dist_links_per_element_ * element_levels_[i] : 0;
+                writeBinaryPOD(output, distLinkListSize);
+                if (distLinkListSize)
+                    output.write(dist_linkLists_[i], distLinkListSize);
             }
             output.close();
         }
@@ -818,6 +962,7 @@ namespace hnswlib
                 max_elements = max_elements_;
             max_elements_ = max_elements;
             readBinaryPOD(input, size_data_per_element_);
+            readBinaryPOD(input, size_dist_per_element_);
             readBinaryPOD(input, label_offset_);
             readBinaryPOD(input, offsetData_);
             readBinaryPOD(input, maxlevel_);
@@ -837,6 +982,7 @@ namespace hnswlib
 
             /// Optional - check if index is ok:
             input.seekg(cur_element_count * size_data_per_element_, input.cur);
+            input.seekg(cur_element_count * size_dist_per_element_, input.cur);
             for (size_t i = 0; i < cur_element_count; i++)
             {
                 if (input.tellg() < 0 || input.tellg() >= total_filesize)
@@ -849,6 +995,12 @@ namespace hnswlib
                 if (linkListSize != 0)
                 {
                     input.seekg(linkListSize, input.cur);
+                }
+                unsigned int distLinkListSize;
+                readBinaryPOD(input, distLinkListSize);
+                if (distLinkListSize != 0)
+                {
+                    input.seekg(distLinkListSize, input.cur);
                 }
             }
 
@@ -865,10 +1017,16 @@ namespace hnswlib
             if (data_level0_memory_ == nullptr)
                 throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
             input.read(data_level0_memory_, cur_element_count * size_data_per_element_);
+            dist_level0_memory_ = (char *)malloc(max_elements * size_dist_per_element_);
+            if (dist_level0_memory_ == nullptr)
+                throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
+            input.read(dist_level0_memory_, cur_element_count * size_dist_per_element_);
 
             size_links_per_element_ = maxM_ * sizeof(tableint) + sizeof(linklistsizeint);
+            size_dist_links_per_element_ = maxM_ * sizeof(dist_t);
 
             size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint);
+
             std::vector<std::mutex>(max_elements).swap(link_list_locks_);
             std::vector<std::mutex>(MAX_LABEL_OPERATION_LOCKS).swap(label_op_locks_);
 
@@ -877,6 +1035,9 @@ namespace hnswlib
             linkLists_ = (char **)malloc(sizeof(void *) * max_elements);
             if (linkLists_ == nullptr)
                 throw std::runtime_error("Not enough memory: loadIndex failed to allocate linklists");
+            dist_linkLists_ = (char **)malloc(sizeof(void *) * max_elements_);
+            if (dist_linkLists_ == nullptr)
+                throw std::runtime_error("Not enough memory: HierarchicalNSW failed to allocate dist_linkLists_");
             element_levels_ = std::vector<int>(max_elements);
             revSize_ = 1.0 / mult_;
             ef_ = 10;
@@ -897,6 +1058,19 @@ namespace hnswlib
                     if (linkLists_[i] == nullptr)
                         throw std::runtime_error("Not enough memory: loadIndex failed to allocate linklist");
                     input.read(linkLists_[i], linkListSize);
+                }
+                unsigned int distLinkListSize;
+                readBinaryPOD(input, distLinkListSize);
+                if (distLinkListSize == 0)
+                {
+                    dist_linkLists_[i] = nullptr;
+                }
+                else
+                {
+                    dist_linkLists_[i] = (char *)malloc(distLinkListSize);
+                    if (dist_linkLists_[i] == nullptr)
+                        throw std::runtime_error("Not enough memory: loadIndex failed to allocate linklist");
+                    input.read(dist_linkLists_[i], distLinkListSize);
                 }
             }
 
@@ -1179,9 +1353,11 @@ namespace hnswlib
                         size_t candSize = candidates.size();
                         setListCount(ll_cur, candSize);
                         tableint *data = (tableint *)(ll_cur + 1);
+                        dist_t *distData = (dist_t *)get_dist_at_level(neigh, layer);
                         for (size_t idx = 0; idx < candSize; idx++)
                         {
                             data[idx] = candidates.top().second;
+                            distData[idx] = candidates.top().first;
                             candidates.pop();
                         }
                     }
@@ -1333,6 +1509,7 @@ namespace hnswlib
             tableint enterpoint_copy = enterpoint_node_;
 
             memset(data_level0_memory_ + cur_c * size_data_per_element_ + offsetLevel0_, 0, size_data_per_element_);
+            memset(dist_level0_memory_ + cur_c * size_dist_per_element_ + offsetLevel0_, 0, size_dist_per_element_);
 
             // Initialisation of the data and label
             memcpy(getExternalLabeLp(cur_c), &label, sizeof(labeltype));
@@ -1344,6 +1521,10 @@ namespace hnswlib
                 if (linkLists_[cur_c] == nullptr)
                     throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
                 memset(linkLists_[cur_c], 0, size_links_per_element_ * curlevel + 1);
+                dist_linkLists_[cur_c] = (char *)malloc(size_dist_links_per_element_ * curlevel + 1);
+                if (dist_linkLists_[cur_c] == nullptr)
+                    throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linkLists_");
+                memset(dist_linkLists_[cur_c], 0, size_dist_links_per_element_ * curlevel + 1);
             }
 
             if ((signed)currObj != -1)
@@ -1580,14 +1761,16 @@ namespace hnswlib
             std::cout << "integrity ok, checked " << connections_checked << " connections\n";
         }
 
-        tableint search2Layer(
+        void search2Layer(
             const void *query_data,
-            tableint enterpoint_node,
+            tableint &enterpoint_node,
             int level_higher,
-            int level_lower)
+            int level_lower,
+            int &cnt)
         {
             tableint currObj = enterpoint_node == -1 ? enterpoint_node_ : enterpoint_node;
             dist_t curdist = fstdistfunc_(query_data, getDataByInternalId(currObj), dist_func_param_);
+            // printf("method0\n");
             for (int level = level_higher; level >= level_lower; level--)
             {
                 bool changed = true;
@@ -1595,10 +1778,58 @@ namespace hnswlib
                 {
                     changed = false;
                     unsigned int *data;
+                    cnt++;
                     data = (unsigned int *)get_linklist_at_level(currObj, level);
                     int size = getListCount(data);
-                    metric_hops++;
-                    metric_distance_computations += size;
+
+                    tableint *datal = (tableint *)(data + 1);
+
+                    for (int i = 0; i < size; i++)
+                    {
+                        tableint cand = datal[i];
+                        if (cand < 0 || cand > max_elements_)
+                        {
+                            throw std::runtime_error("cand error");
+                        }
+                        dist_t d = fstdistfunc_(query_data, getDataByInternalId(cand), dist_func_param_);
+
+                        if (d < curdist)
+                        {
+                            curdist = d;
+                            currObj = cand;
+                            changed = true;
+                            // printf("replace candidateSet: %d, %f\n", currObj, curdist);
+                        }
+                    }
+                }
+            }
+            // printf("method0, level: %d, enterpoint_node: %d, currObj: %d\n", level_lower, enterpoint_node, currObj);
+            enterpoint_node = currObj;
+        }
+
+        // std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst>
+        void
+        search2Layer(
+            const void *query_data,
+            tableint &enterpoint_node,
+            int level_higher,
+            int level_lower,
+            int cnt,
+            std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> &top_candidates,
+            int offset)
+        {
+            tableint currObj = enterpoint_node == -1 ? enterpoint_node_ : enterpoint_node;
+            dist_t curdist = fstdistfunc_(query_data, getDataByInternalId(currObj), dist_func_param_);
+            for (int level = level_higher; level > level_lower; level--)
+            {
+                bool changed = true;
+                while (changed)
+                {
+                    changed = false;
+                    unsigned int *data;
+                    // cnt++;
+                    data = (unsigned int *)get_linklist_at_level(currObj, level);
+                    int size = getListCount(data);
 
                     tableint *datal = (tableint *)(data + 1);
 
@@ -1620,12 +1851,476 @@ namespace hnswlib
                     }
                 }
             }
-            return currObj;
+            // printf("method1, level %d, enterpoint_node: %d, currObj: %d\n", level_lower, enterpoint_node, currObj);
+
+            VisitedList *vl = visited_list_pool_->getFreeVisitedList();
+            vl_type *visited_array = vl->mass;
+            vl_type visited_array_tag = vl->curV;
+
+            // std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
+            std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> candidateSet;
+
+            dist_t lowerBound;
+            if (!isMarkedDeleted(currObj))
+            {
+                dist_t dist = fstdistfunc_(query_data, getDataByInternalId(currObj), dist_func_param_);
+                top_candidates.emplace(dist, currObj + offset);
+                enterpoint_node = currObj;
+                lowerBound = dist;
+                candidateSet.emplace(-dist, currObj);
+            }
+            else
+            {
+                lowerBound = std::numeric_limits<dist_t>::max();
+                candidateSet.emplace(-lowerBound, currObj);
+            }
+            visited_array[currObj] = visited_array_tag;
+
+            while (!candidateSet.empty())
+            {
+                std::pair<dist_t, tableint> curr_el_pair = candidateSet.top();
+                if ((-curr_el_pair.first) > lowerBound && top_candidates.size() == cnt)
+                {
+                    break;
+                }
+                candidateSet.pop();
+
+                tableint curNodeNum = curr_el_pair.second;
+
+                // std::unique_lock<std::mutex> lock(link_list_locks_[curNodeNum]);
+
+                int *data = (int *)get_linklist_at_level(curNodeNum, level_lower);
+                size_t size = getListCount((linklistsizeint *)data);
+                tableint *datal = (tableint *)(data + 1);
+                // #ifdef USE_SSE
+                //                 _mm_prefetch((char *)(visited_array + *(data + 1)), _MM_HINT_T0);
+                //                 _mm_prefetch((char *)(visited_array + *(data + 1) + 64), _MM_HINT_T0);
+                //                 _mm_prefetch(getDataByInternalId(*datal), _MM_HINT_T0);
+                //                 _mm_prefetch(getDataByInternalId(*(datal + 1)), _MM_HINT_T0);
+                // #endif
+
+                for (size_t j = 0; j < size; j++)
+                {
+                    tableint candidate_id = *(datal + j);
+                    // #ifdef USE_SSE
+                    //                     _mm_prefetch((char *)(visited_array + *(datal + j + 1)), _MM_HINT_T0);
+                    //                     _mm_prefetch(getDataByInternalId(*(datal + j + 1)), _MM_HINT_T0);
+                    // #endif
+                    if (visited_array[candidate_id] == visited_array_tag)
+                        continue;
+                    visited_array[candidate_id] = visited_array_tag;
+                    char *currObj1 = (getDataByInternalId(candidate_id));
+
+                    dist_t dist1 = fstdistfunc_(query_data, currObj1, dist_func_param_);
+                    if (top_candidates.size() < cnt || lowerBound > dist1)
+                    {
+                        candidateSet.emplace(-dist1, candidate_id);
+                        // printf("replace candidateSet: %d, %f\n", candidate_id, dist1);
+#ifdef USE_SSE
+                        _mm_prefetch(getDataByInternalId(candidateSet.top().second), _MM_HINT_T0);
+#endif
+
+                        if (!isMarkedDeleted(candidate_id))
+                        {
+                            top_candidates.emplace(dist1, candidate_id + offset);
+                            enterpoint_node = candidate_id;
+                        }
+
+                        if (top_candidates.size() > cnt)
+                            top_candidates.pop();
+
+                        if (!top_candidates.empty())
+                            lowerBound = top_candidates.top().first;
+                    }
+                }
+            }
+            visited_list_pool_->releaseVisitedList(vl);
+            // printf("cnt: %d, enterpoint_node: %d\n", cnt, enterpoint_node);
+        }
+
+        template <typename Func>
+        void measureExecutionTime(const std::string &label, Func &&lambda)
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            lambda(); // Execute the lambda
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> elapsed = end - start;
+            time_counter_ += elapsed.count();
+        }
+
+        std::vector<std::set<std::pair<int, int>>> layeredStructure;
+
+        void mergeIndex1BasedOnIndex2Connection3(
+            HierarchicalNSW<dist_t> *index1,
+            HierarchicalNSW<dist_t> *index2,
+            int offset_index1,
+            int offset_index2,
+            int level,
+            int &last_entry_point /* in & out */
+            )                     /* This function is for the strategy that "neighbors' neighbors can be new neighbors" */
+        {
+            tableint cur_c = index1->enterpoint_node_;
+            std::unordered_set<tableint> seen_index1;
+            seen_index1.insert(cur_c);
+            char *data_point = index1->getDataByInternalId(cur_c);
+            int cnt = 0;
+            tableint entry_point = index2->search2Layer(data_point,
+                                                        last_entry_point,
+                                                        last_entry_point == -1 ? index2->maxlevel_ : level,
+                                                        level,
+                                                        cnt);
+            forward_step_avg_per_layer[level] += cnt;
+            last_entry_point = entry_point;
+            // int sum=0,cnt=0;
+            // time_counter_ += elapsed()-t0;
+            // double t0 = elapsed();
+            auto calculateCandidates = [&](std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> &top_candidates,
+                                           linklistsizeint *ll_cur, size_t linklistCount, int offset, std::unordered_set<tableint> &seen_candidates, bool useDist, tableint entry_point = -1, tableint cur_c = -1)
+            {
+                auto processCandidate = [&](tableint candidate_id, bool debugFlag = false)
+                {
+                    if (seen_candidates.find(candidate_id) != seen_candidates.end())
+                        return;
+                    seen_candidates.insert(candidate_id);
+
+                    dist_t dist1 = fstdistfunc_(data_point, getDataByInternalId(candidate_id), dist_func_param_);
+
+                    if (useDist)
+                    {
+                        if (top_candidates.size() < ef_construction_ || dist1 < top_candidates.top().first)
+                        {
+                            top_candidates.emplace(dist1, candidate_id);
+                            if (top_candidates.size() > ef_construction_)
+                                top_candidates.pop();
+                        }
+                    }
+                    else
+                    {
+                        top_candidates.emplace(dist1, candidate_id);
+                    }
+
+                    if (debugFlag)
+                    {
+                        layeredStructure[level].insert({cur_c + offset_index1, dist1});
+                    }
+                };
+
+                // Process the entry point
+                if (entry_point != -1)
+                    processCandidate(entry_point + offset, true);
+
+                // Process neighbors
+                tableint *data = (tableint *)(ll_cur + 1);
+                for (size_t iter = 0; iter < linklistCount; iter++)
+                {
+                    processCandidate(data[iter] + offset);
+                }
+            };
+
+            std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
+            std::unordered_set<tableint> seen_candidates;
+            linklistsizeint *ll_cur = index1->get_linklist_at_level(cur_c, level);
+            size_t linklistCount = index1->getListCount(ll_cur);
+            calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index1, seen_candidates, false);
+            // measureExecutionTime("calculateCandidates", [&](){ calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index1, seen_candidates, false); });
+
+            ll_cur = index2->get_linklist_at_level(entry_point, level);
+            linklistCount = index2->getListCount(ll_cur);
+            calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index2, seen_candidates, true, entry_point, cur_c);
+            // measureExecutionTime("calculateCandidates", [&](){ calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index2, seen_candidates, true); });
+            // cnt++;sum+=top_candidates.size();
+
+            size_t Mcurmax = level ? maxM_ : maxM0_;
+            getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
+            ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
+            setListCount(ll_cur, top_candidates.size());
+
+            // std::vector<tableint> selectedNeighbors;
+            tableint selectedNeighbors = entry_point + offset_index2;
+
+            auto processNeighbors = [&](linklistsizeint *ll_cur, std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> &top_candidates)
+            {
+                auto check_index1_point = [&](tableint x) -> bool
+                {
+                    return (offset_index1 == 0 && x < offset_index2) || (offset_index1 != 0 && x > offset_index1);
+                };
+                tableint *data = (tableint *)(ll_cur + 1);
+                dist_t *distData = (dist_t *)get_dist_at_level(cur_c + offset_index1, level);
+                for (size_t idx = 0; !top_candidates.empty(); idx++)
+                {
+                    tableint neighbor = top_candidates.top().second;
+                    data[idx] = neighbor;
+                    distData[idx] = top_candidates.top().first;
+                    top_candidates.pop();
+                }
+            };
+
+            processNeighbors(ll_cur, top_candidates);
+
+            auto pushQueue = [&](tableint cur_c, tableint selectedNeighbors, std::queue<std::pair<tableint, tableint>> &q)
+            {
+                linklistsizeint *ll_cur = index1->get_linklist_at_level(cur_c, level);
+                size_t linklistCount = index1->getListCount(ll_cur);
+                tableint *data = (tableint *)(ll_cur + 1);
+                for (size_t iter = 0; iter < linklistCount; iter++)
+                {
+                    tableint candidate_id = data[iter];
+                    if (seen_index1.find(candidate_id) == seen_index1.end())
+                        q.push({candidate_id, selectedNeighbors});
+                }
+            };
+
+            std::queue<std::pair<tableint, tableint>> q;
+            pushQueue(cur_c, selectedNeighbors, q);
+            // time_counter_ += elapsed()-t0;
+            while (!q.empty())
+            {
+                auto [cur_c, selectedNeighbors_index2] = q.front();
+                q.pop();
+
+                if (seen_index1.find(cur_c) != seen_index1.end())
+                    continue;
+                seen_index1.insert(cur_c);
+                data_point = index1->getDataByInternalId(cur_c);
+
+                std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
+                std::unordered_set<tableint> seen_candidates;
+                ll_cur = index1->get_linklist_at_level(cur_c, level);
+                linklistCount = index1->getListCount(ll_cur);
+                calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index1, seen_candidates, false);
+                // measureExecutionTime("calculateCandidates", [&]() { calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index1, seen_candidates, false); });
+
+                int cnt = 0;
+                selectedNeighbors_index2 = index2->search2Layer(data_point,
+                                                                selectedNeighbors_index2 - offset_index2,
+                                                                level,
+                                                                level,
+                                                                cnt) +
+                                           offset_index2;
+                forward_step_avg_per_layer[level] += cnt;
+                ll_cur = index2->get_linklist_at_level(selectedNeighbors_index2 - offset_index2, level);
+                linklistCount = index2->getListCount(ll_cur);
+                calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index2, seen_candidates, true, selectedNeighbors_index2 - offset_index2, cur_c);
+                // measureExecutionTime("calculateCandidates", [&]() { calculateCandidates(top_candidates, ll_cur, linklistCount, offset_index2, seen_candidates, true); });
+
+                // cnt++;sum+=top_candidates.size();
+                getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
+                ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
+                setListCount(ll_cur, top_candidates.size());
+
+                // std::vector<tableint> selectedNeighbors;
+                processNeighbors(ll_cur, top_candidates);
+
+                pushQueue(cur_c, selectedNeighbors_index2, q);
+            }
+            // printf("level %d, offset %d, cnt %d, sum %d, avg %.4f\n", level, offset_index1, cnt, sum, sum*1.0/cnt);
+        }
+
+        std::vector<float> forward_step_avg_per_layer;
+
+        void cluster_points(
+            int &K,
+            int l,
+            int max_iterations,
+            size_t dim,
+            const std::vector<int> &valid_ids,
+            float *centroids,
+            std::vector<std::vector<tableint>> &clusters)
+        {
+            size_t num_points = valid_ids.size();
+
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<size_t> distrib(0, num_points - 1);
+
+            // 选取 K 个随机点作为初始 centroids
+            std::unordered_set<tableint> selected_centroids;
+            std::vector<tableint> centroid_indices;
+            while (selected_centroids.size() < K)
+            {
+                tableint rand_id = valid_ids[distrib(gen)];
+                if (selected_centroids.insert(rand_id).second)
+                {
+                    centroid_indices.push_back(rand_id);
+                    memcpy(centroids + (selected_centroids.size() - 1) * dim, getDataByInternalId(rand_id), dim * sizeof(float));
+                }
+            }
+
+            int avg_cluster_size = num_points / K;
+            int balance_threshold = avg_cluster_size / 2; // 允许的最大偏差
+
+            for (int iter = 0; iter < max_iterations; iter++)
+            {
+                // std::cout << "Iteration " << iter << std::endl;
+                clusters.clear();
+                clusters.resize(K);
+
+                std::vector<int> cluster_sizes(K, 0);
+
+                for (tableint i : valid_ids)
+                {
+                    std::priority_queue<std::pair<float, int>> nearest_centroids;
+                    void *point_data = getDataByInternalId(i);
+
+                    for (int j = 0; j < K; j++)
+                    {
+                        float dist = fstdistfunc_((float *)(centroids + j * dim), point_data, dist_func_param_);
+                        nearest_centroids.push({-dist, j});
+                    }
+
+                    while (!nearest_centroids.empty())
+                    {
+                        int cluster_id = nearest_centroids.top().second;
+                        nearest_centroids.pop();
+
+                        if (cluster_sizes[cluster_id] < avg_cluster_size + balance_threshold)
+                        {
+                            clusters[cluster_id].push_back(i);
+                            cluster_sizes[cluster_id]++;
+                            break;
+                        }
+                    }
+                }
+
+                // 计算新的 centroids 并直接写入 `centroids`，避免修改无效
+                std::vector<bool> non_empty_clusters(K, false);
+                for (int j = 0; j < K; j++)
+                {
+                    if (!clusters[j].empty())
+                    {
+                        std::vector<float> centroid(dim, 0);
+                        for (auto point : clusters[j])
+                        {
+                            float *point_data = (float *)getDataByInternalId(point);
+                            for (size_t d = 0; d < dim; d++)
+                            {
+                                centroid[d] += point_data[d];
+                            }
+                        }
+                        for (size_t d = 0; d < dim; d++)
+                        {
+                            centroid[d] /= clusters[j].size();
+                        }
+                        memcpy(centroids + j * dim, centroid.data(), dim * sizeof(float));
+                        non_empty_clusters[j] = true;
+                    }
+                }
+
+                // std::cout << "Remaining clusters: " << K << std::endl;
+
+                for (int j = 0; j < K; j++)
+                {
+                    if (!non_empty_clusters[j])
+                    {
+                        tableint rand_id = valid_ids[distrib(gen)];
+                        memcpy(centroids + j * dim, getDataByInternalId(rand_id), dim * sizeof(float));
+                        clusters[j].clear();
+                        clusters[j].push_back(rand_id);
+                    }
+                }
+            }
+        }
+
+        void assign_points_to_clusters(
+            int level,
+            int K,
+            int T,
+            int l,
+            size_t dim,
+            float *centroids,
+            std::vector<std::vector<tableint>> &clusters)
+        {
+            clusters.clear();
+            clusters.resize(K);
+            std::unordered_map<tableint, int> point_selection_count;
+
+            // 找到每个 centroid 最近的点
+            std::vector<tableint> closest_points(K);
+            for (int j = 0; j < K; j++)
+            {
+                float min_dist = std::numeric_limits<float>::max();
+                tableint closest_point = -1;
+                int cnt = 0;
+
+                search2Layer(centroids + j * dim,
+                             closest_point,
+                             maxlevel_,
+                             level,
+                             cnt);
+
+                closest_points[j] = closest_point;
+            }
+
+            for (int j = 0; j < K; j++)
+            {
+                std::queue<tableint> bfs_queue;
+                std::unordered_set<tableint> visited;
+                bfs_queue.push(closest_points[j]);
+                visited.insert(closest_points[j]);
+
+                while (!bfs_queue.empty() && clusters[j].size() < T)
+                {
+                    tableint current = bfs_queue.front();
+                    bfs_queue.pop();
+
+                    clusters[j].push_back(current);
+
+                    linklistsizeint *ll_cur = get_linklist_at_level(current, level);
+                    size_t linklistCount = getListCount(ll_cur);
+                    tableint *data = (tableint *)(ll_cur + 1);
+                    for (size_t iter = 0; iter < linklistCount; iter++)
+                    {
+                        int neighbor = data[iter];
+                        if (visited.find(neighbor) == visited.end() && clusters[j].size() < T && point_selection_count[neighbor] < l)
+                        {
+                            bfs_queue.push(neighbor);
+                            visited.insert(neighbor);
+                        }
+                        if (clusters[j].size() >= T)
+                            break;
+                    }
+                }
+            }
         }
 
         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst>
-        searchBaseLayerForMerge(std::vector<tableint> ep_ids, const void *data_point, int layer)
+        searchBaseLayerSubgroup(tableint ep_id, const void *data_point, int layer, std::unordered_set<tableint> *cluster_set, bool fromTopLayer = false)
         {
+            tableint currObj = enterpoint_node_;
+            if (fromTopLayer)
+            {
+                dist_t curdist = fstdistfunc_(data_point, getDataByInternalId(currObj), dist_func_param_);
+                for (int level = maxlevel_; level > 0; level--)
+                {
+                    bool changed = true;
+                    while (changed)
+                    {
+                        changed = false;
+                        unsigned int *data;
+                        std::unique_lock<std::mutex> lock(link_list_locks_[currObj]);
+                        data = get_linklist(currObj, level);
+                        int size = getListCount(data);
+
+                        tableint *datal = (tableint *)(data + 1);
+                        for (int i = 0; i < size; i++)
+                        {
+                            tableint cand = datal[i];
+                            if (cand < 0 || cand > max_elements_)
+                                throw std::runtime_error("cand error");
+                            dist_t d = fstdistfunc_(data_point, getDataByInternalId(cand), dist_func_param_);
+                            if (d < curdist)
+                            {
+                                curdist = d;
+                                currObj = cand;
+                                changed = true;
+                            }
+                        }
+                    }
+                }
+                ep_id = currObj;
+            }
+            
+
             VisitedList *vl = visited_list_pool_->getFreeVisitedList();
             vl_type *visited_array = vl->mass;
             vl_type visited_array_tag = vl->curV;
@@ -1633,24 +2328,21 @@ namespace hnswlib
             std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
             std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> candidateSet;
 
-            dist_t lowerBound = std::numeric_limits<dist_t>::min();
-            for (int iter = 0; iter < ep_ids.size(); iter++)
+            dist_t lowerBound;
+            if (!isMarkedDeleted(ep_id))
             {
-                tableint ep_id = ep_ids[iter];
-                if (!isMarkedDeleted(ep_id))
-                {
-                    dist_t dist = fstdistfunc_(data_point, getDataByInternalId(ep_id), dist_func_param_);
-                    top_candidates.emplace(dist, ep_id);
-                    lowerBound = std::max(dist, lowerBound);
-                    candidateSet.emplace(-dist, ep_id);
-                }
-                visited_array[ep_id] = visited_array_tag;
+                dist_t dist = fstdistfunc_(data_point, getDataByInternalId(ep_id), dist_func_param_);
+                top_candidates.emplace(dist, ep_id);
+                lowerBound = dist;
+                candidateSet.emplace(-dist, ep_id);
             }
-            if (lowerBound == std::numeric_limits<dist_t>::min())
+            else
             {
                 lowerBound = std::numeric_limits<dist_t>::max();
-                candidateSet.emplace(-lowerBound, ep_ids[0]);
+                candidateSet.emplace(-lowerBound, ep_id);
             }
+            visited_array[ep_id] = visited_array_tag;
+            int set = 0;
 
             while (!candidateSet.empty())
             {
@@ -1691,8 +2383,19 @@ namespace hnswlib
                     _mm_prefetch((char *)(visited_array + *(datal + j + 1)), _MM_HINT_T0);
                     _mm_prefetch(getDataByInternalId(*(datal + j + 1)), _MM_HINT_T0);
 #endif
-                    if (visited_array[candidate_id] == visited_array_tag)
+
+                    if ((cluster_set && cluster_set->find(candidate_id) == cluster_set->end()) || visited_array[candidate_id] == visited_array_tag)
+                    // if (visited_array[candidate_id] == visited_array_tag)
+                    {
+                        // if (cluster_set.find(candidate_id) == cluster_set.end())
+                        //     printf("candidate_id: %d, visited_array[candidate_id]: %d, visited_array_tag: %d\n", candidate_id, visited_array[candidate_id], visited_array_tag);
                         continue;
+                    }
+                    // if (set == 0)
+                    // {
+                    //     set++;
+                    //     printf("p");
+                    // }
                     visited_array[candidate_id] = visited_array_tag;
                     char *currObj1 = (getDataByInternalId(candidate_id));
 
@@ -1720,6 +2423,359 @@ namespace hnswlib
             return top_candidates;
         }
 
+        void mutuallyConnectNewElementSubgroup(
+            tableint cur_c,
+            int offset,
+            std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> &top_candidates,
+            int level,
+            bool isUpdate)
+        {
+            size_t Mcurmax = level ? maxM_ : maxM0_;
+
+            getNeighborsByHeuristic2(top_candidates, M_, false);
+
+            if (top_candidates.size() > M_)
+                throw std::runtime_error("Should be not be more than M_ candidates returned by the heuristic");
+
+            std::vector<tableint> selectedNeighbors;
+            std::vector<dist_t> selectedNeighborsDist;
+            selectedNeighbors.reserve(M_);
+            while (top_candidates.size() > 0)
+            {
+                selectedNeighbors.push_back(top_candidates.top().second);
+                selectedNeighborsDist.push_back(top_candidates.top().first);
+                top_candidates.pop();
+            }
+
+            tableint next_closest_entry_point = selectedNeighbors.back();
+
+            {
+                // lock only during the update
+                // because during the addition the lock for cur_c is already acquired
+                std::unique_lock<std::mutex> lock(link_list_locks_[cur_c], std::defer_lock);
+                if (isUpdate)
+                {
+                    lock.lock();
+                }
+                linklistsizeint *ll_cur;
+                if (level == 0)
+                    ll_cur = get_linklist0(cur_c);
+                else
+                    ll_cur = get_linklist(cur_c, level);
+
+                if (*ll_cur && !isUpdate)
+                {
+                    throw std::runtime_error("The newly inserted element should have blank link list");
+                }
+                setListCount(ll_cur, selectedNeighbors.size());
+                tableint *data = (tableint *)(ll_cur + 1);
+                dist_t *distData = (dist_t *)get_dist_at_level(cur_c, level);
+                for (size_t idx = 0; idx < selectedNeighbors.size(); idx++)
+                {
+                    if (data[idx] && !isUpdate)
+                        throw std::runtime_error("Possible memory corruption");
+                    if (level > element_levels_[selectedNeighbors[idx]])
+                        throw std::runtime_error("Trying to make a link on a non-existent level");
+
+                    data[idx] = selectedNeighbors[idx];
+                    distData[idx] = selectedNeighborsDist[idx];
+                }
+            }
+
+            for (size_t idx = 0; idx < selectedNeighbors.size(); idx++)
+            {
+                if (selectedNeighbors[idx] >= offset)
+                    continue;
+                std::unique_lock<std::mutex> lock(link_list_locks_[selectedNeighbors[idx]]);
+
+                linklistsizeint *ll_other;
+                if (level == 0)
+                    ll_other = get_linklist0(selectedNeighbors[idx]);
+                else
+                    ll_other = get_linklist(selectedNeighbors[idx], level);
+
+                size_t sz_link_list_other = getListCount(ll_other);
+
+                if (sz_link_list_other > Mcurmax)
+                    throw std::runtime_error("Bad value of sz_link_list_other");
+                if (selectedNeighbors[idx] == cur_c)
+                    throw std::runtime_error("Trying to connect an element to itself");
+                if (level > element_levels_[selectedNeighbors[idx]])
+                    throw std::runtime_error("Trying to make a link on a non-existent level");
+
+                tableint *data = (tableint *)(ll_other + 1);
+                dist_t *distData = (dist_t *)get_dist_at_level(selectedNeighbors[idx], level);
+
+                bool is_cur_c_present = false;
+                if (isUpdate)
+                {
+                    for (size_t j = 0; j < sz_link_list_other; j++)
+                    {
+                        if (data[j] == cur_c)
+                        {
+                            is_cur_c_present = true;
+                            break;
+                        }
+                    }
+                }
+
+                // If cur_c is already present in the neighboring connections of `selectedNeighbors[idx]` then no need to modify any connections or run the heuristics.
+                if (!is_cur_c_present)
+                {
+                    if (sz_link_list_other < Mcurmax)
+                    {
+                        data[sz_link_list_other] = cur_c;
+                        distData[sz_link_list_other] = selectedNeighborsDist[idx];
+                        setListCount(ll_other, sz_link_list_other + 1);
+                    }
+                    else
+                    {
+                        // finding the "weakest" element to replace it with the new one
+                        dist_t d_max = fstdistfunc_(getDataByInternalId(cur_c), getDataByInternalId(selectedNeighbors[idx]),
+                                                    dist_func_param_);
+                        // Heuristic:
+                        std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> candidates;
+                        candidates.emplace(d_max, cur_c);
+
+                        for (size_t j = 0; j < sz_link_list_other; j++)
+                        {
+                            candidates.emplace(
+                                fstdistfunc_(getDataByInternalId(data[j]), getDataByInternalId(selectedNeighbors[idx]),
+                                             dist_func_param_),
+                                data[j]);
+                        }
+
+                        getNeighborsByHeuristic2(candidates, Mcurmax);
+
+                        int indx = 0;
+                        while (candidates.size() > 0)
+                        {
+                            data[indx] = candidates.top().second;
+                            distData[indx] = candidates.top().first;
+                            candidates.pop();
+                            indx++;
+                        }
+
+                        setListCount(ll_other, indx);
+                        // Nearest K:
+                        /*int indx = -1;
+                        for (int j = 0; j < sz_link_list_other; j++) {
+                            dist_t d = fstdistfunc_(getDataByInternalId(data[j]), getDataByInternalId(rez[idx]), dist_func_param_);
+                            if (d > d_max) {
+                                indx = j;
+                                d_max = d;
+                            }
+                        }
+                        if (indx >= 0) {
+                            data[indx] = cur_c;
+                        } */
+                    }
+                }
+            }
+
+            // return next_closest_entry_point;
+        }
+
+        void HNSWMerger(
+            HierarchicalNSW<dist_t> *index1,
+            HierarchicalNSW<dist_t> *index2)
+        {
+            size_t maxLevel = std::max(index1->maxlevel_, index2->maxlevel_);
+            setMaxLevel(maxLevel);
+            cur_element_count.store(index1->cur_element_count + index2->cur_element_count);
+            enterpoint_node_ = index1->enterpoint_node_;
+
+            size_t element_count_for_index1 = index1->getCurrentElementCount();
+            size_t element_count_for_index2 = index2->getCurrentElementCount();
+            std::vector<std::vector<int>> layer_node_for_index1(maxlevel_ + 2);
+            index1->searchNodeOnEachLayer(layer_node_for_index1, true);
+            std::vector<std::vector<int>> layer_node_for_index2(maxlevel_ + 2);
+            index2->searchNodeOnEachLayer(layer_node_for_index2, true);
+
+            for (tableint old_c = 0; old_c < element_count_for_index1; old_c++)
+            {
+                tableint new_c = old_c;
+                int level = index1->element_levels_[old_c];
+                element_levels_[new_c] = level;
+
+                if (level == 0)
+                    continue;
+                linkLists_[new_c] = (char *)malloc(size_links_per_element_ * level + 1);
+                if (linkLists_[new_c] == nullptr)
+                {
+                    throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
+                }
+                memcpy(linkLists_[new_c], index1->linkLists_[old_c], size_links_per_element_ * level + 1);
+                dist_linkLists_[new_c] = (char *)malloc(size_dist_links_per_element_ * level + 1);
+                if (dist_linkLists_[new_c] == nullptr)
+                {
+                    throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linklist");
+                }
+                memcpy(dist_linkLists_[new_c], index1->dist_linkLists_[old_c], size_dist_links_per_element_ * level + 1);
+            }
+            memcpy(data_level0_memory_, index1->data_level0_memory_, element_count_for_index1 * size_data_per_element_);
+            memcpy(dist_level0_memory_, index1->dist_level0_memory_, element_count_for_index1 * size_dist_per_element_);
+
+            // TODO: approach 1 - clustering index2 into K clusters and assign each cluster to index1
+
+            for (tableint old_c = 0; old_c < element_count_for_index2; old_c++)
+            {
+                tableint new_c = old_c + element_count_for_index1;
+                memcpy(getDataByInternalId(new_c), index2->getDataByInternalId(old_c), data_size_);
+                setExternalLabel(new_c, index2->getExternalLabel(old_c));
+                int level = index2->element_levels_[old_c];
+                element_levels_[new_c] = 0;
+                // TODO: Now we assume inserted index2 put all its nodes on index1 level 0; We may test on other levels
+            }
+
+            // TODO: add a logic for layer increment
+
+            linklistsizeint *ll_cur ;
+                        size_t size ;
+                        tableint *data;
+                        dist_t *distData ;
+            // for (int level = maxlevel_; level >= 0; level -= 1)
+            for (int level = 0; level >= 0; level -= 1)
+            {
+                // TODO: check the performance of using faiss kmeans instead
+                int T = 10000;
+                int K = index2->cur_element_count / T;
+                float *centroid = (float *)malloc(K * data_size_);
+                std::vector<std::vector<tableint>> clusters_index2;
+                std::vector<std::vector<tableint>> clusters;
+
+                auto t0 = elapsed();
+
+                index2->cluster_points(K, 2, 1, data_size_ / sizeof(dist_t), layer_node_for_index2[level], centroid, clusters_index2);
+                // TODO: assign
+
+                index1->assign_points_to_clusters(0, K, 5000, 1, data_size_ / sizeof(dist_t), centroid, clusters);
+                printf("[%.3f s] build cluster\n", elapsed() - t0);
+
+                t0 = elapsed();
+                for (int i = 0; i < K; i++)
+                {
+                    // auto t0 = elapsed(), t1 = 0.0;
+                    tableint currObj = clusters[i][0];
+                    std::unordered_set<tableint> cluster_set(clusters[i].begin(), clusters[i].end());
+                    for (int j = 0; j < clusters_index2[i].size(); j++)
+                    {
+                        tableint old_c = clusters_index2[i][j];
+                        tableint new_c = old_c + element_count_for_index1;
+                        const void *data_point = getDataByInternalId(new_c);
+                        std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates = index1->searchBaseLayerSubgroup(currObj, data_point, level, &cluster_set,true);
+                        std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> search_candidates;
+                        std::unordered_set<tableint> seen_candidates;
+                        ll_cur = get_linklist_at_level(old_c, level);
+                        size = getListCount(ll_cur);
+                        data = (tableint *)(ll_cur + 1);
+                        distData = (dist_t *)get_dist_at_level(old_c, level);
+                        for (size_t i = 0; i < size; i++)
+                        {
+                            top_candidates.emplace(distData[i], data[i]);
+                            seen_candidates.insert(data[i]);
+                        }
+                        // std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates = index1->searchBaseLayer(currObj, data_point, level);
+                        ll_cur = index2->get_linklist_at_level(old_c, level);
+                        size = index2->getListCount(ll_cur);
+                        data = (tableint *)(ll_cur + 1);
+                        distData = (dist_t *)index2->get_dist_at_level(old_c, level);
+                        for (size_t i = 0; i < size; i++)
+                        {
+                            if(seen_candidates.find(data[i]+ element_count_for_index1) != seen_candidates.end())
+                                continue;
+                            top_candidates.emplace(distData[i], data[i] + element_count_for_index1);
+                            seen_candidates.insert(data[i] + element_count_for_index1);
+                        }
+                        while(!top_candidates.empty())
+                        {
+                            if(seen_candidates.find(top_candidates.top().second) == seen_candidates.end())
+                            {
+                                search_candidates.push(top_candidates.top());
+                                seen_candidates.insert(top_candidates.top().second);
+                            }
+                            top_candidates.pop();
+                        }
+
+
+                        // if (epDeleted)
+                        // {
+                        //     top_candidates.emplace(fstdistfunc_(data_point, getDataByInternalId(enterpoint_copy), dist_func_param_), enterpoint_copy);
+                        //     if (top_candidates.size() > ef_construction_)
+                        //         top_candidates.pop();
+                        // }
+                        mutuallyConnectNewElementSubgroup(new_c, element_count_for_index1, search_candidates, level, false);
+                    }
+                    // printf("[%.3f s] insert cluster %d\n", elapsed() - t0, i);
+                }
+                printf("[%.3f s] insert\n", elapsed() - t0);
+            }
+
+            // TODO: approach 2 : randomly select K points from index2 and assign each point to index1
+
+            // memcpy(data_level0_memory_ + element_count_for_index1 * size_data_per_element_, index2->data_level0_memory_, element_count_for_index2 * size_data_per_element_);
+            // memcpy(dist_level0_memory_ + element_count_for_index1 * size_dist_per_element_, index2->dist_level0_memory_, element_count_for_index2 * size_dist_per_element_);
+
+            // // for (int level = maxlevel_; level >= 0; level -= 1)
+            // for (int level = 0; level >= 0; level -= 1)
+            // {
+            //     // TODO: check the performance of using faiss kmeans instead
+
+            //     int selected_num = element_count_for_index2 /2 ;
+            //     auto t0 = elapsed();
+
+            //     // auto selectRandomPoints = [](int L, int R, int K)
+            //     // {
+            //     //     std::vector<int> random_selected;
+            //     //     std::vector<int> numbers(R - L);
+            //     //     std::generate(numbers.begin(), numbers.end(), [n = L]() mutable
+            //     //                   { return n++; });
+            //     //     std::mt19937 gen(std::random_device{}());
+            //     //     random_selected.resize(K);
+            //     //     std::sample(numbers.begin(), numbers.end(), random_selected.begin(), K, gen);
+
+            //     //     return random_selected;
+            //     // };
+            //     // auto selected = selectRandomPoints(element_count_for_index1, element_count_for_index1 + element_count_for_index2, selected_num);
+
+
+            //     FILE* f2 = fopen(
+            //         "/home/jin467/github_download/VecDB/faiss/labels.bin", "rb");
+            //     std::vector<int> selected = std::vector<int>(selected_num);
+            //     fread(selected.data(), sizeof(int), selected_num, f2);
+
+            //     printf("[%.3f s] build cluster\n", elapsed() - t0);
+
+            //     t0 = elapsed();
+            //     for (auto new_c : selected)
+            //     {
+            //         auto old_c = new_c - element_count_for_index1;
+            //         const void *data_point = getDataByInternalId(new_c);
+            //         memset(get_linklist0(new_c), 0, size_links_level0_);
+            //         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates = index1->searchBaseLayerSubgroup(enterpoint_node_, data_point, level, nullptr, true);
+
+            //         linklistsizeint *ll_cur = index2->get_linklist_at_level(old_c, level);
+            //         size_t size = index2->getListCount(ll_cur);
+            //         tableint *data = (tableint *)(ll_cur + 1);
+            //         dist_t *distData = (dist_t *)index2->get_dist_at_level(old_c, level);
+            //         for (size_t i = 0; i < size; i++)
+            //         {
+            //             top_candidates.emplace(distData[i], data[i] + element_count_for_index1);
+            //         }
+            //         // if (epDeleted)
+            //         // {
+            //         //     top_candidates.emplace(fstdistfunc_(data_point, getDataByInternalId(enterpoint_copy), dist_func_param_), enterpoint_copy);
+            //         //     if (top_candidates.size() > ef_construction_)
+            //         //         top_candidates.pop();
+            //         // }
+            //         mutuallyConnectNewElementSubgroup(new_c, element_count_for_index1, top_candidates, level, false);
+            //     }
+            //     printf("[%.3f s] insert cluster\n", elapsed() - t0);
+            // }
+
+            // TODO: method 1: merge only on last layer
+        }
+
         void mergeIndex1BasedOnIndex2Connection(
             HierarchicalNSW<dist_t> *index1,
             HierarchicalNSW<dist_t> *index2,
@@ -1728,125 +2784,206 @@ namespace hnswlib
             int offset_index1,
             int offset_index2,
             int level,
-            tableint defaultEntryPoint,
-            int &last_entry_point /* in & out */
-        )
+            tableint &last_entry_point,
+            bool debugFlag = false)
         {
-            tableint entry_point;
             int higherLevel = level;
             if (last_entry_point == -1)
             {
                 higherLevel = index2->maxlevel_;
             }
-            entry_point = index2->search2Layer(data_point,
-                                               last_entry_point,
-                                               higherLevel,
-                                               level);
-
-            // Find ONE entry point with its neighbors
-            // TODO: 1. find more than one neighbors (x neighbors), use following code to replace search2Layer
-            // endless loop?
-            // std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> Candidates = searchBaseLayer(
-            // currObj, dataPoint, level);
-            // TODO: 2. find one-hot neighbors and two-hot neighbors
-
-            // Find one index1-node's (or ef_construction_ nodes) candidate neighbors in index2, and add its neighbors in index2, index1-node's neighbor in index1 ,and its neighbors from last layer in new index
-            std::vector<tableint> Candidates;
-            Candidates.push_back(entry_point + offset_index2);
-
-            linklistsizeint *ll_cur = index2->get_linklist_at_level(entry_point, level);
-            size_t linklistCount = index2->getListCount(ll_cur);
-            tableint *data = (tableint *)(ll_cur + 1);
-            for (size_t iter = 0; iter < linklistCount; iter++)
-            {
-                Candidates.push_back(data[iter] + offset_index2);
-            }
-
-            ll_cur = index1->get_linklist_at_level(cur_c, level);
-            linklistCount = index1->getListCount(ll_cur);
-            data = (tableint *)(ll_cur + 1);
-            for (size_t iter = 0; iter < linklistCount; iter++)
-            {
-                Candidates.push_back(data[iter] + offset_index1);
-            }
-
-            if (level != maxlevel_ && last_entry_point != -1)
-            {
-                ll_cur = get_linklist_at_level(cur_c + offset_index1, level + 1);
-                linklistCount = getListCount(ll_cur);
-                Candidates.insert(Candidates.end(), (tableint *)(ll_cur + 1), (tableint *)(ll_cur + 1) + linklistCount);
-            }
-
-            std::unordered_set<tableint> seen;
-            std::vector<tableint> result;
-            for (const auto &val : Candidates)
-            {
-                if (seen.find(val) == seen.end() && val != cur_c + offset_index1)
-                {
-                    seen.insert(val);
-                    result.push_back(val);
-                }
-            }
-
-            // get all distance data and then
             std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
-            std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> candidateSet;
-            dist_t dist = fstdistfunc_(data_point, getDataByInternalId(result[0]), dist_func_param_);
-#ifdef USE_SSE
-            _mm_prefetch(result.data(), _MM_HINT_T0);
-            _mm_prefetch(result.data() + 1, _MM_HINT_T0);
-#endif
-            top_candidates.emplace(dist, result[0]);
-            dist_t lowerBound = dist;
-            candidateSet.emplace(-dist, result[0]);
 
-            for (size_t j = 1; j < result.size(); j++)
+            linklistsizeint *ll_cur;
+            size_t linklistCount;
+            tableint *data;
+            dist_t *dist;
+            tableint candidate_id;
+            dist_t dist1;
+            dist_t lowerBound;
+            size_t Mcurmax = level ? maxM_ : maxM0_;
+
+            int method_flag = 0b10;
+
+            tableint xx = last_entry_point;
+
+            if (method_flag % 2)
             {
-                tableint candidate_id = result[j];
-#ifdef USE_SSE
-                _mm_prefetch(result.data() + j + 1, _MM_HINT_T0);
-#endif
-                char *currObj1 = getDataByInternalId(candidate_id);
-                dist_t dist1 = fstdistfunc_(data_point, currObj1, dist_func_param_);
-                if (top_candidates.size() < ef_construction_ || lowerBound > dist1)
+                int cnt = 0;
+                // if(cur_c==4373 && level == 2){
+                //     cnt=1;
+                // }
+                index2->search2Layer(data_point,
+                                     last_entry_point,
+                                     higherLevel,
+                                     level,
+                                     cnt);
+                forward_step_avg_per_layer[level] += cnt;
+                candidate_id = last_entry_point + offset_index2;
+                dist1 = fstdistfunc_(data_point, getDataByInternalId(candidate_id), dist_func_param_);
+                top_candidates.emplace(dist1, candidate_id);
+
+                /*
+                    adding neighbors will increase recall less than 0.005
+                */
+
+                // lowerBound = dist1;
+                // if (debugFlag)
+                // {
+                //     layeredStructure[level].insert({cur_c + offset_index1, dist1});
+                // }
+
+                // ll_cur = index2->get_linklist_at_level(last_entry_point, level);
+                // linklistCount = index2->getListCount(ll_cur);
+                // data = (tableint *)(ll_cur + 1);
+
+                // for (size_t iter = 0; iter < linklistCount; iter++)
+                // {
+                //     candidate_id = data[iter] + offset_index2;
+                //     dist1 = fstdistfunc_(data_point, getDataByInternalId(candidate_id), dist_func_param_);
+                //     if (top_candidates.size() < ef_construction_ || lowerBound > dist1)
+                //     {
+                //         top_candidates.emplace(dist1, candidate_id);
+                //         if (top_candidates.size() > ef_construction_)
+                //             top_candidates.pop();
+                //         if (!top_candidates.empty())
+                //             lowerBound = top_candidates.top().first;
+                //     }
+                // }
+
+                /*
+                    comment this may cause recall raise <0.01, and search time per 10000 queries raise 1.8s
+                */
+                // getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
+            }
+            if (((int)method_flag / 2) % 2)
+            // if (true)
+            {
+                int cnt = 3;
+                // if(cur_c==4373 && level == 2){
+                //     cnt=1;
+                // }
+                // std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates2;
+
+                index2->search2Layer(data_point,
+                                     xx,
+                                     higherLevel,
+                                     level,
+                                     cnt,
+                                     top_candidates,
+                                     offset_index2);
+                // if (xx != last_entry_point)
+                // {
+                //     printf("level %d, cur_c %d, last_entry_point %d, xx %d\n", level, cur_c, last_entry_point, xx);
+                // }
+                /* comment this may cause recall raise <0.01, and search time per 10000 queries raise 1.8s */
+                // getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
+            }
+
+            if (top_candidates.size() + index1->getListCount(index1->get_linklist_at_level(cur_c, level)) > Mcurmax)
+            {
+                ll_cur = index1->get_linklist_at_level(cur_c, level);
+                linklistCount = index1->getListCount(ll_cur);
+                data = (tableint *)(ll_cur + 1);
+                dist = index1->get_dist_at_level(cur_c, level);
+                for (size_t iter = 0; iter < linklistCount; iter++)
                 {
-                    candidateSet.emplace(-dist1, candidate_id);
-                    top_candidates.emplace(dist1, candidate_id);
-                    if (top_candidates.size() > ef_construction_)
-                        top_candidates.pop();
-                    if (!top_candidates.empty())
-                        lowerBound = top_candidates.top().first;
+                    candidate_id = data[iter] + offset_index1;
+                    dist1 = fstdistfunc_(data_point, getDataByInternalId(candidate_id), dist_func_param_);
+                    if (top_candidates.size() < ef_construction_ || lowerBound > dist1)
+                    {
+                        top_candidates.emplace(dist1, candidate_id);
+                        if (top_candidates.size() > ef_construction_)
+                            top_candidates.pop();
+                        if (!top_candidates.empty())
+                            lowerBound = top_candidates.top().first;
+                    }
+                }
+                getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
+                ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
+                setListCount(ll_cur, top_candidates.size());
+                data = (tableint *)(ll_cur + 1);
+                dist_t *distData = (dist_t *)get_dist_at_level(cur_c + offset_index1, level);
+                for (size_t idx = 0; top_candidates.size() > 0; idx++)
+                {
+                    data[idx] = top_candidates.top().second;
+                    distData[idx] = top_candidates.top().first;
+                    top_candidates.pop();
                 }
             }
+            else
+            {
+                linklistsizeint *ll_cur_index1 = index1->get_linklist_at_level(cur_c, level);
+                size_t linklistCount_index1 = index1->getListCount(ll_cur_index1);
+                tableint *data_index1 = (tableint *)(ll_cur_index1 + 1);
+                dist_t *dist_index1 = index1->get_dist_at_level(cur_c, level);
+
+                ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
+                setListCount(ll_cur, top_candidates.size() + linklistCount_index1);
+                data = (tableint *)(ll_cur + 1);
+                dist_t *distData = (dist_t *)get_dist_at_level(cur_c + offset_index1, level);
+                size_t offset = top_candidates.size();
+                for (size_t idx = 0; top_candidates.size() > 0; idx++)
+                {
+                    data[idx] = top_candidates.top().second;
+                    distData[idx] = top_candidates.top().first;
+                    top_candidates.pop();
+                }
+                for (size_t idx = 0; idx < linklistCount_index1; idx++)
+                {
+                    data[offset + idx] = data_index1[idx] + offset_index1;
+                    distData[offset + idx] = dist_index1[idx];
+                }
+            }
+        }
+
+        void findNeighborsLayerK(hnswlib::HierarchicalNSW<dist_t> *index, int currObj, int cur_c, int level, tableint &candidate_entrypoint)
+        {
+            const void *data_point = getDataByInternalId(cur_c);
+            std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, hnswlib::HierarchicalNSW<dist_t>::CompareByFirst> top_candidates = index->searchBaseLayer(
+                currObj, data_point, level);
+
             size_t Mcurmax = level ? maxM_ : maxM0_;
-            getNeighborsByHeuristic2(top_candidates, Mcurmax);
-            ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
-            setListCount(ll_cur, top_candidates.size());
-            data = (tableint *)(ll_cur + 1);
+            getNeighborsByHeuristic2(top_candidates, Mcurmax, false, cur_c);
+
+            // linklistsizeint *ll_cur = get_linklist(currObj, level);
+            // tableint *data = (tableint *)(ll_cur + 1);
+            // dist_t *distData = (dist_t *)get_dist_at_level(cur_c, level);
+            int cnt = 0;
             for (size_t idx = 0; top_candidates.size() > 0; idx++)
             {
-                data[idx] = top_candidates.top().second;
+                if (top_candidates.top().second == cur_c)
+                {
+                    // data[idx] = top_candidates.top().second;
+                    // distData[idx] = top_candidates.top().first;
+                    // cnt++;
+                    printf("distData[%d]: %f\n", idx, top_candidates.top().first);
+                }
                 top_candidates.pop();
             }
-            last_entry_point = entry_point;
+            // setListCount(ll_cur, cnt);
         }
-
-    }; /* end of definition of Class HierarchicalNSW */
-
-    template <typename dist_t>
-    void searchNodeOnEachLayer(
-        HierarchicalNSW<dist_t> *index,
-        std::vector<std::vector<int>> &resultVector)
-    {
-        size_t elementCount = index->getCurrentElementCount();
-        for (size_t iter = 0; iter < elementCount; iter++)
+        void searchNodeOnEachLayer(
+            std::vector<std::vector<int>> &resultVector,
+            bool combine = false)
         {
-            if (!index->isMarkedDeleted(iter))
+            size_t elementCount = getCurrentElementCount();
+            for (size_t iter = 0; iter < elementCount; iter++)
             {
-                resultVector[index->element_levels_[iter]].push_back(iter);
+                if (!isMarkedDeleted(iter))
+                {
+                    resultVector[element_levels_[iter]].push_back(iter);
+                }
+            }
+            if (combine)
+            {
+                for (int i = resultVector.size() - 2; i >= 0; --i)
+                {
+                    resultVector[i].insert(resultVector[i].end(), resultVector[i + 1].begin(), resultVector[i + 1].end());
+                }
             }
         }
-    }
+    }; /* end of definition of Class HierarchicalNSW */
 
     template <typename dist_t>
     void deepCopyOneLayerOnIndex(
@@ -1869,17 +3006,20 @@ namespace hnswlib
             memcpy(alg_hnsw->getDataByInternalId(new_c), index->getDataByInternalId(cur_c), alg_hnsw->data_size_);
 
             linklistsizeint *ll_cur, *ll_new;
+            dist_t *ll_cur_dist, *ll_new_dist;
+            ll_cur = index->get_linklist(cur_c, level);
+            ll_new = alg_hnsw->get_linklist(new_c, level);
+            ll_cur_dist = index->get_dist_at_level(cur_c, level);
+            ll_new_dist = alg_hnsw->get_dist_at_level(new_c, level);
             if (level == 0)
             {
-                ll_cur = index->get_linklist0(cur_c);
-                ll_new = alg_hnsw->get_linklist0(new_c);
                 memcpy(ll_new, ll_cur, index->size_links_level0_);
+                memcpy(ll_new_dist, ll_cur_dist, index->size_dist_per_element_);
             }
             else
             {
-                ll_cur = index->get_linklist(cur_c, level);
-                ll_new = alg_hnsw->get_linklist(new_c, level);
                 memcpy(ll_new, ll_cur, index->size_links_per_element_);
+                memcpy(ll_new_dist, ll_cur_dist, index->size_dist_links_per_element_);
             }
         }
     }
@@ -1914,74 +3054,155 @@ namespace hnswlib
         if (alg_hnsw->data_level0_memory_ == nullptr)
             throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
 
+        alg_hnsw->dist_level0_memory_ = (char *)malloc(alg_hnsw->max_elements_ * alg_hnsw->size_dist_per_element_);
+        if (alg_hnsw->dist_level0_memory_ == nullptr)
+            throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
+
         // First, view all elements in both indexes and find the element sets in each layer.
 
         size_t element_count_for_index1 = index1->getCurrentElementCount();
         size_t element_count_for_index2 = index2->getCurrentElementCount();
-        std::vector<std::vector<int>> layer_node_for_index1(maxLevel + 1);
-        searchNodeOnEachLayer(index1, layer_node_for_index1);
-        std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 1);
-        searchNodeOnEachLayer(index2, layer_node_for_index2);
+        std::vector<std::vector<int>> layer_node_for_index1(maxLevel + 2);
+        index1->searchNodeOnEachLayer(layer_node_for_index1);
+        std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 2);
+        index2->searchNodeOnEachLayer(layer_node_for_index2);
 
-        tableint initialStartPointForIndex1, initialStartPointForIndex2;
-        for (int level = maxLevel; level >= 0; level--)
-            if (layer_node_for_index1[level].size() > 0)
-            {
-                initialStartPointForIndex1 = layer_node_for_index1[level][0];
-                break;
-            }
-        for (int level = maxLevel; level >= 0; level--)
-            if (layer_node_for_index2[level].size() > 0)
-            {
-                initialStartPointForIndex2 = layer_node_for_index2[level][0];
-                break;
-            }
-        alg_hnsw->enterpoint_node_ = initialStartPointForIndex1;
-
-        int *entry_point_collect_index1_on_index2 = new int[element_count_for_index1];
-        int *entry_point_collect_index2_on_index1 = new int[element_count_for_index2];
+        tableint *entry_point_collect_index1_on_index2 = new tableint[element_count_for_index1];
+        tableint *entry_point_collect_index2_on_index1 = new tableint[element_count_for_index2];
         memset(entry_point_collect_index1_on_index2, -1, element_count_for_index1 * sizeof(int));
         memset(entry_point_collect_index2_on_index1, -1, element_count_for_index2 * sizeof(int));
+
+        int entry_point_index1 = index2->enterpoint_node_;
+        int entry_point_index2 = index1->enterpoint_node_;
 
         std::vector<int> mergedDataPointsFromTopIndex1;
         std::vector<int> mergedDataPointsFromTopIndex2;
 
+        /* create new ligher layer */
+        if (layer_node_for_index1[maxLevel].size() + layer_node_for_index2[maxLevel].size() > M)
+        {
+            std::vector<int> newLayer;
+            std::uniform_real_distribution<double> distribution(0.0, 1.0);
+            int cnt = 0;
+            auto filter_and_remove = [&](std::vector<int> &layer_nodes, HierarchicalNSW<dist_t> *index, std::vector<int> &mergedDataPointsFromTopIndex, int offset)
+            {
+                auto it = layer_nodes.begin();
+                while (it != layer_nodes.end())
+                {
+                    if (distribution(alg_hnsw->level_generator_) < 1.0 / M || cnt == M)
+                    {
+                        newLayer.push_back((*it) + offset);
+                        cnt = 0;
+                        tableint new_c = *it;
+                        alg_hnsw->linkLists_[new_c + offset] = (char *)malloc(alg_hnsw->size_links_per_element_ * (maxLevel + 1) + 1);
+                        if (alg_hnsw->linkLists_[new_c + offset] == nullptr)
+                            throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
+                        memset(alg_hnsw->linkLists_[new_c + offset], 0, alg_hnsw->size_links_per_element_ * (maxLevel + 1) + 1);
+                        alg_hnsw->element_levels_[new_c + offset] = (maxLevel + 1);
+
+                        alg_hnsw->dist_linkLists_[new_c + offset] = (char *)malloc(alg_hnsw->size_dist_links_per_element_ * (maxLevel + 1) + 1);
+                        if (alg_hnsw->dist_linkLists_[new_c + offset] == nullptr)
+                            throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linkLists");
+                        memset(alg_hnsw->dist_linkLists_[new_c + offset], 0, alg_hnsw->size_dist_links_per_element_ * (maxLevel + 1) + 1);
+
+                        memcpy(alg_hnsw->getDataByInternalId(new_c + offset), index->getDataByInternalId(new_c), alg_hnsw->data_size_);
+                        alg_hnsw->setExternalLabel(new_c + offset, index->getExternalLabel(new_c));
+                        mergedDataPointsFromTopIndex.push_back(new_c);
+
+                        it = layer_nodes.erase(it);
+                    }
+                    else
+                    {
+                        cnt++;
+                        ++it;
+                    }
+                }
+            };
+            filter_and_remove(layer_node_for_index1[maxLevel], index1, mergedDataPointsFromTopIndex1, 0);
+            filter_and_remove(layer_node_for_index2[maxLevel], index2, mergedDataPointsFromTopIndex2, element_count_for_index1);
+            // printf("new layer size: %d\n", newLayer.size());
+            // for(int i=0;i<newLayer.size();i++){
+            //     printf("%d ", newLayer[i]);
+            // }
+            // printf("\n");
+            if (newLayer.size() > 0)
+            { /* construct graph for new layer */
+                for (int newLayerIter = 0; newLayerIter < newLayer.size(); newLayerIter++)
+                {
+                    linklistsizeint *ll_cur = alg_hnsw->get_linklist_at_level(newLayer[newLayerIter], maxLevel + 1);
+                    alg_hnsw->setListCount(ll_cur, newLayer.size() - 1);
+                    tableint *data = (tableint *)(ll_cur + 1);
+                    dist_t *dist = alg_hnsw->get_dist_at_level(newLayer[newLayerIter], maxLevel + 1);
+                    for (size_t it = 0, idx = 0; it < newLayer.size(); it++)
+                    {
+                        if (it == newLayerIter)
+                            continue;
+                        dist_t dist0 = alg_hnsw->fstdistfunc_(alg_hnsw->getDataByInternalId(newLayer[newLayerIter]), alg_hnsw->getDataByInternalId(newLayer[it]), alg_hnsw->dist_func_param_);
+                        data[idx] = newLayer[it];
+                        dist[idx] = dist0;
+                        idx++;
+                    }
+                }
+                alg_hnsw->setMaxLevel(maxLevel + 1);
+                alg_hnsw->enterpoint_node_ = newLayer[0];
+            }
+            else
+            {
+                alg_hnsw->enterpoint_node_ = layer_node_for_index1[maxLevel][0];
+            }
+            // printf("new maxLevel: %d\n", maxLevel);
+        } /* end of new code */
+        else
+        {
+            alg_hnsw->enterpoint_node_ = layer_node_for_index1[maxLevel][0];
+        }
+
+        alg_hnsw->forward_step_avg_per_layer = std::vector<float>(maxLevel + 1, 0.0);
+        alg_hnsw->layeredStructure = std::vector<std::set<std::pair<int, int>>>(maxLevel + 1);
+
         for (int level = maxLevel; level >= 0; level -= 1)
         {
-            if (level > 0)
+            if (level > 0) // copy paste old data (including edges and data, labels) into new graph
             {
-                for (int id = 0; id < layer_node_for_index1[level].size(); id++) // mergedDataPointsFromTopIndex1
+                auto allocateMemory = [&](std::vector<std::vector<int>> &layer_node_for_index, int element_count_offset)
                 {
-                    tableint new_c = layer_node_for_index1[level][id];
-                    alg_hnsw->linkLists_[new_c] = (char *)malloc(alg_hnsw->size_links_per_element_ * level + 1);
-                    if (alg_hnsw->linkLists_[new_c] == nullptr)
-                        throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
-                    memset(alg_hnsw->linkLists_[new_c], 0, alg_hnsw->size_links_per_element_ * level + 1);
-                    alg_hnsw->element_levels_[new_c] = level;
-                }
-                for (int id = 0; id < layer_node_for_index2[level].size(); id++) // mergedDataPointsFromTopIndex1
-                {
-                    tableint new_c = layer_node_for_index2[level][id] + element_count_for_index1;
-                    alg_hnsw->linkLists_[new_c] = (char *)malloc(alg_hnsw->size_links_per_element_ * level + 1);
-                    if (alg_hnsw->linkLists_[new_c] == nullptr)
-                        throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
-                    memset(alg_hnsw->linkLists_[new_c], 0, alg_hnsw->size_links_per_element_ * level + 1);
-                    alg_hnsw->element_levels_[new_c] = level;
-                }
+                    for (int id = 0; id < layer_node_for_index[level].size(); id++)
+                    {
+                        tableint new_c = layer_node_for_index[level][id] + element_count_offset;
+                        alg_hnsw->linkLists_[new_c] = (char *)malloc(alg_hnsw->size_links_per_element_ * level + 1);
+                        if (alg_hnsw->linkLists_[new_c] == nullptr)
+                        {
+                            throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
+                        }
+                        memset(alg_hnsw->linkLists_[new_c], 0, alg_hnsw->size_links_per_element_ * level + 1);
+                        alg_hnsw->dist_linkLists_[new_c] = (char *)malloc(alg_hnsw->size_dist_links_per_element_ * level + 1);
+                        if (alg_hnsw->dist_linkLists_[new_c] == nullptr)
+                        {
+                            throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linklist");
+                        }
+                        memset(alg_hnsw->dist_linkLists_[new_c], 0, alg_hnsw->size_dist_links_per_element_ * level + 1);
+                    }
+                };
+                allocateMemory(layer_node_for_index1, 0);
+                allocateMemory(layer_node_for_index2, element_count_for_index1);
             }
-            for (int id = 0; id < layer_node_for_index1[level].size(); id++) // mergedDataPointsFromTopIndex1
+
+            for (int id = 0; id < layer_node_for_index1[level].size(); id++)
             {
+                tableint old_c = layer_node_for_index1[level][id];
                 tableint new_c = layer_node_for_index1[level][id];
-                memcpy(alg_hnsw->getDataByInternalId(new_c), index1->getDataByInternalId(new_c), alg_hnsw->data_size_);
-                alg_hnsw->setExternalLabel(new_c, index1->getExternalLabel(new_c));
-                mergedDataPointsFromTopIndex1.push_back(new_c);
+                memcpy(alg_hnsw->getDataByInternalId(new_c), index1->getDataByInternalId(old_c), alg_hnsw->data_size_);
+                alg_hnsw->setExternalLabel(new_c, index1->getExternalLabel(old_c));
+                alg_hnsw->element_levels_[new_c] = level;
+                mergedDataPointsFromTopIndex1.push_back(old_c);
             }
-            for (int id = 0; id < layer_node_for_index2[level].size(); id++) // mergedDataPointsFromTopIndex1
+            for (int id = 0; id < layer_node_for_index2[level].size(); id++)
             {
-                tableint new_c = layer_node_for_index2[level][id];
-                memcpy(alg_hnsw->getDataByInternalId(new_c + element_count_for_index1), index2->getDataByInternalId(new_c), alg_hnsw->data_size_);
-                alg_hnsw->setExternalLabel(new_c + element_count_for_index1, index2->getExternalLabel(new_c));
-                mergedDataPointsFromTopIndex2.push_back(new_c);
+                tableint old_c = layer_node_for_index2[level][id];
+                tableint new_c = layer_node_for_index2[level][id] + element_count_for_index1;
+                memcpy(alg_hnsw->getDataByInternalId(new_c), index2->getDataByInternalId(old_c), alg_hnsw->data_size_);
+                alg_hnsw->setExternalLabel(new_c, index2->getExternalLabel(old_c));
+                mergedDataPointsFromTopIndex2.push_back(old_c);
             }
 
             if (layer_node_for_index1[level].size() == 0 && layer_node_for_index2[level].size() > 0) // copy all data for index 2 on this layer to new index
@@ -1995,12 +3216,34 @@ namespace hnswlib
                 continue;
             }
 
+            // alg_hnsw->mergeIndex1BasedOnIndex2Connection3(index1,
+            //                                               index2,
+            //                                               0,
+            //                                               element_count_for_index1,
+            //                                               level,
+            //                                               entry_point_index1);
+            // alg_hnsw->mergeIndex1BasedOnIndex2Connection3(index2,
+            //                                               index1,
+            //                                               element_count_for_index1,
+            //                                               0,
+            //                                               level,
+            //                                               entry_point_index2);
             // If in this layer, index1 and index2 both have data points, we need to merge these 2 graphs.
             // For data points having existed in level-1 layer from index1
             for (int iter = 0; iter < mergedDataPointsFromTopIndex1.size(); iter++)
             {
                 tableint cur_c = mergedDataPointsFromTopIndex1[iter];
                 char *data_point = index1->getDataByInternalId(cur_c);
+                // if (level == 0)
+                //     alg_hnsw->mergeLevel0(
+                //         index1,
+                //         index2,
+                //         cur_c,
+                //         data_point,
+                //         0,
+                //         element_count_for_index1,
+                //         entry_point_collect_index1_on_index2[cur_c]);
+                // else
                 alg_hnsw->mergeIndex1BasedOnIndex2Connection(index1,
                                                              index2,
                                                              cur_c,
@@ -2008,13 +3251,22 @@ namespace hnswlib
                                                              0,
                                                              element_count_for_index1,
                                                              level,
-                                                             initialStartPointForIndex2,
                                                              entry_point_collect_index1_on_index2[cur_c]);
             }
             for (int iter = 0; iter < mergedDataPointsFromTopIndex2.size(); iter++)
             {
                 tableint cur_c = mergedDataPointsFromTopIndex2[iter];
                 char *data_point = index2->getDataByInternalId(cur_c);
+                // if (level == 0)
+                //     alg_hnsw->mergeLevel0(
+                //         index2,
+                //         index1,
+                //         cur_c,
+                //         data_point,
+                //         element_count_for_index1,
+                //         0,
+                //         entry_point_collect_index2_on_index1[cur_c]);
+                // else
                 alg_hnsw->mergeIndex1BasedOnIndex2Connection(index2,
                                                              index1,
                                                              cur_c,
@@ -2022,10 +3274,151 @@ namespace hnswlib
                                                              element_count_for_index1,
                                                              0,
                                                              level,
-                                                             initialStartPointForIndex1,
                                                              entry_point_collect_index2_on_index1[cur_c]);
             }
+            alg_hnsw->forward_step_avg_per_layer[level] /= 1.0 * (mergedDataPointsFromTopIndex1.size() + mergedDataPointsFromTopIndex2.size());
         }
+        // for (int layer = maxLevel; layer >= 0; layer--)
+        // {
+        //     printf("level %d, forward_step_avg %f\n", layer, alg_hnsw->forward_step_avg_per_layer[layer]);
+        // }
+        // FILE *f = fopen("layeredStructure-2.txt", "w");
+        // for (int i = maxLevel; i >= 0; i--)
+        // {
+        //     fprintf(f, "level %d\n", i);
+        //     for (auto &p : alg_hnsw->layeredStructure[i])
+        //     {
+        //         fprintf(f, "%d %d\n", p.first, p.second);
+        //     }
+        // }
         return alg_hnsw;
     }
+
+    template <typename dist_t>
+    HierarchicalNSW<dist_t> *HNSWRefinement(
+        HierarchicalNSW<dist_t> *index,
+        L2Space *space)
+    {
+        HierarchicalNSW<dist_t> *alg_hnsw = new HierarchicalNSW<dist_t>(space, index->max_elements_, index->M_, index->ef_construction_);
+        alg_hnsw->setMaxLevel(index->maxlevel_);
+        alg_hnsw->cur_element_count.store(index->cur_element_count);
+
+        alg_hnsw->data_level0_memory_ = (char *)malloc(alg_hnsw->max_elements_ * alg_hnsw->size_data_per_element_);
+        if (alg_hnsw->data_level0_memory_ == nullptr)
+            throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
+
+        alg_hnsw->dist_level0_memory_ = (char *)malloc(alg_hnsw->max_elements_ * alg_hnsw->size_dist_per_element_);
+        if (alg_hnsw->dist_level0_memory_ == nullptr)
+            throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
+
+        alg_hnsw->enterpoint_node_ = index->enterpoint_node_;
+
+        for (int cur_c = 0; cur_c < alg_hnsw->cur_element_count; cur_c++)
+        {
+            auto level = alg_hnsw->element_levels_[cur_c] = index->element_levels_[cur_c];
+            if (level > 0)
+            {
+                alg_hnsw->linkLists_[cur_c] = (char *)malloc(alg_hnsw->size_links_per_element_ * level + 1);
+                if (alg_hnsw->linkLists_[cur_c] == nullptr)
+                {
+                    throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
+                }
+                memset(alg_hnsw->linkLists_[cur_c], 0, alg_hnsw->size_links_per_element_ * level + 1);
+
+                alg_hnsw->dist_linkLists_[cur_c] = (char *)malloc(alg_hnsw->size_dist_links_per_element_ * level + 1);
+                if (alg_hnsw->dist_linkLists_[cur_c] == nullptr)
+                {
+                    throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linklist");
+                }
+                memset(alg_hnsw->dist_linkLists_[cur_c], 0, alg_hnsw->size_dist_links_per_element_ * level + 1);
+                alg_hnsw->element_levels_[cur_c] = level;
+            }
+            memcpy(alg_hnsw->getDataByInternalId(cur_c), index->getDataByInternalId(cur_c), alg_hnsw->data_size_);
+            alg_hnsw->setExternalLabel(cur_c, index->getExternalLabel(cur_c));
+
+            const void *data_point = index->getDataByInternalId(cur_c);
+            int currObj = index->enterpoint_node_;
+            for (int cur_level = level; cur_level >= 0; cur_level--)
+            {
+                std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, hnswlib::HierarchicalNSW<float>::CompareByFirst>
+                    top_candidates = index->searchBaseLayer(currObj, data_point, cur_level);
+
+                size_t Mcurmax = cur_level ? index->maxM_ : index->maxM0_;
+                index->getNeighborsByHeuristic2(top_candidates, Mcurmax, false, cur_c);
+
+                linklistsizeint *ll_cur = alg_hnsw->get_linklist_at_level(cur_c, cur_level);
+                tableint *data = (tableint *)(ll_cur + 1);
+                dist_t *distData = (dist_t *)alg_hnsw->get_dist_at_level(cur_c, cur_level);
+                int cnt = 0;
+                for (size_t idx = 0; top_candidates.size() > 0; idx++)
+                {
+                    if (top_candidates.top().second != cur_c)
+                    {
+                        data[idx] = top_candidates.top().second;
+                        distData[idx] = top_candidates.top().first;
+                        cnt++;
+                        currObj = top_candidates.top().second;
+                    }
+                    top_candidates.pop();
+                }
+                alg_hnsw->setListCount(ll_cur, cnt);
+            }
+            // exit(0);
+        }
+
+        // exit(0);
+
+        // for (int level = maxLevel; level >= 0; level -= 1)
+        // {
+        //     if (level > 0)
+        //     {
+        //         auto allocateMemory = [&](std::vector<std::vector<int>> &layer_node_for_index)
+        //         {
+        //             for (int id = 0; id < layer_node_for_index[level].size(); id++)
+        //             {
+        //                 tableint new_c = layer_node_for_index[level][id];
+        //                 alg_hnsw->linkLists_[new_c] = (char *)malloc(alg_hnsw->size_links_per_element_ * level + 1);
+        //                 if (alg_hnsw->linkLists_[new_c] == nullptr)
+        //                 {
+        //                     throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
+        //                 }
+        //                 memset(alg_hnsw->linkLists_[new_c], 0, alg_hnsw->size_links_per_element_ * level + 1);
+        //                 alg_hnsw->dist_linkLists_[new_c] = (char *)malloc(alg_hnsw->size_dist_links_per_element_ * level + 1);
+        //                 if (alg_hnsw->dist_linkLists_[new_c] == nullptr)
+        //                 {
+        //                     throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linklist");
+        //                 }
+        //                 memset(alg_hnsw->dist_linkLists_[new_c], 0, alg_hnsw->size_dist_links_per_element_ * level + 1);
+        //                 alg_hnsw->element_levels_[new_c] = level;
+        //             }
+        //         };
+        //         allocateMemory(layer_node_for_index);
+        //     }
+
+        //     for (int id = 0; id < layer_node_for_index[level].size(); id++)
+        //     {
+        //         tableint new_c = layer_node_for_index[level][id];
+        //         memcpy(alg_hnsw->getDataByInternalId(new_c), index1->getDataByInternalId(new_c), alg_hnsw->data_size_);
+        //         alg_hnsw->setExternalLabel(new_c, index->getExternalLabel(new_c));
+        //         mergedDataPointsFromTopIndex.push_back(new_c);
+        //     }
+
+        //     for (int iter = 0; iter < mergedDataPointsFromTopIndex.size(); iter++)
+        //     {
+        //         tableint cur_c = mergedDataPointsFromTopIndex1[iter];
+        //         char *data_point = index->getDataByInternalId(cur_c);
+        //         alg_hnsw->mergeIndex1BasedOnIndex2Connection(index1,
+        //                                                      index2,
+        //                                                      cur_c,
+        //                                                      data_point,
+        //                                                      0,
+        //                                                      element_count_for_index1,
+        //                                                      level,
+        //                                                      entry_point_collect_index1_on_index2[cur_c]);
+        //     }
+        // }
+
+        return alg_hnsw;
+    }
+
 } // namespace hnswlib

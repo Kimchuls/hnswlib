@@ -15,4 +15,5 @@ bash
 test*
 *.txt
 merge*
+availability*
 hnswlib/indexes

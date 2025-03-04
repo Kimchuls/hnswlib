@@ -15,4 +15,4 @@ bash
 test*
 *.txt
 merge*
-./hnswlib/indexes/*
+hnswlib/indexes

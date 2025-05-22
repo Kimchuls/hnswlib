@@ -12,8 +12,12 @@ var/
 **.DS_Store
 *.pyc
 bash
-test*
+# test*
 *.txt
 merge*
 availability*
 hnswlib/indexes
+hnswlib/analysis
+hnswlib/degree_distributions
+hnswlib/drafts
+hnswlib/scripts

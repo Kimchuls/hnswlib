@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <thread>
+#include "baseline.h"
 using namespace std;
 
 template <class Function> inline void ParallelFor(size_t start, size_t end, size_t numThreads, Function fn) {
@@ -69,6 +70,7 @@ template <class Function> inline void ParallelFor(size_t start, size_t end, size
         }
     }
 }
+
 void create_index() {
     int dim = 128;
     int max_elements = 10e6;
@@ -92,11 +94,13 @@ void create_index() {
 
     // char *base_filepath = "/ssd_root/dataset/sift1m/sift_base.fvecs";
     char *base_filepath = "/ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs";
+    // char *base_filepath = "/ssd_root/dataset/turing10m/msturing-10M.fvecs";
     float *xb;
     size_t dd2 = dim;          // dimension
     size_t nt2 = max_elements; // the number of query
     // xb = fvecs_read(base_filepath, &dd2, &nt2);
     xb = bvecs_read(base_filepath, max_elements, &dd2, &nt2);
+    // xb = fvecs_read(base_filepath, &dd2, &nt2);
 
     printf("loaded a %ld vectors in %ld dimension \n", nt2, dd2);
 
@@ -125,42 +129,58 @@ void create_index() {
         //   xb = load_and_convert_to_float_range(base_filepath, 0, 1e6, &dd2, &nt2);
         //   printf("loaded a %ld vectors in %ld dimension \n", nt2, dd2);
 
-        // t0 = elapsed();
-        // for (int64_t i = 0; i < 1e6; i++)
-        // {
-        //   if ((i + 1) % 100000 == 0)
-        //   {
-        //     printf("checkpoint:%d, [%.3f s] \n", i + 1, elapsed() - t0);
-        //   }
-        //   alg_hnsw0->addPoint(xb + i * dim, i);
-        //   // if ((i + 1) % 10000000 == 0)
-        //   // {
-        //   //   alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_10M.hnsw");
-        //   // }
-        // }
-        // // ParallelFor(0, 1e6, 1, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
-        // printf("[%.3f s] build index0\n", elapsed() - t0);
+        t0 = elapsed();
+        // for (size_t i = 0; i < 0.25e6; i++)
+        // for (size_t i = 0.25e6; i < 0.5e6; i++)
+        // for (size_t i = 0.5e6; i < 0.75e6; i++)
+        for (size_t i = 0.75e6; i < 1e6; i++)
+        {
+          if ((i + 1) % 100000 == 0)
+          {
+            printf("checkpoint:%d, [%.3f s] \n", i + 1, elapsed() - t0);
+          }
+          alg_hnsw0->addPoint(xb + i * dim, i);
+          // if ((i + 1) % 10000000 == 0)
+          // {
+          //   alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_10M.hnsw");
+          // }
+        }
+        // ParallelFor(0, 10e6, 80, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
+        printf("[%.3f s] build index0\n", elapsed() - t0);
+        // alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_250K.hnsw");
+        // alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_250K_500K.hnsw");
+        // alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_500K_750K.hnsw");
+        alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_750K_1M.hnsw");
+
 
         // alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_1M.hnsw");
+        // alg_hnsw0->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index_500K_900K.hnsw");
+        // alg_hnsw0->saveIndex("/ssd_root/jin467/merger/turing/1M.hnsw");
         // alg_hnsw0->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_10M.hnsw", &space);
         // alg_hnsw0->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_1M.hnsw", &space);
-        alg_hnsw0->loadIndex("/ssd_root/jin467/merger/indexes/merged-index.hnsw", &space);
-        alg_hnsw0->setEf(200);
+        // alg_hnsw0->loadIndex("/ssd_root/jin467/merger/indexes/merged-index.hnsw", &space);
+        // alg_hnsw0->loadIndex("/ssd_root/jin467/merger/turing/1M.hnsw", &space);
+        // alg_hnsw0->setEf(1000);
     }
+    return ;
 
     {
-        char *query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
+        // char *query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
+        char *query_filepath = "/ssd_root/dataset/turing10m/msturing-query.fvecs";
         size_t nq = 10000;
         float *xq = new float[dim * nq];
         printf("loading dataset of vectors \n");
         size_t dd = dim; // dimension
         size_t nt = nq;  // the number of query
-        xq = bvecs_read(query_filepath, 10000, &dd, &nt);
+        // xq = bvecs_read(query_filepath, 10000, &dd, &nt);
+        xq = fvecs_read(query_filepath, &dd, &nt);
         printf("loaded a %ld vectors in %ld dimension \n", nt, dd);
-        size_t kk = 1000, nqq = 10000;
+        // size_t kk = 1000, nqq = 10000;
         // int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_100M.ivecs", &kk, &nqq);
         // int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs", &kk, &nqq);
-        int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_1M.ivecs", &kk, &nqq);
+        // int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_1M.ivecs", &kk, &nqq);
+        size_t kk = 100, nqq = 10000;
+        int *gt_int = ivecs_read("/ssd_root/dataset/turing10m/msturing10M_gt100.ivecs", &kk, &nqq);
         int *gt = new int[nq * k];
         for (int i = 0; i < nq; i++) {
             for (int j = 0; j < k; j++) {
@@ -209,7 +229,7 @@ void workload() {
     int nb = 5e6;
     int M = 32;               // Tightly connected with internal dimensionality of the data
                               // strongly affects the memory consumption
-    int ef_construction = 64; // Controls index search speed/build speed tradeoff
+    int ef_construction = 40; // Controls index search speed/build speed tradeoff
     int k = 100;
     // int workload_type = SIFT10M;
 
@@ -221,6 +241,14 @@ void workload() {
     alg_hnsw1->setEf(200);
     hnswlib::HierarchicalNSW<float> *alg_hnsw2 = new hnswlib::HierarchicalNSW<float>(&space, nb, M, ef_construction);
     alg_hnsw2->setEf(200);
+    hnswlib::HierarchicalNSW<float> *alg_hnsw5 = new hnswlib::HierarchicalNSW<float>(&space, nb, M, ef_construction);
+    alg_hnsw5->setEf(200);
+    hnswlib::HierarchicalNSW<float> *alg_hnsw6 = new hnswlib::HierarchicalNSW<float>(&space, nb, M, ef_construction);
+    alg_hnsw6->setEf(200);
+    hnswlib::HierarchicalNSW<float> *alg_hnsw7 = new hnswlib::HierarchicalNSW<float>(&space, nb, M, ef_construction);
+    alg_hnsw7->setEf(200);
+    hnswlib::HierarchicalNSW<float> *alg_hnsw8 = new hnswlib::HierarchicalNSW<float>(&space, nb, M, ef_construction);
+    alg_hnsw8->setEf(200);
 
     // char *base_filepath = "/ssd_root/dataset/sift1m/sift_base.fvecs";
     // char *base_filepath = "/ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs";
@@ -263,11 +291,11 @@ void workload() {
     // alg_hnsw1->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index1.hnsw");
     // printf("[%.3f s] build index1\n", elapsed() - t0);
     // alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/index1.hnsw", &space);
-    alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_500K.hnsw", &space);
+    // alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_500K.hnsw", &space);
     // alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_900K.hnsw", &space);
     // alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_9M.hnsw", &space);
     // alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_50M.hnsw", &space);
-    // alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw", &space);
+    alg_hnsw1->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw", &space);
 
     // for (int i = 500000; i < 1000000; i++)
     // {
@@ -275,11 +303,13 @@ void workload() {
     // }
     // alg_hnsw2->saveIndex("/ssd_root/jin467/merger/indexes/bigann-index2.hnsw");
     // alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/index2.hnsw", &space);
-    alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_500K_1M.hnsw", &space);
+    // alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_500K_1M.hnsw", &space);
     // alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_900K_1M.hnsw", &space);
     // alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_9M_10M.hnsw", &space);
     // alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_50M_100M.hnsw", &space);
-    // alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_5M_10M.hnsw", &space);
+    alg_hnsw2->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_5M-10M.hnsw", &space);
+
+    // alg_hnsw5->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_500K_900K.hnsw", &space);
     printf("[%.3f s] build index1 and index2\n", elapsed() - t0);
     // exit(0);
 
@@ -302,11 +332,16 @@ void workload() {
     //  return 0;
 
     t0 = elapsed();
-    hnswlib::HierarchicalNSW<float> *alg_hnsw3 = hnswlib::HNSWMerger<float>(alg_hnsw1, alg_hnsw2, &space, -1, -1);
-    alg_hnsw3->saveIndex("/ssd_root/jin467/merger/indexes/merged-index.hnsw");
+    // hnswlib::HierarchicalNSW<float> *alg_hnsw3 = hnswlib::HNSWMerger<float>(alg_hnsw1, alg_hnsw2, &space, -1, -1);
+    // hnswlib::HierarchicalNSW<float> *alg_hnsw3 = hnswlib::HNSWMerger_ES<float>(alg_hnsw1, alg_hnsw2, &space, -1, -1);
+    // alg_hnsw3->saveIndex("/ssd_root/jin467/merger/indexes/merged-index_SIFT10M_c1.hnsw");
 
-    // std::vector<hnswlib::HierarchicalNSW<float>*> indices = {alg_hnsw1, alg_hnsw2};
+    // std::vector<hnswlib::HierarchicalNSW<float>*> indices = {alg_hnsw1, alg_hnsw2, alg_hnsw5};
+    // t0 = elapsed();
     // hnswlib::HierarchicalNSW<float> *alg_hnsw3 = hnswlib::MultiIndexMerger<float>(indices, &space, -1, -1);
+    // // // hnswlib::HierarchicalNSW<float> *alg_hnsw3 = new hnswlib::HierarchicalNSW<float>(&space, max_elements * 2, M, ef_construction);;
+    // // // alg_hnsw3->MultiIndexMerger(indices, &space, -1, -1);
+    // printf("[%.3f s] build merged index\n", elapsed() - t0);
     // alg_hnsw3->saveIndex("/ssd_root/jin467/merger/indexes/multi-merged-index.hnsw");
 
     // hnswlib::HierarchicalNSW<float> *alg_hnsw3 = new hnswlib::HierarchicalNSW<float>(&space,
@@ -319,26 +354,27 @@ void workload() {
     // alg_hnsw3->HNSWMerger(alg_hnsw1, alg_hnsw2);
     // alg_hnsw3->saveIndex("/ssd_root/jin467/merger/indexes/merged-cluster-index.hnsw");
 
-    // hnswlib::HierarchicalNSW<float> *alg_hnsw3 = new hnswlib::HierarchicalNSW<float>(&space, max_elements * 2, M, ef_construction);
+    hnswlib::HierarchicalNSW<float> *alg_hnsw3 = new hnswlib::HierarchicalNSW<float>(&space, max_elements * 2, M, ef_construction);
     // alg_hnsw3->loadIndex("/ssd_root/jin467/merger/indexes/merged-cluster-index.hnsw", &space);
-    // alg_hnsw3->loadIndex("/ssd_root/jin467/merger/indexes/merged-index.hnsw", &space);
+    alg_hnsw3->loadIndex("/ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw", &space);
     // alg_hnsw3->loadIndex("/ssd_root/jin467/merger/indexes/refined-index.hnsw", &space);
-    // alg_hnsw3->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_1M.hnsw", &space);
+    // alg_hnsw3->loadIndex("/ssd_root/jin467/merger/indexes/bigann-index_10M.hnsw", &space);
     // alg_hnsw3->loadIndex("/ssd_root/jin467/merger//indexes/refined-index.hnsw", &space);
+    // alg_hnsw3->loadIndex("/ssd_root/jin467/merger/indexes/multi-merged-index.hnsw", &space);
     printf("[%.3f s] build merged index\n", elapsed() - t0);
-    // printf("[%.3f s] for check part\n", alg_hnsw3->time_counter_);
+    // // printf("[%.3f s] for check part\n", alg_hnsw3->time_counter_);
     alg_hnsw3->setEf(200);
     // exit(0);
 
-    // t0 = elapsed();
-    // hnswlib::HierarchicalNSW<float> *alg_hnsw4 = hnswlib::HNSWRefinement<float>(alg_hnsw3, &space);
-    // alg_hnsw3 = alg_hnsw4;
-    // alg_hnsw3->setEf(200);
+    t0 = elapsed();
+    hnswlib::HierarchicalNSW<float> *alg_hnsw4 = hnswlib::HNSWRefinement<float>(alg_hnsw3, &space, true);
+    alg_hnsw3 = alg_hnsw4;
+    alg_hnsw3->setEf(200);
     // alg_hnsw4->saveIndex("/ssd_root/jin467/merger/indexes/refined-index.hnsw");
-    // // alg_hnsw1->HNSWMerger(alg_hnsw2);
-    // // alg_hnsw1->saveIndex("/ssd_root/jin467/merger/indexes/merged-cluster-index.hnsw");
-    // printf("[%.3f s] build refined index\n", elapsed() - t0);
-    // // exit(0);
+    // alg_hnsw1->HNSWMerger(alg_hnsw2);
+    // alg_hnsw1->saveIndex("/ssd_root/jin467/merger/indexes/merged-cluster-index.hnsw");
+    printf("[%.3f s] build refined index\n", elapsed() - t0);
+    // exit(0);
 
     // char *query_filepath = "/ssd_root/dataset/sift1m/sift_query.fvecs";
     char *query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
@@ -373,8 +409,8 @@ void workload() {
     // int *gt = ivecs_read("/ssd_root/dataset/sift1m/sift_groundtruth.ivecs", &kk, &nqq);
     size_t kk = 1000, nqq = 10000;
     // int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_100M.ivecs", &kk, &nqq);
-    // int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs", &kk, &nqq);
-    int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_1M.ivecs", &kk, &nqq);
+    int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs", &kk, &nqq);
+    // int *gt_int = ivecs_read("/ssd_root/dataset/ann_sift1b/gnd/idx_1M.ivecs", &kk, &nqq);
     int *gt = new int[nq * k];
     for (int i = 0; i < nq; i++) {
         for (int j = 0; j < k; j++) {
@@ -425,8 +461,8 @@ int main(int argc, char *argv[]) {
     // setenv("OMP_DYNAMIC", "false", 1);
     // setenv("OMP_NUM_THREADS", value, 1);
 
-    create_index();
-    // workload();
+    // create_index();
+    workload();
 
     return 0;
 }

@@ -1,0 +1,82 @@
+jin467@db4:~/github_download/hnswlib/hnswlib$ make
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 test_merge.cpp -o merge -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
+./merge 
+loaded a 5000000 vectors in 128 dimension 
+[9.022 s] build index1 and index2
+[9.187 s] build merged index
+[5.184 s] step 1
+实际执行到阈值前的 matchCount = 1687961
+[54.358 s] step 2
+[59.542 s] build refined index
+loading dataset of vectors 
+loaded a 10000 vectors in 128 dimension 
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded queries and gt
+[10.664 & 10.687 s] searching on merged index
+
+Intersection-merged index R@100 = 0.9615
+jin467@db4:~/github_download/hnswlib/hnswlib$ make
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 test_merge.cpp -o merge -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
+./merge 
+loaded a 5000000 vectors in 128 dimension 
+[8.895 s] build index1 and index2
+[9.207 s] build merged index
+[5.386 s] step 1
+实际执行到阈值前的 matchCount = 1687961
+[54.232 s] step 2
+[59.619 s] build refined index
+loading dataset of vectors 
+loaded a 10000 vectors in 128 dimension 
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded queries and gt
+[10.623 & 10.645 s] searching on merged index
+
+Intersection-merged index R@100 = 0.9616
+jin467@db4:~/github_download/hnswlib/hnswlib$ make
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 test_merge.cpp -o merge -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
+./merge 
+loaded a 5000000 vectors in 128 dimension 
+[8.946 s] build index1 and index2
+[9.154 s] build merged index
+[5.269 s] step 1
+实际执行到阈值前的 matchCount = 52146
+[3.501 s] step 2
+[8.770 s] build refined index
+loading dataset of vectors 
+loaded a 10000 vectors in 128 dimension 
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded queries and gt
+[9.259 & 9.286 s] searching on merged index
+
+Intersection-merged index R@100 = 0.9583
+jin467@db4:~/github_download/hnswlib/hnswlib$ make
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 test_merge.cpp -o merge -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
+./merge 
+loaded a 5000000 vectors in 128 dimension 
+[8.835 s] build index1 and index2
+[9.134 s] build merged index
+loading dataset of vectors 
+loaded a 10000 vectors in 128 dimension 
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded queries and gt
+[9.191 & 9.214 s] searching on merged index
+
+Intersection-merged index R@100 = 0.9582
+jin467@db4:~/github_download/hnswlib/hnswlib$ make
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 test_merge.cpp -o merge -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
+./merge 
+loaded a 5000000 vectors in 128 dimension 
+[8.889 s] build index1 and index2
+[9.079 s] build merged index
+[5.264 s] step 1
+实际执行到阈值前的 matchCount = 1687961
+[53.606 s] step 2
+[58.871 s] build refined index
+loading dataset of vectors 
+loaded a 10000 vectors in 128 dimension 
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded queries and gt
+[10.649 & 10.672 s] searching on merged index
+
+Intersection-merged index R@100 = 0.9616
+jin467@db4:~/github_download/hnswlib/hnswlib$ 

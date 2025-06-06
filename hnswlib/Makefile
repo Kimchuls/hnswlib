@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS_DEBUG = -g
 CFLAGS_RELEASE = -O3
-CFLAGS_IGNORE = -Wno-write-strings -Wno-unused-result
+CFLAGS_IGNORE = -Wno-write-strings -Wno-unused-result -Wno-format 
 CFLAG_FAISS = -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
 SRC = test_merge.cpp
 SRC_AVAIL = availability_test.cpp
@@ -10,28 +10,40 @@ AVAIL = avail
 
 all: release
 
+# alg:
+# 	g++ $(CFLAGS_IGNORE) -O3 merge_index.cpp -o algs $(CFLAG_FAISS)
+
+test:
+	g++ $(CFLAGS_IGNORE) -O3 test.cpp -o tst $(CFLAG_FAISS)
+
+build:
+	g++ $(CFLAGS_IGNORE) -O3 build_index.cpp -o builds $(CFLAG_FAISS)
+
+exp:
+	g++ $(CFLAGS_IGNORE) -O3 experiment.cpp -o exps $(CFLAG_FAISS)
+
 debug:
-	g++ -Wno-write-strings -Wno-unused-result -g test_merge.cpp -o merge $(CFLAG_FAISS)
-	gdb ./merge 40
+	g++ $(CFLAGS_IGNORE) -g test_merge.cpp -o merge $(CFLAG_FAISS)
+	gdb ./merge
 
 release:
-	g++ -O3 test_merge.cpp -o merge -Wno-write-strings -Wno-unused-result -Wno-format $(CFLAG_FAISS)
+	g++ $(CFLAGS_IGNORE) -O3 test_merge.cpp -o merge $(CFLAG_FAISS)
 	./merge 
 
 compare: 
-	g++ -Wno-write-strings -Wno-unused-result -O3 analysis.cpp -o analyze $(CFLAG_FAISS)
+	g++ $(CFLAGS_IGNORE) -O3 ./analysis/analysis.cpp -o analyze $(CFLAG_FAISS)
 	./analyze 
 
 avail:
-	g++ -Wno-write-strings -Wno-unused-result -O3 -g availability_test.cpp -o availability
+	g++ $(CFLAGS_IGNORE) -O3 -g availability_test.cpp -o availability
 	./availability 
 
 increase:
-	g++ -Wno-write-strings -Wno-unused-result -O3 -g test_merge_multiple_incremental.cpp -o merge-multiple-incremental
+	g++ $(CFLAGS_IGNORE) -O3 -g test_merge_multiple_incremental.cpp -o merge-multiple-incremental
 	./merge-multiple-incremental
 
 unbias:
-	g++ -Wno-write-strings -Wno-unused-result -O3 -g test_merge_unbias.cpp -o merge-unbias $(CFLAG_FAISS)
+	g++ $(CFLAGS_IGNORE) -O3 -g test_merge_unbias.cpp -o merge-unbias $(CFLAG_FAISS)
 	./merge-unbias
 
 py:

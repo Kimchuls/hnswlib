@@ -23,7 +23,10 @@ enum MergeMethod {
     TWO_MERGE,
     MULTI_TWO_MERGE,
     MULTI_MERGE,
-    ES
+    ES,
+    NGM,
+    IGTM,
+    CGTM
 };
 
 // Config struct
@@ -41,7 +44,7 @@ struct Config {
     int iterations;
     int lrange;
     int rrange;
-    bool rerun=false;
+    bool rerun = false;
     std::string base_filepath;
     std::string query_filepath;
     std::string groundtruth_filepath;
@@ -51,49 +54,55 @@ struct Config {
 
 // Parse string to WorkloadType enum
 WorkloadType parseWorkloadType(const std::string &s) {
-    if (s == "SIFT10M")     return SIFT10M;
-    if (s == "DEEP10M")     return DEEP10M;
-    if (s == "TURING10M")   return TURING10M;
-    if (s == "COHERE10M")   return COHERE10M;
-    if (s == "SIFT100M")    return SIFT100M;
-    if (s == "DEEP100M")    return DEEP100M;
+    if (s == "SIFT10M") return SIFT10M;
+    if (s == "DEEP10M") return DEEP10M;
+    if (s == "TURING10M") return TURING10M;
+    if (s == "COHERE10M") return COHERE10M;
+    if (s == "SIFT100M") return SIFT100M;
+    if (s == "DEEP100M") return DEEP100M;
     std::cerr << "Unknown WorkloadType: " << s << std::endl;
     std::exit(1);
 }
 
 std::string workloadTypeToString(WorkloadType type) {
     switch (type) {
-        case SIFT10M:     return "SIFT10M";
-        case DEEP10M:     return "DEEP10M";
-        case TURING10M:   return "TURING10M";
-        case COHERE10M:   return "COHERE10M";
-        case SIFT100M:    return "SIFT100M";
-        case DEEP100M:    return "DEEP100M";
-        default:          return "UNKNOWN";
+    case SIFT10M: return "SIFT10M";
+    case DEEP10M: return "DEEP10M";
+    case TURING10M: return "TURING10M";
+    case COHERE10M: return "COHERE10M";
+    case SIFT100M: return "SIFT100M";
+    case DEEP100M: return "DEEP100M";
+    default: return "UNKNOWN";
     }
 }
 
 // Parse string to MergeMethod enum
 MergeMethod parseMergeMethod(const std::string &s) {
-    if (s == "REBUILD")         return REBUILD;
-    if (s == "INSERT")          return INSERT;
-    if (s == "TWO_MERGE")       return TWO_MERGE;
+    if (s == "REBUILD") return REBUILD;
+    if (s == "INSERT") return INSERT;
+    if (s == "TWO_MERGE") return TWO_MERGE;
     if (s == "MULTI_TWO_MERGE") return MULTI_TWO_MERGE;
-    if (s == "MULTI_MERGE")     return MULTI_MERGE;
-    if (s == "ES")              return ES;
+    if (s == "MULTI_MERGE") return MULTI_MERGE;
+    if (s == "ES") return ES;
+    if (s == "NGM") return NGM;
+    if (s == "IGTM") return IGTM;
+    if (s == "CGTM") return CGTM;
     std::cerr << "Unknown MergeMethod: " << s << std::endl;
     std::exit(1);
 }
 
 std::string mergeMethodToString(MergeMethod method) {
     switch (method) {
-        case REBUILD:         return "REBUILD";
-        case INSERT:          return "INSERT";
-        case TWO_MERGE:       return "TWO_MERGE";
-        case MULTI_TWO_MERGE: return "MULTI_TWO_MERGE";
-        case MULTI_MERGE:     return "MULTI_MERGE";
-        case ES:              return "ES";
-        default:              return "UNKNOWN";
+    case REBUILD: return "REBUILD";
+    case INSERT: return "INSERT";
+    case TWO_MERGE: return "TWO_MERGE";
+    case MULTI_TWO_MERGE: return "MULTI_TWO_MERGE";
+    case MULTI_MERGE: return "MULTI_MERGE";
+    case ES: return "ES";
+    case NGM: return "NGM";
+    case IGTM: return "IGTM";
+    case CGTM: return "CGTM";
+    default: return "UNKNOWN";
     }
 }
 
@@ -104,7 +113,7 @@ std::vector<int> parseIntList(const std::string &s) {
     std::string token;
     while (std::getline(ss, token, ',')) {
         size_t start = token.find_first_not_of(" \t\r\n");
-        size_t end   = token.find_last_not_of(" \t\r\n");
+        size_t end = token.find_last_not_of(" \t\r\n");
         if (start == std::string::npos) continue;
         std::string num_str = token.substr(start, end - start + 1);
         result.push_back(std::stoi(num_str));
@@ -119,7 +128,7 @@ std::vector<std::string> parseStringList(const std::string &s) {
     std::string token;
     while (std::getline(ss, token, ',')) {
         size_t start = token.find_first_not_of(" \t\r\n");
-        size_t end   = token.find_last_not_of(" \t\r\n");
+        size_t end = token.find_last_not_of(" \t\r\n");
         if (start == std::string::npos) continue;
         std::string path_str = token.substr(start, end - start + 1);
         result.push_back(path_str);
@@ -130,66 +139,66 @@ std::vector<std::string> parseStringList(const std::string &s) {
 // Set default values for dim, max_elements, nb, k, kk, nq based on workload_type
 void setDefaultsByWorkload(Config &cfg) {
     switch (cfg.workload_type) {
-        case SIFT10M:
-            cfg.dim = 128;
-            cfg.max_elements = 10e6;
-            cfg.nb = 10e6;
-            cfg.k = 100;
-            cfg.kk = 1000;
-            cfg.nq = 10000;
-            cfg.base_filepath = "/ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs";
-            cfg.query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
-            cfg.groundtruth_filepath = "/ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs";
-            break;
-        case DEEP10M:
-            cfg.dim = 96;
-            cfg.max_elements = 10e6;
-            cfg.nb = 10e6;
-            cfg.k = 100;
-            cfg.kk = 100;
-            cfg.nq = 10000;
-            cfg.base_filepath = "/ssd_root/dataset/deep10M/deep10m_base.fvecs";
-            cfg.query_filepath = "/ssd_root/dataset/deep10M/deep10M_query.fvecs";
-            cfg.groundtruth_filepath = "/ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs";
-            break;
-        case TURING10M:
-            cfg.dim = 100;
-            cfg.max_elements = 10e6;
-            cfg.nb = 10e6;
-            cfg.k = 100;
-            cfg.kk = 100;
-            cfg.nq = 10000;
-            cfg.base_filepath = "/ssd_root/dataset/turing10m/msturing-10M.fvecs";
-            cfg.query_filepath = "/ssd_root/dataset/turing10m/msturing-query.fvecs";
-            cfg.groundtruth_filepath = "/ssd_root/dataset/turing10m/msturing10M_gt100.ivecs";
-            break;
-        case COHERE10M:
-            // cfg.dim = 768;
-            // cfg.max_elements = 10e6;
-            // cfg.nb = 10e6;
-            // cfg.k = 100;
-            // cfg.kk = 100;
-            // cfg.nq = 1000;
-            break;
-        case SIFT100M:
-            cfg.dim = 128;
-            cfg.max_elements = 100e6;
-            cfg.nb = 100e6;
-            cfg.k = 1000;
-            cfg.kk = 100;
-            cfg.nq = 10000;
-            break;
-        case DEEP100M:
-            cfg.dim = 96;
-            cfg.max_elements = 100e6;
-            cfg.nb = 100e6;
-            cfg.k = 100;
-            cfg.kk = 100;
-            cfg.nq = 10000;
-            break;
-        default:
-            std::cerr << "Unhandled WorkloadType for defaults" << std::endl;
-            std::exit(1);
+    case SIFT10M:
+        cfg.dim = 128;
+        cfg.max_elements = 10e6;
+        cfg.nb = 10e6;
+        cfg.k = 100;
+        cfg.kk = 1000;
+        cfg.nq = 10000;
+        cfg.base_filepath = "/ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs";
+        cfg.query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
+        cfg.groundtruth_filepath = "/ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs";
+        break;
+    case DEEP10M:
+        cfg.dim = 96;
+        cfg.max_elements = 10e6;
+        cfg.nb = 10e6;
+        cfg.k = 100;
+        cfg.kk = 100;
+        cfg.nq = 10000;
+        cfg.base_filepath = "/ssd_root/dataset/deep10M/deep10m_base.fvecs";
+        cfg.query_filepath = "/ssd_root/dataset/deep10M/deep10M_query.fvecs";
+        cfg.groundtruth_filepath = "/ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs";
+        break;
+    case TURING10M:
+        cfg.dim = 100;
+        cfg.max_elements = 10e6;
+        cfg.nb = 10e6;
+        cfg.k = 100;
+        cfg.kk = 100;
+        cfg.nq = 10000;
+        cfg.base_filepath = "/ssd_root/dataset/turing10m/msturing-10M.fvecs";
+        cfg.query_filepath = "/ssd_root/dataset/turing10m/msturing-query.fvecs";
+        cfg.groundtruth_filepath = "/ssd_root/dataset/turing10m/msturing10M_gt100.ivecs";
+        break;
+    case COHERE10M:
+        // cfg.dim = 768;
+        // cfg.max_elements = 10e6;
+        // cfg.nb = 10e6;
+        // cfg.k = 100;
+        // cfg.kk = 100;
+        // cfg.nq = 1000;
+        break;
+    case SIFT100M:
+        cfg.dim = 128;
+        cfg.max_elements = 100e6;
+        cfg.nb = 100e6;
+        cfg.k = 1000;
+        cfg.kk = 100;
+        cfg.nq = 10000;
+        break;
+    case DEEP100M:
+        cfg.dim = 96;
+        cfg.max_elements = 100e6;
+        cfg.nb = 100e6;
+        cfg.k = 100;
+        cfg.kk = 100;
+        cfg.nq = 10000;
+        break;
+    default:
+        std::cerr << "Unhandled WorkloadType for defaults" << std::endl;
+        std::exit(1);
     }
 }
 
@@ -210,12 +219,12 @@ Config loadConfig(const std::string &filename) {
         auto pos_eq = line.find('=');
         if (pos_eq == std::string::npos) continue;
 
-        std::string key   = line.substr(0, pos_eq);
+        std::string key = line.substr(0, pos_eq);
         std::string value = line.substr(pos_eq + 1);
 
         auto trim = [](std::string &s) {
             size_t start = s.find_first_not_of(" \t\r\n");
-            size_t end   = s.find_last_not_of(" \t\r\n");
+            size_t end = s.find_last_not_of(" \t\r\n");
             if (start == std::string::npos) {
                 s.clear();
             } else {
@@ -233,35 +242,34 @@ Config loadConfig(const std::string &filename) {
 
     // Parse workload_type first and set default values
     cfg.workload_type = parseWorkloadType(kv.at("workload_type"));
-    
 
     // Parse merge_method
     cfg.merge_method = parseMergeMethod(kv.at("merge_method"));
 
     // If config file provides explicit overrides for dim, max_elements, nb, k, kk, nq, apply them
-    if (kv.count("dim"))            cfg.dim = std::stoi(kv.at("dim"));
-    if (kv.count("max_elements"))   cfg.max_elements = std::stol(kv.at("max_elements"));
-    if (kv.count("nb"))             cfg.nb = std::stoi(kv.at("nb"));
-    if (kv.count("k"))              cfg.k = std::stoi(kv.at("k"));
-    if (kv.count("kk"))             cfg.kk = std::stoi(kv.at("kk"));
-    if (kv.count("nq"))             cfg.nq = std::stoi(kv.at("nq"));
-    if (kv.count("rerun"))          cfg.rerun = (kv.at("rerun") == "true");
+    if (kv.count("dim")) cfg.dim = std::stoi(kv.at("dim"));
+    if (kv.count("max_elements")) cfg.max_elements = std::stol(kv.at("max_elements"));
+    if (kv.count("nb")) cfg.nb = std::stoi(kv.at("nb"));
+    if (kv.count("k")) cfg.k = std::stoi(kv.at("k"));
+    if (kv.count("kk")) cfg.kk = std::stoi(kv.at("kk"));
+    if (kv.count("nq")) cfg.nq = std::stoi(kv.at("nq"));
+    if (kv.count("rerun")) cfg.rerun = (kv.at("rerun") == "true");
 
     // Parse remaining numeric fields
-    cfg.M               = std::stoi(kv.at("M"));
+    cfg.M = std::stoi(kv.at("M"));
     cfg.ef_construction = std::stoi(kv.at("ef_construction"));
-    cfg.iterations      = std::stoi(kv.at("iterations"));
-    cfg.lrange          = std::stoi(kv.at("lrange"));
-    cfg.rrange          = std::stoi(kv.at("rrange"));
+    cfg.iterations = std::stoi(kv.at("iterations"));
+    cfg.lrange = std::stoi(kv.at("lrange"));
+    cfg.rrange = std::stoi(kv.at("rrange"));
 
     // Parse file paths
-    cfg.base_filepath       = kv.at("base_filepath");
-    cfg.query_filepath       = kv.at("query_filepath");
+    cfg.base_filepath = kv.at("base_filepath");
+    cfg.query_filepath = kv.at("query_filepath");
     cfg.groundtruth_filepath = kv.at("groundtruth_filepath");
 
     // Parse list fields
     cfg.index_path = parseStringList(kv.at("index_path"));
-    cfg.efs_array  = parseIntList(kv.at("efs_array"));
+    cfg.efs_array = parseIntList(kv.at("efs_array"));
 
     return cfg;
 }

@@ -1,0 +1,579 @@
+make exp 
+[?2004lg++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ make exp [3P./bashmake exp [3P./bash
+[?2004lConfiguration:
+  Workload Type: SIFT10M
+  Merge Method: NGM
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: NGM
+Iteration 1/5
+time for new layer: 8.458747
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index 1 merge process 200000 / 5000000
+[log] Index 1 merge process 400000 / 5000000
+[log] Index 1 merge process 600000 / 5000000
+[log] Index 1 merge process 800000 / 5000000
+[log] Index 1 merge process 1000000 / 5000000
+[log] Index 1 merge process 1200000 / 5000000
+[log] Index 1 merge process 1400000 / 5000000
+[log] Index 1 merge process 1600000 / 5000000
+[log] Index 1 merge process 1800000 / 5000000
+[log] Index 1 merge process 2000000 / 5000000
+[log] Index 1 merge process 2200000 / 5000000
+[log] Index 1 merge process 2400000 / 5000000
+[log] Index 1 merge process 2600000 / 5000000
+[log] Index 1 merge process 2800000 / 5000000
+[log] Index 1 merge process 3000000 / 5000000
+[log] Index 1 merge process 3200000 / 5000000
+[log] Index 1 merge process 3400000 / 5000000
+[log] Index 1 merge process 3600000 / 5000000
+[log] Index 1 merge process 3800000 / 5000000
+[log] Index 1 merge process 4000000 / 5000000
+[log] Index 1 merge process 4200000 / 5000000
+[log] Index 1 merge process 4400000 / 5000000
+[log] Index 1 merge process 4600000 / 5000000
+[log] Index 1 merge process 4800000 / 5000000
+[log] Index 1 merge process 5000000 / 5000000
+[log] Index 2 merge process 200000 / 5000000
+[log] Index 2 merge process 400000 / 5000000
+[log] Index 2 merge process 600000 / 5000000
+[log] Index 2 merge process 800000 / 5000000
+[log] Index 2 merge process 1000000 / 5000000
+[log] Index 2 merge process 1200000 / 5000000
+[log] Index 2 merge process 1400000 / 5000000
+[log] Index 2 merge process 1600000 / 5000000
+[log] Index 2 merge process 1800000 / 5000000
+[log] Index 2 merge process 2000000 / 5000000
+[log] Index 2 merge process 2200000 / 5000000
+[log] Index 2 merge process 2400000 / 5000000
+[log] Index 2 merge process 2600000 / 5000000
+[log] Index 2 merge process 2800000 / 5000000
+[log] Index 2 merge process 3000000 / 5000000
+[log] Index 2 merge process 3200000 / 5000000
+[log] Index 2 merge process 3400000 / 5000000
+[log] Index 2 merge process 3600000 / 5000000
+[log] Index 2 merge process 3800000 / 5000000
+[log] Index 2 merge process 4000000 / 5000000
+[log] Index 2 merge process 4200000 / 5000000
+[log] Index 2 merge process 4400000 / 5000000
+[log] Index 2 merge process 4600000 / 5000000
+[log] Index 2 merge process 4800000 / 5000000
+[log] Index 2 merge process 5000000 / 5000000
+Total time for insertion: 2989.688 s
+Iteration 2/5
+time for new layer: 6.023238
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index 1 merge process 200000 / 5000000
+[log] Index 1 merge process 400000 / 5000000
+[log] Index 1 merge process 600000 / 5000000
+[log] Index 1 merge process 800000 / 5000000
+[log] Index 1 merge process 1000000 / 5000000
+[log] Index 1 merge process 1200000 / 5000000
+[log] Index 1 merge process 1400000 / 5000000
+[log] Index 1 merge process 1600000 / 5000000
+[log] Index 1 merge process 1800000 / 5000000
+[log] Index 1 merge process 2000000 / 5000000
+[log] Index 1 merge process 2200000 / 5000000
+^[[A^[[B^[[B[log] Index 1 merge process 2400000 / 5000000
+[log] Index 1 merge process 2600000 / 5000000
+[log] Index 1 merge process 2800000 / 5000000
+[log] Index 1 merge process 3000000 / 5000000
+[log] Index 1 merge process 3200000 / 5000000
+[log] Index 1 merge process 3400000 / 5000000
+[log] Index 1 merge process 3600000 / 5000000
+[log] Index 1 merge process 3800000 / 5000000
+[log] Index 1 merge process 4000000 / 5000000
+[log] Index 1 merge process 4200000 / 5000000
+[log] Index 1 merge process 4400000 / 5000000
+[log] Index 1 merge process 4600000 / 5000000
+[log] Index 1 merge process 4800000 / 5000000
+[log] Index 1 merge process 5000000 / 5000000
+[log] Index 2 merge process 200000 / 5000000
+[log] Index 2 merge process 400000 / 5000000
+[log] Index 2 merge process 600000 / 5000000
+[log] Index 2 merge process 800000 / 5000000
+[log] Index 2 merge process 1000000 / 5000000
+[log] Index 2 merge process 1200000 / 5000000
+[log] Index 2 merge process 1400000 / 5000000
+[log] Index 2 merge process 1600000 / 5000000
+[log] Index 2 merge process 1800000 / 5000000
+[log] Index 2 merge process 2000000 / 5000000
+[log] Index 2 merge process 2200000 / 5000000
+[log] Index 2 merge process 2400000 / 5000000
+[log] Index 2 merge process 2600000 / 5000000
+[log] Index 2 merge process 2800000 / 5000000
+[log] Index 2 merge process 3000000 / 5000000
+[log] Index 2 merge process 3200000 / 5000000
+[log] Index 2 merge process 3400000 / 5000000
+[log] Index 2 merge process 3600000 / 5000000
+[log] Index 2 merge process 3800000 / 5000000
+[log] Index 2 merge process 4000000 / 5000000
+[log] Index 2 merge process 4200000 / 5000000
+[log] Index 2 merge process 4400000 / 5000000
+[log] Index 2 merge process 4600000 / 5000000
+[log] Index 2 merge process 4800000 / 5000000
+[log] Index 2 merge process 5000000 / 5000000
+Total time for insertion: 2956.570 s
+Iteration 3/5
+time for new layer: 5.846032
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index 1 merge process 200000 / 5000000
+[log] Index 1 merge process 400000 / 5000000
+[log] Index 1 merge process 600000 / 5000000
+[log] Index 1 merge process 800000 / 5000000
+[log] Index 1 merge process 1000000 / 5000000
+[log] Index 1 merge process 1200000 / 5000000
+[log] Index 1 merge process 1400000 / 5000000
+[log] Index 1 merge process 1600000 / 5000000
+[log] Index 1 merge process 1800000 / 5000000
+[log] Index 1 merge process 2000000 / 5000000
+[log] Index 1 merge process 2200000 / 5000000
+[log] Index 1 merge process 2400000 / 5000000
+[log] Index 1 merge process 2600000 / 5000000
+[log] Index 1 merge process 2800000 / 5000000
+[log] Index 1 merge process 3000000 / 5000000
+[log] Index 1 merge process 3200000 / 5000000
+[log] Index 1 merge process 3400000 / 5000000
+[log] Index 1 merge process 3600000 / 5000000
+[log] Index 1 merge process 3800000 / 5000000
+[log] Index 1 merge process 4000000 / 5000000
+[log] Index 1 merge process 4200000 / 5000000
+[log] Index 1 merge process 4400000 / 5000000
+[log] Index 1 merge process 4600000 / 5000000
+[log] Index 1 merge process 4800000 / 5000000
+[log] Index 1 merge process 5000000 / 5000000
+[log] Index 2 merge process 200000 / 5000000
+[log] Index 2 merge process 400000 / 5000000
+[log] Index 2 merge process 600000 / 5000000
+[log] Index 2 merge process 800000 / 5000000
+[log] Index 2 merge process 1000000 / 5000000
+[log] Index 2 merge process 1200000 / 5000000
+[log] Index 2 merge process 1400000 / 5000000
+[log] Index 2 merge process 1600000 / 5000000
+[log] Index 2 merge process 1800000 / 5000000
+[log] Index 2 merge process 2000000 / 5000000
+[log] Index 2 merge process 2200000 / 5000000
+[log] Index 2 merge process 2400000 / 5000000
+[log] Index 2 merge process 2600000 / 5000000
+[log] Index 2 merge process 2800000 / 5000000
+[log] Index 2 merge process 3000000 / 5000000
+[log] Index 2 merge process 3200000 / 5000000
+[log] Index 2 merge process 3400000 / 5000000
+[log] Index 2 merge process 3600000 / 5000000
+[log] Index 2 merge process 3800000 / 5000000
+[log] Index 2 merge process 4000000 / 5000000
+[log] Index 2 merge process 4200000 / 5000000
+[log] Index 2 merge process 4400000 / 5000000
+[log] Index 2 merge process 4600000 / 5000000
+[log] Index 2 merge process 4800000 / 5000000
+[log] Index 2 merge process 5000000 / 5000000
+Total time for insertion: 2932.638 s
+Iteration 4/5
+time for new layer: 5.906047
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index 1 merge process 200000 / 5000000
+[log] Index 1 merge process 400000 / 5000000
+[log] Index 1 merge process 600000 / 5000000
+[log] Index 1 merge process 800000 / 5000000
+[log] Index 1 merge process 1000000 / 5000000
+[log] Index 1 merge process 1200000 / 5000000
+[log] Index 1 merge process 1400000 / 5000000
+[log] Index 1 merge process 1600000 / 5000000
+[log] Index 1 merge process 1800000 / 5000000
+[log] Index 1 merge process 2000000 / 5000000
+[log] Index 1 merge process 2200000 / 5000000
+[log] Index 1 merge process 2400000 / 5000000
+[log] Index 1 merge process 2600000 / 5000000
+[log] Index 1 merge process 2800000 / 5000000
+[log] Index 1 merge process 3000000 / 5000000
+[log] Index 1 merge process 3200000 / 5000000
+[log] Index 1 merge process 3400000 / 5000000
+[log] Index 1 merge process 3600000 / 5000000
+[log] Index 1 merge process 3800000 / 5000000
+[log] Index 1 merge process 4000000 / 5000000
+[log] Index 1 merge process 4200000 / 5000000
+[log] Index 1 merge process 4400000 / 5000000
+[log] Index 1 merge process 4600000 / 5000000
+[log] Index 1 merge process 4800000 / 5000000
+[log] Index 1 merge process 5000000 / 5000000
+[log] Index 2 merge process 200000 / 5000000
+[log] Index 2 merge process 400000 / 5000000
+[log] Index 2 merge process 600000 / 5000000
+[log] Index 2 merge process 800000 / 5000000
+[log] Index 2 merge process 1000000 / 5000000
+[log] Index 2 merge process 1200000 / 5000000
+[log] Index 2 merge process 1400000 / 5000000
+[log] Index 2 merge process 1600000 / 5000000
+[log] Index 2 merge process 1800000 / 5000000
+[log] Index 2 merge process 2000000 / 5000000
+[log] Index 2 merge process 2200000 / 5000000
+[log] Index 2 merge process 2400000 / 5000000
+[log] Index 2 merge process 2600000 / 5000000
+[log] Index 2 merge process 2800000 / 5000000
+[log] Index 2 merge process 3000000 / 5000000
+[log] Index 2 merge process 3200000 / 5000000
+[log] Index 2 merge process 3400000 / 5000000
+[log] Index 2 merge process 3600000 / 5000000
+[log] Index 2 merge process 3800000 / 5000000
+[log] Index 2 merge process 4000000 / 5000000
+[log] Index 2 merge process 4200000 / 5000000
+[log] Index 2 merge process 4400000 / 5000000
+[log] Index 2 merge process 4600000 / 5000000
+[log] Index 2 merge process 4800000 / 5000000
+[log] Index 2 merge process 5000000 / 5000000
+Total time for insertion: 2944.506 s
+Iteration 5/5
+time for new layer: 8.305295
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index 1 merge process 200000 / 5000000
+[log] Index 1 merge process 400000 / 5000000
+[log] Index 1 merge process 600000 / 5000000
+[log] Index 1 merge process 800000 / 5000000
+[log] Index 1 merge process 1000000 / 5000000
+[log] Index 1 merge process 1200000 / 5000000
+[log] Index 1 merge process 1400000 / 5000000
+[log] Index 1 merge process 1600000 / 5000000
+[log] Index 1 merge process 1800000 / 5000000
+[log] Index 1 merge process 2000000 / 5000000
+[log] Index 1 merge process 2200000 / 5000000
+[log] Index 1 merge process 2400000 / 5000000
+[log] Index 1 merge process 2600000 / 5000000
+[log] Index 1 merge process 2800000 / 5000000
+[log] Index 1 merge process 3000000 / 5000000
+[log] Index 1 merge process 3200000 / 5000000
+[log] Index 1 merge process 3400000 / 5000000
+[log] Index 1 merge process 3600000 / 5000000
+[log] Index 1 merge process 3800000 / 5000000
+[log] Index 1 merge process 4000000 / 5000000
+[log] Index 1 merge process 4200000 / 5000000
+[log] Index 1 merge process 4400000 / 5000000
+[log] Index 1 merge process 4600000 / 5000000
+[log] Index 1 merge process 4800000 / 5000000
+[log] Index 1 merge process 5000000 / 5000000
+[log] Index 2 merge process 200000 / 5000000
+[log] Index 2 merge process 400000 / 5000000
+[log] Index 2 merge process 600000 / 5000000
+[log] Index 2 merge process 800000 / 5000000
+[log] Index 2 merge process 1000000 / 5000000
+[log] Index 2 merge process 1200000 / 5000000
+[log] Index 2 merge process 1400000 / 5000000
+[log] Index 2 merge process 1600000 / 5000000
+[log] Index 2 merge process 1800000 / 5000000
+[log] Index 2 merge process 2000000 / 5000000
+[log] Index 2 merge process 2200000 / 5000000
+[log] Index 2 merge process 2400000 / 5000000
+[log] Index 2 merge process 2600000 / 5000000
+[log] Index 2 merge process 2800000 / 5000000
+[log] Index 2 merge process 3000000 / 5000000
+[log] Index 2 merge process 3200000 / 5000000
+[log] Index 2 merge process 3400000 / 5000000
+[log] Index 2 merge process 3600000 / 5000000
+[log] Index 2 merge process 3800000 / 5000000
+[log] Index 2 merge process 4000000 / 5000000
+[log] Index 2 merge process 4200000 / 5000000
+[log] Index 2 merge process 4400000 / 5000000
+[log] Index 2 merge process 4600000 / 5000000
+[log] Index 2 merge process 4800000 / 5000000
+[log] Index 2 merge process 5000000 / 5000000
+Total time for insertion: 3203.732 s
+Start searchingset ef = 100
+[search time: 6.270 s, pure query time: 6.242 s] ef=100
+Intersection-merged index R@100 = 0.9166
+
+[search time: 6.420 s, pure query time: 6.395 s] ef=100
+Intersection-merged index R@100 = 0.9166
+
+[search time: 5.933 s, pure query time: 5.910 s] ef=100
+Intersection-merged index R@100 = 0.9166
+
+[search time: 5.850 s, pure query time: 5.827 s] ef=100
+Intersection-merged index R@100 = 0.9166
+
+[search time: 5.846 s, pure query time: 5.822 s] ef=100
+Intersection-merged index R@100 = 0.9166
+
+set ef = 200
+[search time: 10.235 s, pure query time: 10.207 s] ef=200
+Intersection-merged index R@100 = 0.9691
+
+[search time: 10.172 s, pure query time: 10.134 s] ef=200
+Intersection-merged index R@100 = 0.9691
+
+[search time: 10.566 s, pure query time: 10.536 s] ef=200
+Intersection-merged index R@100 = 0.9691
+
+[search time: 10.141 s, pure query time: 10.113 s] ef=200
+Intersection-merged index R@100 = 0.9691
+
+[search time: 10.373 s, pure query time: 10.345 s] ef=200
+Intersection-merged index R@100 = 0.9691
+
+set ef = 300
+[search time: 15.042 s, pure query time: 15.008 s] ef=300
+Intersection-merged index R@100 = 0.9839
+
+[search time: 15.125 s, pure query time: 15.090 s] ef=300
+Intersection-merged index R@100 = 0.9839
+
+[search time: 17.872 s, pure query time: 17.837 s] ef=300
+Intersection-merged index R@100 = 0.9839
+
+[search time: 18.805 s, pure query time: 18.774 s] ef=300
+Intersection-merged index R@100 = 0.9839
+
+[search time: 17.311 s, pure query time: 17.273 s] ef=300
+Intersection-merged index R@100 = 0.9839
+
+set ef = 400
+[search time: 17.577 s, pure query time: 17.543 s] ef=400
+Intersection-merged index R@100 = 0.9902
+
+[search time: 17.241 s, pure query time: 17.207 s] ef=400
+Intersection-merged index R@100 = 0.9902
+
+[search time: 17.265 s, pure query time: 17.231 s] ef=400
+Intersection-merged index R@100 = 0.9902
+
+[search time: 17.322 s, pure query time: 17.288 s] ef=400
+Intersection-merged index R@100 = 0.9902
+
+[search time: 17.229 s, pure query time: 17.195 s] ef=400
+Intersection-merged index R@100 = 0.9902
+
+set ef = 500
+[search time: 21.015 s, pure query time: 20.979 s] ef=500
+Intersection-merged index R@100 = 0.9933
+
+[search time: 20.971 s, pure query time: 20.935 s] ef=500
+Intersection-merged index R@100 = 0.9933
+
+[search time: 21.033 s, pure query time: 20.997 s] ef=500
+Intersection-merged index R@100 = 0.9933
+
+[search time: 20.953 s, pure query time: 20.917 s] ef=500
+Intersection-merged index R@100 = 0.9933
+
+[search time: 21.040 s, pure query time: 21.003 s] ef=500
+Intersection-merged index R@100 = 0.9933
+
+set ef = 600
+[search time: 24.649 s, pure query time: 24.612 s] ef=600
+Intersection-merged index R@100 = 0.9952
+
+[search time: 24.606 s, pure query time: 24.568 s] ef=600
+Intersection-merged index R@100 = 0.9952
+
+[search time: 24.662 s, pure query time: 24.624 s] ef=600
+Intersection-merged index R@100 = 0.9952
+
+[search time: 24.627 s, pure query time: 24.590 s] ef=600
+Intersection-merged index R@100 = 0.9952
+
+[search time: 24.593 s, pure query time: 24.556 s] ef=600
+Intersection-merged index R@100 = 0.9952
+
+set ef = 700
+[search time: 28.240 s, pure query time: 28.202 s] ef=700
+Intersection-merged index R@100 = 0.9963
+
+[search time: 28.249 s, pure query time: 28.211 s] ef=700
+Intersection-merged index R@100 = 0.9963
+
+[search time: 28.189 s, pure query time: 28.152 s] ef=700
+Intersection-merged index R@100 = 0.9963
+
+[search time: 28.220 s, pure query time: 28.182 s] ef=700
+Intersection-merged index R@100 = 0.9963
+
+[search time: 28.231 s, pure query time: 28.194 s] ef=700
+Intersection-merged index R@100 = 0.9963
+
+set ef = 800
+[search time: 31.724 s, pure query time: 31.686 s] ef=800
+Intersection-merged index R@100 = 0.9971
+
+[search time: 31.707 s, pure query time: 31.669 s] ef=800
+Intersection-merged index R@100 = 0.9971
+
+[search time: 31.709 s, pure query time: 31.665 s] ef=800
+Intersection-merged index R@100 = 0.9971
+
+[search time: 31.732 s, pure query time: 31.694 s] ef=800
+Intersection-merged index R@100 = 0.9971
+
+[search time: 31.733 s, pure query time: 31.695 s] ef=800
+Intersection-merged index R@100 = 0.9971
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: NGM
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: NGM
+Iteration 1/1
+time for new layer: 5.330877
+Total time for insertion: 2091.562 s
+Start searchingset ef = 100
+[search time: 3.827 s, pure query time: 3.809 s] ef=100
+Intersection-merged index R@100 = 0.9011
+
+set ef = 120
+[search time: 4.450 s, pure query time: 4.432 s] ef=120
+Intersection-merged index R@100 = 0.9189
+
+set ef = 140
+[search time: 5.058 s, pure query time: 5.039 s] ef=140
+Intersection-merged index R@100 = 0.9320
+
+set ef = 160
+[search time: 5.716 s, pure query time: 5.697 s] ef=160
+Intersection-merged index R@100 = 0.9418
+
+set ef = 180
+[search time: 6.276 s, pure query time: 6.256 s] ef=180
+Intersection-merged index R@100 = 0.9493
+
+set ef = 200
+[search time: 7.612 s, pure query time: 7.590 s] ef=200
+Intersection-merged index R@100 = 0.9554
+
+set ef = 300
+[search time: 14.315 s, pure query time: 14.286 s] ef=300
+Intersection-merged index R@100 = 0.9729
+
+set ef = 400
+[search time: 18.341 s, pure query time: 18.307 s] ef=400
+Intersection-merged index R@100 = 0.9813
+
+set ef = 500
+[search time: 22.390 s, pure query time: 22.353 s] ef=500
+Intersection-merged index R@100 = 0.9860
+
+set ef = 600
+[search time: 29.847 s, pure query time: 29.807 s] ef=600
+Intersection-merged index R@100 = 0.9890
+
+set ef = 700
+[search time: 22.972 s, pure query time: 22.936 s] ef=700
+Intersection-merged index R@100 = 0.9911
+
+set ef = 800
+[search time: 25.792 s, pure query time: 25.755 s] ef=800
+Intersection-merged index R@100 = 0.9925
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: NGM
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: NGM
+Iteration 1/1
+time for new layer: 5.858957
+Total time for insertion: 2922.194 s
+Start searchingset ef = 100
+[search time: 5.542 s, pure query time: 5.520 s] ef=100
+Intersection-merged index R@100 = 0.7443
+
+set ef = 120
+[search time: 6.418 s, pure query time: 6.398 s] ef=120
+Intersection-merged index R@100 = 0.7665
+
+set ef = 140
+[search time: 7.375 s, pure query time: 7.354 s] ef=140
+Intersection-merged index R@100 = 0.7841
+
+set ef = 160
+[search time: 8.238 s, pure query time: 8.217 s] ef=160
+Intersection-merged index R@100 = 0.7980
+
+set ef = 180
+[search time: 9.030 s, pure query time: 9.007 s] ef=180
+Intersection-merged index R@100 = 0.8098
+
+set ef = 200
+[search time: 9.953 s, pure query time: 9.929 s] ef=200
+Intersection-merged index R@100 = 0.8202
+
+set ef = 300
+[search time: 14.425 s, pure query time: 14.396 s] ef=300
+Intersection-merged index R@100 = 0.8549
+
+set ef = 400
+[search time: 18.787 s, pure query time: 18.754 s] ef=400
+Intersection-merged index R@100 = 0.8758
+
+set ef = 500
+[search time: 23.166 s, pure query time: 23.130 s] ef=500
+Intersection-merged index R@100 = 0.8901
+
+set ef = 600
+[search time: 27.603 s, pure query time: 27.566 s] ef=600
+Intersection-merged index R@100 = 0.9004
+
+set ef = 700
+[search time: 31.977 s, pure query time: 31.938 s] ef=700
+Intersection-merged index R@100 = 0.9086
+
+set ef = 800
+[search time: 36.395 s, pure query time: 36.356 s] ef=800
+Intersection-merged index R@100 = 0.9154
+
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./bash[K

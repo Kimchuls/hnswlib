@@ -12,7 +12,7 @@ nq = 10000
 iterations = 5
 lrange = 0
 rrange = 10000000
-rerun=false
+rerun = false
 
 base_filepath = /ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs
 query_filepath = /ssd_root/dataset/ann_sift1b/bigann_query.bvecs
@@ -20,4 +20,4 @@ groundtruth_filepath = /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
 index_path = /ssd_root/jin467/merger/indexes/bigann-index_10M.hnsw
 
 # efs_array 以逗号分隔
-efs_array = 100,200,300,400,500,600,700,800
+efs_array = 100,120,140,160,180,200,300,400,500,600,700,800

@@ -10,8 +10,9 @@ k = 100
 kk = 100
 nq = 10000
 iterations = 5
-lrange = 0
+lrange = 5000000
 rrange = 10000000
+rerun = true
 
 base_filepath = /ssd_root/dataset/deep10M/deep10M_base.fvecs
 query_filepath = /ssd_root/dataset/deep10M/deep10M_query.fvecs

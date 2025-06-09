@@ -1,3 +1,4 @@
+#pragma once
 #include "hnswalg.h"
 #include <mutex>
 #include <omp.h>
@@ -155,82 +156,42 @@ void HierarchicalNSW<dist_t>::search2Layer(const void *query_data,
 }
 
 template <typename dist_t>
-void HierarchicalNSW<dist_t>::search2Layer_MT(const void *query_data,
-                                           tableint &enterpoint_node,
-                                           int level_higher,
-                                           int level_lower,
-                                           int cnt,
-                                           std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> *top_candidates,
-                                           int offset) {
-    tableint currObj = enterpoint_node == -1 ? enterpoint_node_ : enterpoint_node;
-    dist_t curdist = fstdistfunc_(query_data, getDataByInternalId(currObj), dist_func_param_);
-    for (int level = level_higher; level > level_lower; level--) {
-        bool changed = true;
-        while (changed) {
-            changed = false;
-            unsigned int *data = (unsigned int *)get_linklist_at_level(currObj, level);
-            int size = getListCount(data);
-
-            tableint *datal = (tableint *)(data + 1);
-
-            for (int i = 0; i < size; i++) {
-                tableint cand = datal[i];
-                if (cand < 0 || cand > max_elements_) {
-                    throw std::runtime_error("cand error");
-                }
-                dist_t d = fstdistfunc_(query_data, getDataByInternalId(cand), dist_func_param_);
-
-                if (d < curdist) {
-                    curdist = d;
-                    currObj = cand;
-                    changed = true;
-                }
-            }
-        }
-    }
-    if (top_candidates == nullptr) {
-        enterpoint_node = currObj;
-        return;
-    }
-    // printf("method1, level %d, enterpoint_node: %d, currObj: %d\n",
-    // level_lower, enterpoint_node, currObj);
-
+std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst>
+HierarchicalNSW<dist_t>::ExtendSearchBaseLayer(const void *query_data,
+                                               //  tableint &entry_point,
+                                               int level,
+                                               std::unordered_set<tableint> *eps,
+                                               size_t local_ef) {
+    if (local_ef == -1) local_ef = ef_construction_;
     VisitedList *vl = visited_list_pool_->getFreeVisitedList();
     vl_type *visited_array = vl->mass;
     vl_type visited_array_tag = vl->curV;
 
-    // std::priority_queue<std::pair<dist_t, tableint>,
-    // std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
+    std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> candidateSet;
 
-    dist_t lowerBound;
-    dist_t entry_dist;
-    if (!isMarkedDeleted(currObj)) {
-        dist_t dist = fstdistfunc_(query_data, getDataByInternalId(currObj), dist_func_param_);
-        top_candidates->emplace(dist, currObj + offset);
-        enterpoint_node = currObj;
-        entry_dist = dist;
-        lowerBound = dist;
-        candidateSet.emplace(-dist, currObj);
-    } else {
-        entry_dist = std::numeric_limits<dist_t>::max();
-        lowerBound = std::numeric_limits<dist_t>::max();
-        candidateSet.emplace(-lowerBound, currObj);
+    dist_t lowerBound = std::numeric_limits<dist_t>::max();
+
+    for (const tableint &val : *eps) {
+        dist_t dist = fstdistfunc_(query_data, getDataByInternalId(val), dist_func_param_);
+        top_candidates.emplace(dist, val);
+        lowerBound = std::min(dist, lowerBound);
+        candidateSet.emplace(-dist, val);
+        visited_array[val] = visited_array_tag;
     }
-    visited_array[currObj] = visited_array_tag;
 
     while (!candidateSet.empty()) {
         std::pair<dist_t, tableint> curr_el_pair = candidateSet.top();
-        if ((-curr_el_pair.first) > lowerBound && top_candidates->size() == cnt) {
+        if ((-curr_el_pair.first) > lowerBound && top_candidates.size() == local_ef) {
             break;
         }
         candidateSet.pop();
 
         tableint curNodeNum = curr_el_pair.second;
 
-        // std::unique_lock<std::mutex> lock(link_list_locks_[curNodeNum]);
+        std::unique_lock<std::mutex> lock(link_list_locks_[curNodeNum]);
 
-        int *data = (int *)get_linklist_at_level(curNodeNum, level_lower);
+        int *data = (int *)get_linklist_at_level(curNodeNum, level);
         size_t size = getListCount((linklistsizeint *)data);
         tableint *datal = (tableint *)(data + 1);
 #ifdef USE_SSE
@@ -252,29 +213,26 @@ void HierarchicalNSW<dist_t>::search2Layer_MT(const void *query_data,
             char *currObj1 = (getDataByInternalId(candidate_id));
 
             dist_t dist1 = fstdistfunc_(query_data, currObj1, dist_func_param_);
-            if (top_candidates->size() < cnt || lowerBound > dist1) {
+            if (top_candidates.size() < local_ef || lowerBound > dist1) {
                 candidateSet.emplace(-dist1, candidate_id);
 #ifdef USE_SSE
                 _mm_prefetch(getDataByInternalId(candidateSet.top().second), _MM_HINT_T0);
 #endif
 
-                if (!isMarkedDeleted(candidate_id)) {
-                    top_candidates->emplace(dist1, candidate_id + offset);
-                    if (entry_dist > dist1) {
-                        enterpoint_node = candidate_id;
-                        entry_dist = dist1;
-                    }
-                }
+                if (!isMarkedDeleted(candidate_id))
+                    top_candidates.emplace(dist1, candidate_id);
 
-                while (top_candidates->size() > cnt)
-                    top_candidates->pop();
+                while (top_candidates.size() > local_ef)
+                    top_candidates.pop();
 
-                if (!top_candidates->empty())
-                    lowerBound = top_candidates->top().first;
+                if (!top_candidates.empty())
+                    lowerBound = top_candidates.top().first;
             }
         }
     }
     visited_list_pool_->releaseVisitedList(vl);
+
+    return top_candidates;
 }
 
 template <typename dist_t>
@@ -550,7 +508,7 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
 
     // TODO: fix increased-layer nodes
     auto allocateMemory = [&](hnswlib::HierarchicalNSW<dist_t> *index, int element_count_offset) {
-        // #pragma omp parallel for schedule(dynamic)
+        #pragma omp parallel for schedule(dynamic)
         for (int id = 0; id < index->cur_element_count; id++) {
             if (index->element_levels_[id] < 1)
                 continue;

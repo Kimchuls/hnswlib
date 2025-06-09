@@ -1,0 +1,882 @@
+^[[B^[[B[search time: 7.332 s, pure query time: 7.312 s] ef=120
+Intersection-merged index R@100 = 0.9216
+
+^C[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ pkill -u $(whoami)
+[?2004l
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 
+[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./bash4
+[?2004lg++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: false
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+Loaded merged index from: /ssd_root/jin467/merger/indexes/bigann-index_10M.hnsw
+Start searchingset ef = 100
+[search time: 4.977 s, pure query time: 4.958 s] ef=100
+Intersection-merged index R@100 = 0.9186
+
+[search time: 4.965 s, pure query time: 4.945 s] ef=100
+Intersection-merged index R@100 = 0.9186
+
+[search time: 4.965 s, pure query time: 4.946 s] ef=100
+Intersection-merged index R@100 = 0.9186
+
+[search time: 4.966 s, pure query time: 4.947 s] ef=100
+Intersection-merged index R@100 = 0.9186
+
+[search time: 4.959 s, pure query time: 4.940 s] ef=100
+Intersection-merged index R@100 = 0.9186
+
+set ef = 120
+[search time: 5.789 s, pure query time: 5.769 s] ef=120
+Intersection-merged index R@100 = 0.9353
+
+[search time: 5.790 s, pure query time: 5.771 s] ef=120
+Intersection-merged index R@100 = 0.9353
+
+[search time: 5.783 s, pure query time: 5.763 s] ef=120
+Intersection-merged index R@100 = 0.9353
+
+[search time: 5.787 s, pure query time: 5.767 s] ef=120
+Intersection-merged index R@100 = 0.9353
+
+[search time: 5.788 s, pure query time: 5.768 s] ef=120
+Intersection-merged index R@100 = 0.9353
+
+set ef = 140
+[search time: 6.599 s, pure query time: 6.579 s] ef=140
+Intersection-merged index R@100 = 0.9474
+
+[search time: 6.587 s, pure query time: 6.567 s] ef=140
+Intersection-merged index R@100 = 0.9474
+
+[search time: 6.596 s, pure query time: 6.576 s] ef=140
+Intersection-merged index R@100 = 0.9474
+
+[search time: 6.602 s, pure query time: 6.582 s] ef=140
+Intersection-merged index R@100 = 0.9474
+
+[search time: 6.594 s, pure query time: 6.574 s] ef=140
+Intersection-merged index R@100 = 0.9474
+
+set ef = 160
+[search time: 7.390 s, pure query time: 7.369 s] ef=160
+Intersection-merged index R@100 = 0.9563
+
+[search time: 7.398 s, pure query time: 7.377 s] ef=160
+Intersection-merged index R@100 = 0.9563
+
+[search time: 7.394 s, pure query time: 7.373 s] ef=160
+Intersection-merged index R@100 = 0.9563
+
+[search time: 7.389 s, pure query time: 7.368 s] ef=160
+Intersection-merged index R@100 = 0.9563
+
+[search time: 7.391 s, pure query time: 7.370 s] ef=160
+Intersection-merged index R@100 = 0.9563
+
+set ef = 180
+[search time: 8.172 s, pure query time: 8.150 s] ef=180
+Intersection-merged index R@100 = 0.9630
+
+[search time: 8.172 s, pure query time: 8.150 s] ef=180
+Intersection-merged index R@100 = 0.9630
+
+[search time: 8.171 s, pure query time: 8.149 s] ef=180
+Intersection-merged index R@100 = 0.9630
+
+[search time: 8.172 s, pure query time: 8.150 s] ef=180
+Intersection-merged index R@100 = 0.9630
+
+[search time: 8.179 s, pure query time: 8.157 s] ef=180
+Intersection-merged index R@100 = 0.9630
+
+set ef = 200
+[search time: 8.957 s, pure query time: 8.934 s] ef=200
+Intersection-merged index R@100 = 0.9681
+
+[search time: 8.967 s, pure query time: 8.944 s] ef=200
+Intersection-merged index R@100 = 0.9681
+
+[search time: 8.955 s, pure query time: 8.932 s] ef=200
+Intersection-merged index R@100 = 0.9681
+
+[search time: 8.961 s, pure query time: 8.938 s] ef=200
+Intersection-merged index R@100 = 0.9681
+
+[search time: 8.953 s, pure query time: 8.930 s] ef=200
+Intersection-merged index R@100 = 0.9681
+
+set ef = 300
+[search time: 12.741 s, pure query time: 12.713 s] ef=300
+Intersection-merged index R@100 = 0.9828
+
+[search time: 12.743 s, pure query time: 12.716 s] ef=300
+Intersection-merged index R@100 = 0.9828
+
+[search time: 12.744 s, pure query time: 12.716 s] ef=300
+Intersection-merged index R@100 = 0.9828
+
+[search time: 12.743 s, pure query time: 12.715 s] ef=300
+Intersection-merged index R@100 = 0.9828
+
+[search time: 12.733 s, pure query time: 12.705 s] ef=300
+Intersection-merged index R@100 = 0.9828
+
+set ef = 400
+[search time: 16.381 s, pure query time: 16.349 s] ef=400
+Intersection-merged index R@100 = 0.9892
+
+[search time: 16.387 s, pure query time: 16.355 s] ef=400
+Intersection-merged index R@100 = 0.9892
+
+[search time: 16.392 s, pure query time: 16.350 s] ef=400
+Intersection-merged index R@100 = 0.9892
+
+[search time: 16.389 s, pure query time: 16.357 s] ef=400
+Intersection-merged index R@100 = 0.9892
+
+[search time: 16.397 s, pure query time: 16.365 s] ef=400
+Intersection-merged index R@100 = 0.9892
+
+set ef = 500
+[search time: 19.931 s, pure query time: 19.897 s] ef=500
+Intersection-merged index R@100 = 0.9926
+
+[search time: 19.933 s, pure query time: 19.898 s] ef=500
+Intersection-merged index R@100 = 0.9926
+
+[search time: 19.922 s, pure query time: 19.887 s] ef=500
+Intersection-merged index R@100 = 0.9926
+
+[search time: 19.945 s, pure query time: 19.909 s] ef=500
+Intersection-merged index R@100 = 0.9926
+
+[search time: 19.930 s, pure query time: 19.895 s] ef=500
+Intersection-merged index R@100 = 0.9926
+
+set ef = 600
+[search time: 23.387 s, pure query time: 23.350 s] ef=600
+Intersection-merged index R@100 = 0.9946
+
+[search time: 23.386 s, pure query time: 23.350 s] ef=600
+Intersection-merged index R@100 = 0.9946
+
+[search time: 23.383 s, pure query time: 23.346 s] ef=600
+Intersection-merged index R@100 = 0.9946
+
+[search time: 23.377 s, pure query time: 23.341 s] ef=600
+Intersection-merged index R@100 = 0.9946
+
+[search time: 23.391 s, pure query time: 23.355 s] ef=600
+Intersection-merged index R@100 = 0.9946
+
+set ef = 700
+[search time: 26.760 s, pure query time: 26.722 s] ef=700
+Intersection-merged index R@100 = 0.9958
+
+[search time: 26.753 s, pure query time: 26.715 s] ef=700
+Intersection-merged index R@100 = 0.9958
+
+[search time: 26.776 s, pure query time: 26.738 s] ef=700
+Intersection-merged index R@100 = 0.9958
+
+[search time: 26.759 s, pure query time: 26.721 s] ef=700
+Intersection-merged index R@100 = 0.9958
+
+[search time: 26.760 s, pure query time: 26.722 s] ef=700
+Intersection-merged index R@100 = 0.9958
+
+set ef = 800
+[search time: 30.098 s, pure query time: 30.060 s] ef=800
+Intersection-merged index R@100 = 0.9967
+
+[search time: 30.094 s, pure query time: 30.056 s] ef=800
+Intersection-merged index R@100 = 0.9967
+
+[search time: 30.096 s, pure query time: 30.058 s] ef=800
+Intersection-merged index R@100 = 0.9967
+
+[search time: 30.085 s, pure query time: 30.047 s] ef=800
+Intersection-merged index R@100 = 0.9967
+
+[search time: 30.085 s, pure query time: 30.047 s] ef=800
+Intersection-merged index R@100 = 0.9967
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: REBUILD
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: false
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+Loaded merged index from: /ssd_root/jin467/merger/indexes/deep-index_10M.hnsw
+Start searchingset ef = 100
+[search time: 3.949 s, pure query time: 3.933 s] ef=100
+Intersection-merged index R@100 = 0.9049
+
+[search time: 3.928 s, pure query time: 3.911 s] ef=100
+Intersection-merged index R@100 = 0.9049
+
+[search time: 3.928 s, pure query time: 3.911 s] ef=100
+Intersection-merged index R@100 = 0.9049
+
+[search time: 3.927 s, pure query time: 3.910 s] ef=100
+Intersection-merged index R@100 = 0.9049
+
+[search time: 3.928 s, pure query time: 3.911 s] ef=100
+Intersection-merged index R@100 = 0.9049
+
+set ef = 120
+[search time: 4.580 s, pure query time: 4.562 s] ef=120
+Intersection-merged index R@100 = 0.9216
+
+[search time: 4.578 s, pure query time: 4.561 s] ef=120
+Intersection-merged index R@100 = 0.9216
+
+[search time: 4.572 s, pure query time: 4.554 s] ef=120
+Intersection-merged index R@100 = 0.9216
+
+[search time: 4.570 s, pure query time: 4.553 s] ef=120
+Intersection-merged index R@100 = 0.9216
+
+[search time: 4.569 s, pure query time: 4.552 s] ef=120
+Intersection-merged index R@100 = 0.9216
+
+set ef = 140
+[search time: 5.207 s, pure query time: 5.189 s] ef=140
+Intersection-merged index R@100 = 0.9340
+
+[search time: 5.202 s, pure query time: 5.184 s] ef=140
+Intersection-merged index R@100 = 0.9340
+
+[search time: 5.206 s, pure query time: 5.188 s] ef=140
+Intersection-merged index R@100 = 0.9340
+
+[search time: 5.205 s, pure query time: 5.187 s] ef=140
+Intersection-merged index R@100 = 0.9340
+
+[search time: 5.202 s, pure query time: 5.184 s] ef=140
+Intersection-merged index R@100 = 0.9340
+
+set ef = 160
+[search time: 5.828 s, pure query time: 5.810 s] ef=160
+Intersection-merged index R@100 = 0.9432
+
+[search time: 5.831 s, pure query time: 5.812 s] ef=160
+Intersection-merged index R@100 = 0.9432
+
+[search time: 5.833 s, pure query time: 5.814 s] ef=160
+Intersection-merged index R@100 = 0.9432
+
+[search time: 5.820 s, pure query time: 5.801 s] ef=160
+Intersection-merged index R@100 = 0.9432
+
+[search time: 5.823 s, pure query time: 5.804 s] ef=160
+Intersection-merged index R@100 = 0.9432
+
+set ef = 180
+[search time: 6.423 s, pure query time: 6.403 s] ef=180
+Intersection-merged index R@100 = 0.9505
+
+[search time: 6.432 s, pure query time: 6.412 s] ef=180
+Intersection-merged index R@100 = 0.9505
+
+[search time: 6.437 s, pure query time: 6.418 s] ef=180
+Intersection-merged index R@100 = 0.9505
+
+[search time: 6.436 s, pure query time: 6.416 s] ef=180
+Intersection-merged index R@100 = 0.9505
+
+[search time: 6.434 s, pure query time: 6.414 s] ef=180
+Intersection-merged index R@100 = 0.9505
+
+set ef = 200
+[search time: 7.048 s, pure query time: 7.027 s] ef=200
+Intersection-merged index R@100 = 0.9564
+
+[search time: 7.039 s, pure query time: 7.018 s] ef=200
+Intersection-merged index R@100 = 0.9564
+
+[search time: 7.048 s, pure query time: 7.028 s] ef=200
+Intersection-merged index R@100 = 0.9564
+
+[search time: 7.046 s, pure query time: 7.026 s] ef=200
+Intersection-merged index R@100 = 0.9564
+
+[search time: 7.041 s, pure query time: 7.021 s] ef=200
+Intersection-merged index R@100 = 0.9564
+
+set ef = 300
+[search time: 9.992 s, pure query time: 9.967 s] ef=300
+Intersection-merged index R@100 = 0.9733
+
+[search time: 9.997 s, pure query time: 9.973 s] ef=300
+Intersection-merged index R@100 = 0.9733
+
+[search time: 9.985 s, pure query time: 9.960 s] ef=300
+Intersection-merged index R@100 = 0.9733
+
+[search time: 9.983 s, pure query time: 9.958 s] ef=300
+Intersection-merged index R@100 = 0.9733
+
+[search time: 9.996 s, pure query time: 9.971 s] ef=300
+Intersection-merged index R@100 = 0.9733
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: REBUILD
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: false
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+Loaded merged index from: /ssd_root/jin467/merger/indexes/turing-index_10M.hnsw
+Start searchingset ef = 100
+[search time: 4.788 s, pure query time: 4.769 s] ef=100
+Intersection-merged index R@100 = 0.7252
+
+[search time: 4.775 s, pure query time: 4.756 s] ef=100
+Intersection-merged index R@100 = 0.7252
+
+[search time: 4.765 s, pure query time: 4.746 s] ef=100
+Intersection-merged index R@100 = 0.7252
+
+[search time: 4.774 s, pure query time: 4.755 s] ef=100
+Intersection-merged index R@100 = 0.7252
+
+[search time: 4.773 s, pure query time: 4.754 s] ef=100
+Intersection-merged index R@100 = 0.7252
+
+set ef = 120
+[search time: 5.546 s, pure query time: 5.526 s] ef=120
+Intersection-merged index R@100 = 0.7468
+
+[search time: 5.548 s, pure query time: 5.528 s] ef=120
+Intersection-merged index R@100 = 0.7468
+
+[search time: 5.556 s, pure query time: 5.536 s] ef=120
+Intersection-merged index R@100 = 0.7468
+
+[search time: 5.544 s, pure query time: 5.524 s] ef=120
+Intersection-merged index R@100 = 0.7468
+
+[search time: 5.547 s, pure query time: 5.527 s] ef=120
+Intersection-merged index R@100 = 0.7468
+
+set ef = 140
+[search time: 6.308 s, pure query time: 6.288 s] ef=140
+Intersection-merged index R@100 = 0.7638
+
+[search time: 6.315 s, pure query time: 6.294 s] ef=140
+Intersection-merged index R@100 = 0.7638
+
+[search time: 6.306 s, pure query time: 6.285 s] ef=140
+Intersection-merged index R@100 = 0.7638
+
+[search time: 6.318 s, pure query time: 6.290 s] ef=140
+Intersection-merged index R@100 = 0.7638
+
+[search time: 6.306 s, pure query time: 6.285 s] ef=140
+Intersection-merged index R@100 = 0.7638
+
+set ef = 160
+[search time: 7.070 s, pure query time: 7.048 s] ef=160
+Intersection-merged index R@100 = 0.7779
+
+[search time: 7.069 s, pure query time: 7.047 s] ef=160
+Intersection-merged index R@100 = 0.7779
+
+[search time: 7.071 s, pure query time: 7.049 s] ef=160
+Intersection-merged index R@100 = 0.7779
+
+[search time: 7.081 s, pure query time: 7.059 s] ef=160
+Intersection-merged index R@100 = 0.7779
+
+[search time: 7.071 s, pure query time: 7.049 s] ef=160
+Intersection-merged index R@100 = 0.7779
+
+set ef = 180
+[search time: 7.837 s, pure query time: 7.814 s] ef=180
+Intersection-merged index R@100 = 0.7901
+
+[search time: 7.830 s, pure query time: 7.807 s] ef=180
+Intersection-merged index R@100 = 0.7901
+
+[search time: 7.829 s, pure query time: 7.806 s] ef=180
+Intersection-merged index R@100 = 0.7901
+
+[search time: 7.829 s, pure query time: 7.806 s] ef=180
+Intersection-merged index R@100 = 0.7901
+
+[search time: 7.831 s, pure query time: 7.808 s] ef=180
+Intersection-merged index R@100 = 0.7901
+
+set ef = 200
+[search time: 8.596 s, pure query time: 8.572 s] ef=200
+Intersection-merged index R@100 = 0.8004
+
+[search time: 8.589 s, pure query time: 8.565 s] ef=200
+Intersection-merged index R@100 = 0.8004
+
+[search time: 8.587 s, pure query time: 8.563 s] ef=200
+Intersection-merged index R@100 = 0.8004
+
+[search time: 8.596 s, pure query time: 8.571 s] ef=200
+Intersection-merged index R@100 = 0.8004
+
+[search time: 8.588 s, pure query time: 8.564 s] ef=200
+Intersection-merged index R@100 = 0.8004
+
+set ef = 300
+[search time: 12.376 s, pure query time: 12.347 s] ef=300
+Intersection-merged index R@100 = 0.8361
+
+[search time: 12.374 s, pure query time: 12.345 s] ef=300
+Intersection-merged index R@100 = 0.8361
+
+[search time: 12.378 s, pure query time: 12.349 s] ef=300
+Intersection-merged index R@100 = 0.8361
+
+[search time: 12.375 s, pure query time: 12.346 s] ef=300
+Intersection-merged index R@100 = 0.8361
+
+[search time: 12.375 s, pure query time: 12.346 s] ef=300
+Intersection-merged index R@100 = 0.8361
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: false
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Loaded merged index from: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searchingset ef = 100
+[search time: 5.400 s, pure query time: 5.382 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.379 s, pure query time: 5.361 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.380 s, pure query time: 5.361 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.377 s, pure query time: 5.358 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.368 s, pure query time: 5.349 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+set ef = 120
+[search time: 6.272 s, pure query time: 6.252 s] ef=120
+Intersection-merged index R@100 = 0.9319
+
+[search time: 6.275 s, pure query time: 6.256 s] ef=120
+Intersection-merged index R@100 = 0.9319
+
+[search time: 6.271 s, pure query time: 6.252 s] ef=120
+Intersection-merged index R@100 = 0.9319
+
+[search time: 6.273 s, pure query time: 6.254 s] ef=120
+Intersection-merged index R@100 = 0.9319
+
+[search time: 6.270 s, pure query time: 6.249 s] ef=120
+Intersection-merged index R@100 = 0.9319
+
+set ef = 140
+[search time: 7.150 s, pure query time: 7.130 s] ef=140
+Intersection-merged index R@100 = 0.9447
+
+[search time: 7.147 s, pure query time: 7.124 s] ef=140
+Intersection-merged index R@100 = 0.9447
+
+[search time: 7.154 s, pure query time: 7.134 s] ef=140
+Intersection-merged index R@100 = 0.9447
+
+[search time: 7.156 s, pure query time: 7.136 s] ef=140
+Intersection-merged index R@100 = 0.9447
+
+[search time: 7.157 s, pure query time: 7.137 s] ef=140
+Intersection-merged index R@100 = 0.9447
+
+set ef = 160
+[search time: 8.031 s, pure query time: 8.010 s] ef=160
+Intersection-merged index R@100 = 0.9542
+
+[search time: 8.017 s, pure query time: 7.997 s] ef=160
+Intersection-merged index R@100 = 0.9542
+
+[search time: 8.026 s, pure query time: 8.005 s] ef=160
+Intersection-merged index R@100 = 0.9542
+
+[search time: 8.026 s, pure query time: 8.006 s] ef=160
+Intersection-merged index R@100 = 0.9542
+
+[search time: 8.021 s, pure query time: 8.001 s] ef=160
+Intersection-merged index R@100 = 0.9542
+
+set ef = 180
+[search time: 8.887 s, pure query time: 8.866 s] ef=180
+Intersection-merged index R@100 = 0.9612
+
+[search time: 8.880 s, pure query time: 8.858 s] ef=180
+Intersection-merged index R@100 = 0.9612
+
+[search time: 8.877 s, pure query time: 8.856 s] ef=180
+Intersection-merged index R@100 = 0.9612
+
+[search time: 8.890 s, pure query time: 8.868 s] ef=180
+Intersection-merged index R@100 = 0.9612
+
+[search time: 8.872 s, pure query time: 8.851 s] ef=180
+Intersection-merged index R@100 = 0.9612
+
+set ef = 200
+[search time: 9.738 s, pure query time: 9.715 s] ef=200
+Intersection-merged index R@100 = 0.9669
+
+[search time: 9.730 s, pure query time: 9.707 s] ef=200
+Intersection-merged index R@100 = 0.9669
+
+[search time: 9.728 s, pure query time: 9.706 s] ef=200
+Intersection-merged index R@100 = 0.9669
+
+[search time: 9.743 s, pure query time: 9.720 s] ef=200
+Intersection-merged index R@100 = 0.9669
+
+[search time: 9.728 s, pure query time: 9.705 s] ef=200
+Intersection-merged index R@100 = 0.9669
+
+set ef = 300
+[search time: 13.856 s, pure query time: 13.829 s] ef=300
+Intersection-merged index R@100 = 0.9825
+
+[search time: 13.865 s, pure query time: 13.837 s] ef=300
+Intersection-merged index R@100 = 0.9825
+
+[search time: 13.861 s, pure query time: 13.833 s] ef=300
+Intersection-merged index R@100 = 0.9825
+
+[search time: 13.855 s, pure query time: 13.827 s] ef=300
+Intersection-merged index R@100 = 0.9825
+
+[search time: 13.857 s, pure query time: 13.830 s] ef=300
+Intersection-merged index R@100 = 0.9825
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: TWO_MERGE
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: false
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Loaded merged index from: /ssd_root/jin467/merger/indexes/merged-index_DEEP10M.hnsw
+Start searchingset ef = 100
+[search time: 5.762 s, pure query time: 5.744 s] ef=100
+Intersection-merged index R@100 = 0.9023
+
+[search time: 6.424 s, pure query time: 6.405 s] ef=100
+Intersection-merged index R@100 = 0.9023
+
+[search time: 6.748 s, pure query time: 6.729 s] ef=100
+Intersection-merged index R@100 = 0.9023
+
+[search time: 7.398 s, pure query time: 7.379 s] ef=100
+Intersection-merged index R@100 = 0.9023
+
+[search time: 7.175 s, pure query time: 7.156 s] ef=100
+Intersection-merged index R@100 = 0.9023
+
+set ef = 120
+[search time: 7.909 s, pure query time: 7.890 s] ef=120
+Intersection-merged index R@100 = 0.9195
+
+[search time: 7.458 s, pure query time: 7.439 s] ef=120
+Intersection-merged index R@100 = 0.9195
+
+[search time: 6.570 s, pure query time: 6.550 s] ef=120
+Intersection-merged index R@100 = 0.9195
+
+[search time: 5.830 s, pure query time: 5.812 s] ef=120
+Intersection-merged index R@100 = 0.9195
+
+[search time: 5.795 s, pure query time: 5.777 s] ef=120
+Intersection-merged index R@100 = 0.9195
+
+set ef = 140
+[search time: 6.598 s, pure query time: 6.579 s] ef=140
+Intersection-merged index R@100 = 0.9322
+
+[search time: 6.617 s, pure query time: 6.598 s] ef=140
+Intersection-merged index R@100 = 0.9322
+
+[search time: 6.588 s, pure query time: 6.570 s] ef=140
+Intersection-merged index R@100 = 0.9322
+
+[search time: 6.631 s, pure query time: 6.612 s] ef=140
+Intersection-merged index R@100 = 0.9322
+
+[search time: 6.595 s, pure query time: 6.577 s] ef=140
+Intersection-merged index R@100 = 0.9322
+
+set ef = 160
+[search time: 7.410 s, pure query time: 7.391 s] ef=160
+Intersection-merged index R@100 = 0.9418
+
+[search time: 7.403 s, pure query time: 7.384 s] ef=160
+Intersection-merged index R@100 = 0.9418
+
+[search time: 7.376 s, pure query time: 7.356 s] ef=160
+Intersection-merged index R@100 = 0.9418
+
+[search time: 7.419 s, pure query time: 7.399 s] ef=160
+Intersection-merged index R@100 = 0.9418
+
+[search time: 7.385 s, pure query time: 7.366 s] ef=160
+Intersection-merged index R@100 = 0.9418
+
+set ef = 180
+[search time: 8.189 s, pure query time: 8.169 s] ef=180
+Intersection-merged index R@100 = 0.9495
+
+[search time: 8.152 s, pure query time: 8.132 s] ef=180
+Intersection-merged index R@100 = 0.9495
+
+[search time: 8.193 s, pure query time: 8.173 s] ef=180
+Intersection-merged index R@100 = 0.9495
+
+[search time: 8.153 s, pure query time: 8.133 s] ef=180
+Intersection-merged index R@100 = 0.9495
+
+[search time: 8.193 s, pure query time: 8.173 s] ef=180
+Intersection-merged index R@100 = 0.9495
+
+set ef = 200
+[search time: 8.921 s, pure query time: 8.900 s] ef=200
+Intersection-merged index R@100 = 0.9554
+
+[search time: 8.971 s, pure query time: 8.950 s] ef=200
+Intersection-merged index R@100 = 0.9554
+
+[search time: 8.925 s, pure query time: 8.904 s] ef=200
+Intersection-merged index R@100 = 0.9554
+
+[search time: 8.963 s, pure query time: 8.942 s] ef=200
+Intersection-merged index R@100 = 0.9554
+
+[search time: 8.940 s, pure query time: 8.919 s] ef=200
+Intersection-merged index R@100 = 0.9554
+
+set ef = 300
+[search time: 12.699 s, pure query time: 12.673 s] ef=300
+Intersection-merged index R@100 = 0.9730
+
+[search time: 12.694 s, pure query time: 12.668 s] ef=300
+Intersection-merged index R@100 = 0.9730
+
+[search time: 12.713 s, pure query time: 12.687 s] ef=300
+Intersection-merged index R@100 = 0.9730
+
+[search time: 12.688 s, pure query time: 12.662 s] ef=300
+Intersection-merged index R@100 = 0.9730
+
+[search time: 12.686 s, pure query time: 12.659 s] ef=300
+Intersection-merged index R@100 = 0.9730
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: TWO_MERGE
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: false
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Loaded merged index from: /ssd_root/jin467/merger/indexes/merged-index_TURING10M.hnsw
+Start searchingset ef = 100
+[search time: 6.770 s, pure query time: 6.749 s] ef=100
+Intersection-merged index R@100 = 0.7454
+
+[search time: 6.721 s, pure query time: 6.696 s] ef=100
+Intersection-merged index R@100 = 0.7454
+
+[search time: 7.100 s, pure query time: 7.080 s] ef=100
+Intersection-merged index R@100 = 0.7454
+
+[search time: 7.204 s, pure query time: 7.184 s] ef=100
+Intersection-merged index R@100 = 0.7454
+
+[search time: 7.448 s, pure query time: 7.428 s] ef=100
+Intersection-merged index R@100 = 0.7454
+
+set ef = 120
+[search time: 8.722 s, pure query time: 8.700 s] ef=120
+Intersection-merged index R@100 = 0.7670
+
+[search time: 8.426 s, pure query time: 8.404 s] ef=120
+Intersection-merged index R@100 = 0.7670
+
+[search time: 7.761 s, pure query time: 7.734 s] ef=120
+Intersection-merged index R@100 = 0.7670
+
+[search time: 7.376 s, pure query time: 7.350 s] ef=120
+Intersection-merged index R@100 = 0.7670
+
+[search time: 7.383 s, pure query time: 7.357 s] ef=120
+Intersection-merged index R@100 = 0.7670
+
+set ef = 140
+[search time: 8.471 s, pure query time: 8.445 s] ef=140
+Intersection-merged index R@100 = 0.7835
+
+[search time: 8.829 s, pure query time: 8.802 s] ef=140
+Intersection-merged index R@100 = 0.7835
+
+[search time: 8.768 s, pure query time: 8.741 s] ef=140
+Intersection-merged index R@100 = 0.7835
+
+[search time: 8.943 s, pure query time: 8.918 s] ef=140
+Intersection-merged index R@100 = 0.7835
+
+[search time: 9.369 s, pure query time: 9.347 s] ef=140
+Intersection-merged index R@100 = 0.7835
+
+set ef = 160
+[search time: 10.931 s, pure query time: 10.908 s] ef=160
+Intersection-merged index R@100 = 0.7968
+
+[search time: 10.843 s, pure query time: 10.820 s] ef=160
+Intersection-merged index R@100 = 0.7968
+
+[search time: 9.775 s, pure query time: 9.745 s] ef=160
+Intersection-merged index R@100 = 0.7968
+
+[search time: 9.850 s, pure query time: 9.821 s] ef=160
+Intersection-merged index R@100 = 0.7968
+
+[search time: 9.921 s, pure query time: 9.892 s] ef=160
+Intersection-merged index R@100 = 0.7968
+
+set ef = 180
+[search time: 11.184 s, pure query time: 11.157 s] ef=180
+Intersection-merged index R@100 = 0.8083
+
+[search time: 11.989 s, pure query time: 11.964 s] ef=180
+Intersection-merged index R@100 = 0.8083
+
+[search time: 12.181 s, pure query time: 12.157 s] ef=180
+Intersection-merged index R@100 = 0.8083
+
+[search time: 11.315 s, pure query time: 11.287 s] ef=180
+Intersection-merged index R@100 = 0.8083
+
+[search time: 10.854 s, pure query time: 10.825 s] ef=180
+Intersection-merged index R@100 = 0.8083
+
+set ef = 200
+[search time: 12.036 s, pure query time: 12.005 s] ef=200
+Intersection-merged index R@100 = 0.8181
+
+[search time: 12.568 s, pure query time: 12.540 s] ef=200
+Intersection-merged index R@100 = 0.8181
+
+[search time: 13.294 s, pure query time: 13.269 s] ef=200
+Intersection-merged index R@100 = 0.8181
+
+[search time: 13.196 s, pure query time: 13.170 s] ef=200
+Intersection-merged index R@100 = 0.8181
+
+[search time: 11.802 s, pure query time: 11.769 s] ef=200
+Intersection-merged index R@100 = 0.8181
+
+set ef = 300
+[search time: 17.429 s, pure query time: 17.394 s] ef=300
+Intersection-merged index R@100 = 0.8526
+
+[search time: 18.193 s, pure query time: 18.161 s] ef=300
+Intersection-merged index R@100 = 0.8526
+
+[search time: 19.405 s, pure query time: 19.375 s] ef=300
+Intersection-merged index R@100 = 0.8526
+
+[search time: 17.299 s, pure query time: 17.263 s] ef=300
+Intersection-merged index R@100 = 0.8526
+
+[search time: 17.307 s, pure query time: 17.272 s] ef=300
+Intersection-merged index R@100 = 0.8526
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: ES
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: false
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: ES

@@ -4,6 +4,7 @@
 #include "test_config.h"
 #include "test_readfile.h"
 #include "baseline.h"
+#include "baseline2.h"
 #include <cstdint> // For int64_t
 #include <cstdio>
 #include <cstdlib>
@@ -45,6 +46,7 @@ void workload(const std::string &config_path) {
     int k = cfg.k;
     int nq = cfg.nq;
     int lrange = cfg.lrange;
+    int rrange = cfg.rrange;
 
     printf("Configuration:\n");
     printf("  Workload Type: %s\n", workloadTypeToString(cfg.workload_type).c_str());
@@ -124,33 +126,37 @@ void workload(const std::string &config_path) {
             printf("Loaded merged index from: %s\n", index_path.c_str());
         }
     } else if (merge_method == INSERT) {
-        for (int i = 0; i < iterations; i++) {
-            printf("Iteration %d/%d\n", i + 1, iterations);
-            std::string index_path = (cfg.index_path)[0];
-            printf("Loading index from: %s\n", index_path.c_str());
-            alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
-            // alg_hnsw0->loadIndex(index_path, &space);
-            std::cout << "Loaded index from: " << index_path << std::endl;
-            // printf("Current element count: %zu\n", alg_hnsw0->getCurrentElementCount());
-            // printf("Max elements: %zu\n", alg_hnsw0->max_elements_);
-            // printf("M: %zu\n", alg_hnsw0->M_);
-            // printf("ef_construction: %zu\n", alg_hnsw0->ef_construction_);
-            // printf("ef: %zu\n", alg_hnsw0->ef_);
-            // printf("Max level: %d\n", alg_hnsw0->maxlevel_);
+        if (cfg.rerun) {
+            xb = read_vectors(const_cast<char *>(cfg.base_filepath.c_str()), nb, &dd2, &nt2);
+            printf("loaded base vectors: %zu vectors of dimension %zu\n", nt2, dd2);
+            for (int i = 0; i < iterations; i++) {
+                printf("Iteration %d/%d\n", i + 1, iterations);
+                std::string index_path = (cfg.index_path)[0];
+                printf("Loading index from: %s\n", index_path.c_str());
+                alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+                alg_hnsw0->loadIndex(index_path, &space);
+                std::cout << "Loaded index from: " << index_path << std::endl;
 
-            double t0 = elapsed();
-            // printf("lrange\n", lrange);
-            // for(int j=0;j<10;j++){
-            //     printf("xb[%d]: %f\n", lrange*dim + j, xb[lrange * dim + j]);
-            // }
-            for (size_t j = 0; j < nb; j++) {
-                alg_hnsw0->addPoint(xb + j * dim, j);
-                if ((j + 1) % 100000 == 0) {
-                    printf("Checkpoint: %d, [%.3f s]\n", j + 1, elapsed() - t0);
+                double t0 = elapsed();
+                for (size_t j = lrange; j < rrange; j++) {
+                    alg_hnsw0->addPoint(xb + j * dim, j);
+                    // for (size_t xx = 0; xx < 5; xx++) {
+                    //     printf("[%f, %p]\n", *xb, xb);
+                    // printf("[%f, %p]\n", *(xb + j * dim) , xb + j * dim );
+                    //     printf("[%lld, %lld, %lld]\n", j, dim, xx);
+                    //     printf("[%f]%p, ", xb + j * dim + xx, xb + j * dim + xx);
+                    //     printf("[%f]%p, ", xb + 0 * dim + xx, xb + 0 * dim + xx);
+                    // }
+                    // printf("\n");
+                    if ((j + 1) % 100000 == 0) {
+                        printf("Checkpoint: %d, [%.3f s]\n", j + 1, elapsed() - t0);
+                    }
                 }
+                printf("Total time for insertion: %.3f s\n", elapsed() - t0);
             }
-            printf("Total time for insertion: %.3f s\n", elapsed() - t0);
         }
+        printf("Insert task don't re-test the performance.\n");
+        return;
     } else if (merge_method == TWO_MERGE) {
         if (cfg.rerun == true) {
             std::vector<std::string> index_path = cfg.index_path;
@@ -203,27 +209,27 @@ void workload(const std::string &config_path) {
             alg_hnsw0->loadIndex(merged_index_path, &space);
             printf("Loaded merged index from: %s\n", merged_index_path.c_str());
         }
-    } else if (merge_method == MULTI_TWO_MERGE) {
-        for (int i = 0; i < iterations; i++) {
-            printf("Iteration %d/%d\n", i + 1, iterations);
-            std::vector<std::string> index_path = cfg.index_path;
-            std::vector<hnswlib::HierarchicalNSW<float> *> indices;
-            for (const auto &path : index_path) {
-                hnswlib::HierarchicalNSW<float> *index = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
-                index->loadIndex(path, &space);
-                indices.push_back(index);
-            }
+    // } else if (merge_method == MULTI_TWO_MERGE) {
+    //     for (int i = 0; i < iterations; i++) {
+    //         printf("Iteration %d/%d\n", i + 1, iterations);
+    //         std::vector<std::string> index_path = cfg.index_path;
+    //         std::vector<hnswlib::HierarchicalNSW<float> *> indices;
+    //         for (const auto &path : index_path) {
+    //             hnswlib::HierarchicalNSW<float> *index = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+    //             index->loadIndex(path, &space);
+    //             indices.push_back(index);
+    //         }
 
-            double t0 = elapsed();
-            alg_hnsw2 = hnswlib::HNSWMerger<float>(indices[0], indices[1], &space, -1, -1);
-            for (size_t j = 2; j < indices.size(); j++) {
-                alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw2, indices[j], &space, -1, -1);
-            }
-            printf("Total time for insertion: %.3f s\n", elapsed() - t0);
-        }
-        std::string merged_index_path = "/ssd_root/jin467/merger/indexes/multi-2way-merged_" + workloadTypeToString(workload_type) + ".hnsw";
-        alg_hnsw2->saveIndex(merged_index_path);
-        alg_hnsw0 = alg_hnsw2;
+    //         double t0 = elapsed();
+    //         alg_hnsw2 = hnswlib::HNSWMerger<float>(indices[0], indices[1], &space, -1, -1);
+    //         for (size_t j = 2; j < indices.size(); j++) {
+    //             alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw2, indices[j], &space, -1, -1);
+    //         }
+    //         printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+    //     }
+    //     std::string merged_index_path = "/ssd_root/jin467/merger/indexes/multi-2way-merged_" + workloadTypeToString(workload_type) + ".hnsw";
+    //     alg_hnsw2->saveIndex(merged_index_path);
+    //     alg_hnsw0 = alg_hnsw2;
         // } else if (merge_method == MULTI_MERGE) {
         //     for (int i = 0; i < iterations; i++) {
         //         printf("Iteration %d/%d\n", i + 1, iterations);
@@ -242,6 +248,72 @@ void workload(const std::string &config_path) {
         //     std::string merged_index_path = "/ssd_root/jin467/merger/indexes/multi-merged_" + workloadTypeToString(workload_type) + ".hnsw";
         //     alg_hnsw2->saveIndex(merged_index_path);
         //     alg_hnsw0 = alg_hnsw2;
+    } else if (merge_method == NGM) {
+        if (cfg.rerun == true) {
+            std::vector<std::string> index_path = cfg.index_path;
+            alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw0->loadIndex(index_path[0], &space);
+            alg_hnsw1 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw1->loadIndex(index_path[1], &space);
+            for (int i = 0; i < iterations; i++) {
+                printf("Iteration %d/%d\n", i + 1, iterations);
+                double t0 = elapsed();
+                alg_hnsw2 = hnswlib::HNSWMerger_Naive<float>(alg_hnsw0, alg_hnsw1, &space);
+                printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+            }
+            std::string merged_index_path = "/ssd_root/jin467/merger/indexes/ngm_" + workloadTypeToString(workload_type) + ".hnsw";
+            alg_hnsw2->saveIndex(merged_index_path);
+            alg_hnsw0 = alg_hnsw2;
+        } else {
+            std::string merged_index_path = "/ssd_root/jin467/merger/indexes/ngm_" + workloadTypeToString(workload_type) + ".hnsw";
+            alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw0->loadIndex(merged_index_path, &space);
+            printf("Loaded merged index from: %s\n", merged_index_path.c_str());
+        }
+    } else if (merge_method == IGTM) {
+        if (cfg.rerun == true) {
+            std::vector<std::string> index_path = cfg.index_path;
+            alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw0->loadIndex(index_path[0], &space);
+            alg_hnsw1 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw1->loadIndex(index_path[1], &space);
+            for (int i = 0; i < iterations; i++) {
+                printf("Iteration %d/%d\n", i + 1, iterations);
+                double t0 = elapsed();
+                alg_hnsw2 = hnswlib::HNSWMerger_IGTM<float>(alg_hnsw0, alg_hnsw1, &space);
+                printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+            }
+            std::string merged_index_path = "/ssd_root/jin467/merger/indexes/igtm_" + workloadTypeToString(workload_type) + ".hnsw";
+            alg_hnsw2->saveIndex(merged_index_path);
+            alg_hnsw0 = alg_hnsw2;
+        } else {
+            std::string merged_index_path = "/ssd_root/jin467/merger/indexes/igtm_" + workloadTypeToString(workload_type) + ".hnsw";
+            alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw0->loadIndex(merged_index_path, &space);
+            printf("Loaded merged index from: %s\n", merged_index_path.c_str());
+        }
+    } else if (merge_method == CGTM) {
+        if (cfg.rerun == true) {
+            std::vector<std::string> index_path = cfg.index_path;
+            alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw0->loadIndex(index_path[0], &space);
+            alg_hnsw1 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw1->loadIndex(index_path[1], &space);
+            for (int i = 0; i < iterations; i++) {
+                printf("Iteration %d/%d\n", i + 1, iterations);
+                double t0 = elapsed();
+                alg_hnsw2 = hnswlib::HNSWMerger_CGTM<float>(alg_hnsw0, alg_hnsw1, &space);
+                printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+            }
+            std::string merged_index_path = "/ssd_root/jin467/merger/indexes/cgtm_" + workloadTypeToString(workload_type) + ".hnsw";
+            alg_hnsw2->saveIndex(merged_index_path);
+            alg_hnsw0 = alg_hnsw2;
+        } else {
+            std::string merged_index_path = "/ssd_root/jin467/merger/indexes/cgtm_" + workloadTypeToString(workload_type) + ".hnsw";
+            alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+            alg_hnsw0->loadIndex(merged_index_path, &space);
+            printf("Loaded merged index from: %s\n", merged_index_path.c_str());
+        }
     } else {
         std::cerr << "Unknown merge method!" << std::endl;
         exit(1);

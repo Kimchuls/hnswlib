@@ -1,6 +1,6 @@
 # Dataset configuration for HNSW experiment
 workload_type = TURING10M
-merge_method = ES
+merge_method = CGTM
 dim = 100
 max_elements = 10000000
 nb = 10000000
@@ -9,10 +9,10 @@ ef_construction = 64
 k = 100
 kk = 100
 nq = 10000
-iterations = 5
+iterations = 1
 lrange = 0
 rrange = 10000000
-rerun = false
+rerun = true
 
 base_filepath = /ssd_root/dataset/turing10m/msturing-10M.fvecs
 query_filepath = /ssd_root/dataset/turing10m/msturing-query.fvecs
@@ -20,4 +20,4 @@ groundtruth_filepath = /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
 index_path = /ssd_root/jin467/merger/indexes/turing-index_5M.hnsw,/ssd_root/jin467/merger/indexes/turing-index_5M-10M.hnsw
 
 # efs_array 以逗号分隔
-efs_array = 100,120,140,160,180,200,300
+efs_array = 100,120,140,160,180,200,300,400,500,600,700,800

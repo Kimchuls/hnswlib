@@ -1,6 +1,6 @@
 # Dataset configuration for HNSW experiment
 workload_type = DEEP10M
-merge_method = TWO_MERGE
+merge_method = NGM
 dim = 96
 max_elements = 10000000
 nb = 10000000
@@ -9,7 +9,7 @@ ef_construction = 64
 k = 100
 kk = 100
 nq = 10000
-iterations = 5
+iterations = 1
 lrange = 0
 rrange = 10000000
 rerun = false
@@ -20,4 +20,4 @@ groundtruth_filepath = /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
 index_path = /ssd_root/jin467/merger/indexes/deep-index_5M.hnsw,/ssd_root/jin467/merger/indexes/deep-index_5M-10M.hnsw
 
 # efs_array 以逗号分隔
-efs_array = 100,120,140,160,180,200,300
+efs_array = 100,120,140,160,180,200,300,400,500,600,700,800

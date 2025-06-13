@@ -45,6 +45,9 @@ struct Config {
     int lrange;
     int rrange;
     bool rerun = false;
+    int thread = 1;
+    int cnt = 6;
+    float alpha = 1.1;
     std::string base_filepath;
     std::string query_filepath;
     std::string groundtruth_filepath;
@@ -254,6 +257,7 @@ Config loadConfig(const std::string &filename) {
     if (kv.count("kk")) cfg.kk = std::stoi(kv.at("kk"));
     if (kv.count("nq")) cfg.nq = std::stoi(kv.at("nq"));
     if (kv.count("rerun")) cfg.rerun = (kv.at("rerun") == "true");
+    if (kv.count("thread")) cfg.thread = std::stoi(kv.at("thread"));
 
     // Parse remaining numeric fields
     cfg.M = std::stoi(kv.at("M"));

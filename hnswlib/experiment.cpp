@@ -19,6 +19,66 @@
 #include <thread>
 using namespace std;
 
+template <class Function>
+inline void ParallelFor(size_t start, size_t end, size_t numThreads, Function fn) {
+    if (numThreads <= 0) {
+        numThreads = std::thread::hardware_concurrency();
+    }
+
+    if (numThreads == 1) {
+        for (size_t id = start; id < end; id++) {
+            fn(id, 0);
+            if (id % 200000 == 0) {
+                std::cout << "Processed " << id << " items." << std::endl;
+            }
+        }
+    } else {
+        std::vector<std::thread> threads;
+        std::atomic<size_t> current(start);
+
+        // keep track of exceptions in threads
+        // https://stackoverflow.com/a/32428427/1713196
+        std::exception_ptr lastException = nullptr;
+        std::mutex lastExceptMutex;
+
+        for (size_t threadId = 0; threadId < numThreads; ++threadId) {
+            threads.push_back(std::thread([&, threadId] {
+                while (true) {
+                    size_t id = current.fetch_add(1);
+
+                    if (id >= end) {
+                        break;
+                    }
+
+                    try {
+                        fn(id, threadId);
+                        if (id % 200000 == 0) {
+                            std::cout << "Processed " << id << " items." << std::endl;
+                        }
+                    } catch (...) {
+                        std::unique_lock<std::mutex> lastExcepLock(lastExceptMutex);
+                        lastException = std::current_exception();
+                        /*
+                         * This will work even when current is the largest value that
+                         * size_t can fit, because fetch_add returns the previous value
+                         * before the increment (what will result in overflow
+                         * and produce 0 instead of current + 1).
+                         */
+                        current = end;
+                        break;
+                    }
+                }
+            }));
+        }
+        for (auto &thread : threads) {
+            thread.join();
+        }
+        if (lastException) {
+            std::rethrow_exception(lastException);
+        }
+    }
+}
+
 float *read_vectors(const std::string &filepath, int num, size_t *d_out, size_t *n_out) {
     if (filepath.size() >= 6) {
         std::string suffix2 = filepath.substr(filepath.size() - 6); // ".fvecs" 或 ".bvecs"
@@ -36,9 +96,9 @@ float *read_vectors(const std::string &filepath, int num, size_t *d_out, size_t 
 void workload(const std::string &config_path) {
     // 读取配置
     Config cfg = loadConfig(config_path);
-    int dim = cfg.dim;
-    long max_elements = cfg.max_elements;
-    int nb = cfg.nb;
+    size_t dim = cfg.dim;
+    size_t max_elements = cfg.max_elements;
+    size_t nb = cfg.nb;
     int M = cfg.M;
     int ef_construction = cfg.ef_construction;
     int iterations = cfg.iterations;
@@ -46,7 +106,8 @@ void workload(const std::string &config_path) {
     int k = cfg.k;
     int nq = cfg.nq;
     int lrange = cfg.lrange;
-    int rrange = cfg.rrange;
+    int rrange = cfg.rrange; 
+    int thread = cfg.thread;
 
     printf("Configuration:\n");
     printf("  Workload Type: %s\n", workloadTypeToString(cfg.workload_type).c_str());
@@ -111,10 +172,11 @@ void workload(const std::string &config_path) {
                 double t0 = elapsed();
                 for (int i = 0; i < max_elements; i++) {
                     alg_hnsw0->addPoint(xb + i * dim, i);
-                    // if ((i + 1) % 200000 == 0) {
-                    //     printf("Checkpoint: %d, [%.3f s]\n", i + 1, elapsed() - t0);
-                    // }
+                    if ((i + 1) % 200000 == 0) {
+                        printf("Checkpoint: %d, [%.3f s]\n", i + 1, elapsed() - t0);
+                    }
                 }
+                // ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
             }
             std::string index_path = cfg.index_path[0];
@@ -140,18 +202,11 @@ void workload(const std::string &config_path) {
                 double t0 = elapsed();
                 for (size_t j = lrange; j < rrange; j++) {
                     alg_hnsw0->addPoint(xb + j * dim, j);
-                    // for (size_t xx = 0; xx < 5; xx++) {
-                    //     printf("[%f, %p]\n", *xb, xb);
-                    // printf("[%f, %p]\n", *(xb + j * dim) , xb + j * dim );
-                    //     printf("[%lld, %lld, %lld]\n", j, dim, xx);
-                    //     printf("[%f]%p, ", xb + j * dim + xx, xb + j * dim + xx);
-                    //     printf("[%f]%p, ", xb + 0 * dim + xx, xb + 0 * dim + xx);
-                    // }
-                    // printf("\n");
                     if ((j + 1) % 100000 == 0) {
                         printf("Checkpoint: %d, [%.3f s]\n", j + 1, elapsed() - t0);
                     }
                 }
+                // ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
             }
         }
@@ -209,28 +264,7 @@ void workload(const std::string &config_path) {
             alg_hnsw0->loadIndex(merged_index_path, &space);
             printf("Loaded merged index from: %s\n", merged_index_path.c_str());
         }
-    // } else if (merge_method == MULTI_TWO_MERGE) {
-    //     for (int i = 0; i < iterations; i++) {
-    //         printf("Iteration %d/%d\n", i + 1, iterations);
-    //         std::vector<std::string> index_path = cfg.index_path;
-    //         std::vector<hnswlib::HierarchicalNSW<float> *> indices;
-    //         for (const auto &path : index_path) {
-    //             hnswlib::HierarchicalNSW<float> *index = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
-    //             index->loadIndex(path, &space);
-    //             indices.push_back(index);
-    //         }
-
-    //         double t0 = elapsed();
-    //         alg_hnsw2 = hnswlib::HNSWMerger<float>(indices[0], indices[1], &space, -1, -1);
-    //         for (size_t j = 2; j < indices.size(); j++) {
-    //             alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw2, indices[j], &space, -1, -1);
-    //         }
-    //         printf("Total time for insertion: %.3f s\n", elapsed() - t0);
-    //     }
-    //     std::string merged_index_path = "/ssd_root/jin467/merger/indexes/multi-2way-merged_" + workloadTypeToString(workload_type) + ".hnsw";
-    //     alg_hnsw2->saveIndex(merged_index_path);
-    //     alg_hnsw0 = alg_hnsw2;
-        // } else if (merge_method == MULTI_MERGE) {
+        // } else if (merge_method == MULTI_TWO_MERGE) {
         //     for (int i = 0; i < iterations; i++) {
         //         printf("Iteration %d/%d\n", i + 1, iterations);
         //         std::vector<std::string> index_path = cfg.index_path;
@@ -242,10 +276,13 @@ void workload(const std::string &config_path) {
         //         }
 
         //         double t0 = elapsed();
-        //         alg_hnsw2 = hnswlib::MultiIndexMerger<float>(indices, &space, -1, -1);
+        //         alg_hnsw2 = hnswlib::HNSWMerger<float>(indices[0], indices[1], &space, -1, -1);
+        //         for (size_t j = 2; j < indices.size(); j++) {
+        //             alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw2, indices[j], &space, -1, -1);
+        //         }
         //         printf("Total time for insertion: %.3f s\n", elapsed() - t0);
         //     }
-        //     std::string merged_index_path = "/ssd_root/jin467/merger/indexes/multi-merged_" + workloadTypeToString(workload_type) + ".hnsw";
+        //     std::string merged_index_path = "/ssd_root/jin467/merger/indexes/multi-2way-merged_" + workloadTypeToString(workload_type) + ".hnsw";
         //     alg_hnsw2->saveIndex(merged_index_path);
         //     alg_hnsw0 = alg_hnsw2;
     } else if (merge_method == NGM) {
@@ -323,7 +360,7 @@ void workload(const std::string &config_path) {
     for (int ef_val : cfg.efs_array) {
         alg_hnsw0->setEf(ef_val);
         printf("set ef = %d\n", ef_val);
-        for (int iter = 0; iter < iterations; iter++) {
+        for (int iter = 0; iter < 5; iter++) {
             double t_search = 0.0;
             double t0 = elapsed();
             int *I = new int[nq * k];

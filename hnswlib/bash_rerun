@@ -10,22 +10,22 @@ make exp
 # ./exps ./config/sift10m_insert
 # ./exps ./config/deep10m_insert
 # ./exps ./config/turing10m_insert
-# ./exps ./config/sift10m
-# ./exps ./config/deep10m
-# ./exps ./config/turing10m
+./exps ./config/sift10m
+./exps ./config/deep10m
+./exps ./config/turing10m
 # ./exps ./config/sift10m_merge_2
 # ./exps ./config/deep10m_merge_2
 # ./exps ./config/turing10m_merge_2
 # ./exps ./config/sift10m_es
 # ./exps ./config/deep10m_es
 # ./exps ./config/turing10m_es
-./exps ./config/sift10m_ngm
-./exps ./config/deep10m_ngm
+# ./exps ./config/sift10m_ngm
+# ./exps ./config/deep10m_ngm
 # ./exps ./config/turing10m_ngm
-./exps ./config/sift10m_igtm
+# ./exps ./config/sift10m_igtm
 # ./exps ./config/deep10m_igtm
 # ./exps ./config/turing10m_igtm
-./exps ./config/sift10m_cgtm
+# ./exps ./config/sift10m_cgtm
 # ./exps ./config/deep10m_cgtm
 # ./exps ./config/turing10m_cgtm
 

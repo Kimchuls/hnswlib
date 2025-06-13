@@ -21,4 +21,6 @@ hnswlib/analysis
 hnswlib/degree_distributions
 hnswlib/drafts
 hnswlib/scripts
+hnswlib/results/*
+hnswlib/results_drop/*
 screenlog*

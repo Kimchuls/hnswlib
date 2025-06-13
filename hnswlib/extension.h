@@ -260,7 +260,7 @@ void HierarchicalNSW<dist_t>::mergeIndex1BasedOnIndex2Connection(HierarchicalNSW
     dist_t lowerBound;
     size_t Mcurmax = level ? maxM_ : maxM0_;
 
-    int cnt = 6;
+    int cnt = 4;
     index2->search2Layer(data_point,
                          last_entry_point,
                          higherLevel,
@@ -288,7 +288,7 @@ void HierarchicalNSW<dist_t>::mergeIndex1BasedOnIndex2Connection(HierarchicalNSW
             dist1 = dist[iter];
             top_candidates.emplace(dist1, candidate_id);
         }
-        getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
+        getNeighborsByHeuristic2(top_candidates, Mcurmax, false, -1, 1.05);
         ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
         setListCount(ll_cur, top_candidates.size());
         data = (tableint *)(ll_cur + 1);
@@ -508,7 +508,7 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
 
     // TODO: fix increased-layer nodes
     auto allocateMemory = [&](hnswlib::HierarchicalNSW<dist_t> *index, int element_count_offset) {
-        #pragma omp parallel for schedule(dynamic)
+#pragma omp parallel for schedule(dynamic)
         for (int id = 0; id < index->cur_element_count; id++) {
             if (index->element_levels_[id] < 1)
                 continue;
@@ -571,42 +571,72 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
 
         std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>> candidateSetIndex2;
         candidateSetIndex2.reserve(100000);
-        constexpr int NUM_BUCKETS = 128;
-        std::vector<std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>>> buckets(NUM_BUCKETS);
-        std::vector<std::mutex> bucket_mutexes(NUM_BUCKETS);
 
-        for (int cur_level = maxLevel; cur_level >= level; cur_level--) {
+//         constexpr int NUM_BUCKETS = 128;
+//         std::vector<std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>>> buckets(NUM_BUCKETS);
+//         std::vector<std::mutex> bucket_mutexes(NUM_BUCKETS);
+
+//         for (int cur_level = maxLevel; cur_level >= level; cur_level--) {
+// #pragma omp parallel for schedule(dynamic)
+//             for (int iter = 0; iter < layer_node_for_index1[cur_level].size(); iter++) {
+//                 tableint cur_c = layer_node_for_index1[cur_level][iter];
+//                 char *data_point = index1->getDataByInternalId(cur_c);
+
+//                 std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>> local_map;
+//                 alg_hnsw->mergeIndex1BasedOnIndex2Connection(index1,
+//                                                              index2,
+//                                                              cur_c,
+//                                                              data_point,
+//                                                              index1_offset,
+//                                                              index2_offset,
+//                                                              level,
+//                                                              entry_point_collect_index1_on_index2[cur_c],
+//                                                              &local_map);
+//                 //  &candidateSetIndex2);
+
+//                 for (const auto &[key, vec] : local_map) {
+//                     size_t bucket_id = std::hash<tableint>{}(key) % NUM_BUCKETS;
+//                     std::lock_guard<std::mutex> lock(bucket_mutexes[bucket_id]);
+//                     auto &target = buckets[bucket_id][key];
+//                     target.insert(target.end(), vec.begin(), vec.end());
+//                 }
+//             }
+//         }
+
+// #pragma omp parallel for schedule(dynamic)
+//         for (int b = 0; b < NUM_BUCKETS; ++b) {
+//             for (const auto &[key, vec] : buckets[b]) {
+// #pragma omp critical
+//                 candidateSetIndex2[key].insert(candidateSetIndex2[key].end(), vec.begin(), vec.end());
+//             }
+//         }
+
+        int num_threads = omp_get_max_threads();
+        std::vector<std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>>> thread_maps(num_threads);
+        for (int cur_level = maxLevel; cur_level >= level; --cur_level) {
+            const auto &nodes = layer_node_for_index1[cur_level];
+            size_t n = nodes.size();
 #pragma omp parallel for schedule(dynamic)
-            for (int iter = 0; iter < layer_node_for_index1[cur_level].size(); iter++) {
-                tableint cur_c = layer_node_for_index1[cur_level][iter];
+            for (size_t i = 0; i < n; ++i) {
+                int tid = omp_get_thread_num();
+                tableint cur_c = nodes[i];
                 char *data_point = index1->getDataByInternalId(cur_c);
-
-                std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>> local_map;
-                alg_hnsw->mergeIndex1BasedOnIndex2Connection(index1,
-                                                             index2,
-                                                             cur_c,
-                                                             data_point,
-                                                             index1_offset,
-                                                             index2_offset,
-                                                             level,
-                                                             entry_point_collect_index1_on_index2[cur_c],
-                                                             &local_map);
-                //  &candidateSetIndex2);
-
-                for (const auto &[key, vec] : local_map) {
-                    size_t bucket_id = std::hash<tableint>{}(key) % NUM_BUCKETS;
-                    std::lock_guard<std::mutex> lock(bucket_mutexes[bucket_id]);
-                    auto &target = buckets[bucket_id][key];
-                    target.insert(target.end(), vec.begin(), vec.end());
-                }
+                alg_hnsw->mergeIndex1BasedOnIndex2Connection(
+                    index1,
+                    index2,
+                    cur_c,
+                    data_point,
+                    index1_offset,
+                    index2_offset,
+                    level,
+                    entry_point_collect_index1_on_index2[cur_c],
+                    &thread_maps[tid]);
             }
         }
-
-#pragma omp parallel for schedule(dynamic)
-        for (int b = 0; b < NUM_BUCKETS; ++b) {
-            for (const auto &[key, vec] : buckets[b]) {
-#pragma omp critical
-                candidateSetIndex2[key].insert(candidateSetIndex2[key].end(), vec.begin(), vec.end());
+        for (auto &thread_map : thread_maps) {
+            for (auto &kv : thread_map) {
+                auto &vec = candidateSetIndex2[kv.first];
+                vec.insert(vec.end(), kv.second.begin(), kv.second.end());
             }
         }
 
@@ -649,7 +679,7 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
                             dist1 = dist[iter];
                             top_candidates.emplace(dist1, candidate_id);
                         }
-                        alg_hnsw->getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
+                        alg_hnsw->getNeighborsByHeuristic2(top_candidates, Mcurmax, false, -1, 1.05);
                         ll_cur = alg_hnsw->get_linklist_at_level(cur_c + index2_offset, level);
                         alg_hnsw->setListCount(ll_cur, top_candidates.size());
                         data = (tableint *)(ll_cur + 1);
@@ -1035,7 +1065,7 @@ HierarchicalNSW<dist_t> *MultiIndexMerger(std::vector<HierarchicalNSW<dist_t> *>
 
                 size_t Mcurmax = level ? merged_index->maxM_ : merged_index->maxM0_;
                 merged_index->getNeighborsByHeuristic2(
-                    top_candidates, Mcurmax, true);
+                    top_candidates, Mcurmax, true, -1, 1.1);
 
                 ll_cur = merged_index->get_linklist_at_level(cur_c + offset, level);
                 merged_index->setListCount(ll_cur, top_candidates.size());
@@ -1180,7 +1210,7 @@ HierarchicalNSW<dist_t> *MultiIndexMerger(std::vector<HierarchicalNSW<dist_t> *>
 
                 size_t Mcurmax = level ? merged_index->maxM_ : merged_index->maxM0_;
                 merged_index->getNeighborsByHeuristic2(
-                    top_candidates, Mcurmax, true);
+                    top_candidates, Mcurmax, true, -1, 1.1);
 
                 ll_cur = merged_index->get_linklist_at_level(cur_c + offset, level);
                 merged_index->setListCount(ll_cur, top_candidates.size());
@@ -1319,7 +1349,8 @@ HierarchicalNSW<dist_t> *HNSWRefinement(HierarchicalNSW<dist_t> *index1, L2Space
             top_candidates,
             Mcurmax,
             false,
-            id);
+            id,
+            1.1);
         // double t1 = omp_get_wtime();
         // totalSearchTime += (t1 - t0);
 

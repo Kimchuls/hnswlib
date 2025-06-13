@@ -9,10 +9,10 @@ ef_construction = 64
 k = 100
 kk = 100
 nq = 10000
-iterations = 1
+iterations = 3
 lrange = 0
 rrange = 10000000
-rerun = false
+rerun = true
 
 base_filepath = /ssd_root/dataset/deep10M/deep10M_base.fvecs
 query_filepath = /ssd_root/dataset/deep10M/deep10M_query.fvecs

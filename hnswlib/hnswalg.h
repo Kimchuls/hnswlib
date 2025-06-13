@@ -16,10 +16,10 @@
 #include <set>
 #include <utility> // for std::pair
 
-#include <faiss/IndexFlat.h>
-#include <faiss/IndexHNSW.h>
-#include <faiss/IndexIVFFlat.h>
-#include <faiss/index_io.h>
+// #include <faiss/IndexFlat.h>
+// #include <faiss/IndexHNSW.h>
+// #include <faiss/IndexIVFFlat.h>
+// #include <faiss/index_io.h>
 #include <omp.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -480,7 +480,8 @@ public:
         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> &top_candidates,
         const size_t M,
         bool collect_metrics = true,
-        tableint cur_c = -1) {
+        tableint cur_c = -1,
+        float alpha = 1.0) {
         if (collect_metrics && top_candidates.size() < M) {
             return;
         }
@@ -506,7 +507,7 @@ public:
                     fstdistfunc_(getDataByInternalId(second_pair.second),
                                  getDataByInternalId(curent_pair.second),
                                  dist_func_param_);
-                if (curdist * 1.1 < dist_to_query) {
+                if (curdist * alpha < dist_to_query) {
                     good = false;
                     break;
                 }

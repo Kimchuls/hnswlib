@@ -44,17 +44,6 @@ HierarchicalNSW<dist_t> *BasicMerge(HierarchicalNSW<dist_t> *index1, Hierarchica
     std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 2);
     index2->searchNodeOnEachLayer(layer_node_for_index2);
 
-    tableint *entry_point_collect_index1_on_index2 = new tableint[element_count_for_index1];
-    tableint *entry_point_collect_index2_on_index1 = new tableint[element_count_for_index2];
-    memset(entry_point_collect_index1_on_index2, -1, element_count_for_index1 * sizeof(int));
-    memset(entry_point_collect_index2_on_index1, -1, element_count_for_index2 * sizeof(int));
-
-    int entry_point_index1 = index2->enterpoint_node_;
-    // int entry_point_index2 = index1->enterpoint_node_;
-
-    std::vector<int> mergedDataPointsFromTopIndex1;
-    std::vector<int> mergedDataPointsFromTopIndex2;
-
     /* create new ligher layer */
 
     alg_hnsw->enterpoint_node_ = layer_node_for_index2[maxLevel][0] + index2_offset;
@@ -141,8 +130,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_Naive(HierarchicalNSW<dist_t> *index1, Hiera
     std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 2);
     index2->searchNodeOnEachLayer(layer_node_for_index2, true);
 
-    std::vector<int> mergedDataPointsFromTopIndex1;
-    std::vector<int> mergedDataPointsFromTopIndex2;
 
     for (int level = maxLevel; level >= 0; level -= 1) {
         if (layer_node_for_index1[level].size() > 0 && layer_node_for_index2[level].size() == 0) // copy all data for index 1 on this layer to new index
@@ -252,8 +239,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_IGTM(HierarchicalNSW<dist_t> *index1, Hierar
     std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 2);
     index2->searchNodeOnEachLayer(layer_node_for_index2, true);
 
-    std::vector<int> mergedDataPointsFromTopIndex1;
-    std::vector<int> mergedDataPointsFromTopIndex2;
 
     for (int level = maxLevel; level >= 0; level -= 1) {
         printf("[log] layer: %d\n", level);
@@ -298,9 +283,13 @@ HierarchicalNSW<dist_t> *HNSWMerger_IGTM(HierarchicalNSW<dist_t> *index1, Hierar
 
                 tableint entry_point = -1;
                 index2->search2Layer(
-                    data_point, entry_point,
-                    maxLevel, level, jump_ef,
-                    &starting_points, 0);
+                    data_point,
+                    entry_point,
+                    maxLevel, 
+                    level, 
+                    jump_ef,
+                    &starting_points,
+                    0);
                 while (starting_points.size() > (size_t)search_M)
                     starting_points.pop();
                 while (!starting_points.empty()) {
@@ -322,7 +311,10 @@ HierarchicalNSW<dist_t> *HNSWMerger_IGTM(HierarchicalNSW<dist_t> *index1, Hierar
                         std::vector<std::pair<dist_t, tableint>>,
                         typename HierarchicalNSW<dist_t>::CompareByFirst>
                         origin = index2->ExtendSearchBaseLayer(
-                            data_point, level, &starting_eps, local_ef);
+                            data_point, 
+                            level, 
+                            &starting_eps, 
+                            local_ef);
                     starting_eps.clear();
 
                     std::priority_queue<
@@ -571,9 +563,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_CGTM(HierarchicalNSW<dist_t> *index1, Hierar
     index1->searchNodeOnEachLayer(layer_node_for_index1, true);
     std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 2);
     index2->searchNodeOnEachLayer(layer_node_for_index2, true);
-
-    std::vector<int> mergedDataPointsFromTopIndex1;
-    std::vector<int> mergedDataPointsFromTopIndex2;
 
     for (int level = maxLevel; level >= 0; level -= 1) {
         printf("[log] layer: %d\n", level);

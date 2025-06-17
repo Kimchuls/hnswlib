@@ -170,13 +170,13 @@ void workload(const std::string &config_path) {
                 delete alg_hnsw0;
                 alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
                 double t0 = elapsed();
-                for (int i = 0; i < max_elements; i++) {
-                    alg_hnsw0->addPoint(xb + i * dim, i);
-                    if ((i + 1) % 200000 == 0) {
-                        printf("Checkpoint: %d, [%.3f s]\n", i + 1, elapsed() - t0);
-                    }
-                }
-                // ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
+                // for (int i = 0; i < max_elements; i++) {
+                //     alg_hnsw0->addPoint(xb + i * dim, i);
+                //     if ((i + 1) % 200000 == 0) {
+                //         printf("Checkpoint: %d, [%.3f s]\n", i + 1, elapsed() - t0);
+                //     }
+                // }
+                ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
             }
             std::string index_path = cfg.index_path[0];
@@ -200,17 +200,17 @@ void workload(const std::string &config_path) {
                 std::cout << "Loaded index from: " << index_path << std::endl;
 
                 double t0 = elapsed();
-                for (size_t j = lrange; j < rrange; j++) {
-                    alg_hnsw0->addPoint(xb + j * dim, j);
-                    if ((j + 1) % 100000 == 0) {
-                        printf("Checkpoint: %d, [%.3f s]\n", j + 1, elapsed() - t0);
-                    }
-                }
-                // ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
+                // for (size_t j = lrange; j < rrange; j++) {
+                //     alg_hnsw0->addPoint(xb + j * dim, j);
+                //     if ((j + 1) % 100000 == 0) {
+                //         printf("Checkpoint: %d, [%.3f s]\n", j + 1, elapsed() - t0);
+                //     }
+                // }
+                ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
             }
         }
-        printf("Insert task don't re-test the performance.\n");
+        printf("Insert task do not re-test the performance.\n");
         return;
     } else if (merge_method == TWO_MERGE) {
         if (cfg.rerun == true) {
@@ -356,7 +356,7 @@ void workload(const std::string &config_path) {
         exit(1);
     }
 
-    printf("Start searching");
+    printf("Start searching\n");
     for (int ef_val : cfg.efs_array) {
         alg_hnsw0->setEf(ef_val);
         printf("set ef = %d\n", ef_val);

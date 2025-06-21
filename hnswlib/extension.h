@@ -155,6 +155,11 @@ void HierarchicalNSW<dist_t>::search2Layer(const void *query_data,
     visited_list_pool_->releaseVisitedList(vl);
 }
 
+// This function extends the search to BEAM SEARCH from the base layer to the next layer
+// using the entry point and the eps set. It returns a priority queue of
+// the top candidates found in the search, sorted by distance.
+// Compared to the original SearchBaseLayer, this function uses a
+// beam search approach rather than a simple entry point search.
 template <typename dist_t>
 std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst>
 HierarchicalNSW<dist_t>::ExtendSearchBaseLayer(const void *query_data,
@@ -237,98 +242,14 @@ HierarchicalNSW<dist_t>::ExtendSearchBaseLayer(const void *query_data,
     return top_candidates;
 }
 
-template <typename dist_t>
-void HierarchicalNSW<dist_t>::mergeIndex1BasedOnIndex2Connection(HierarchicalNSW<dist_t> *index1,
-                                                                 HierarchicalNSW<dist_t> *index2,
-                                                                 tableint cur_c,
-                                                                 char *data_point,
-                                                                 int offset_index1,
-                                                                 int offset_index2,
-                                                                 int level,
-                                                                 tableint &last_entry_point,
-                                                                 std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>> *candidateSetIndex2) {
-    int higherLevel = level;
-    if (last_entry_point == -1) {
-        higherLevel = index2->maxlevel_;
-    }
-    std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> top_candidates;
 
-    linklistsizeint *ll_cur;
-    size_t linklistCount;
-    tableint *data;
-    dist_t *dist;
-    tableint candidate_id;
-    dist_t dist1;
-    dist_t lowerBound;
-    size_t Mcurmax = level ? maxM_ : maxM0_;
-
-    int cnt = 4;
-    index2->search2Layer(data_point,
-                         last_entry_point,
-                         higherLevel,
-                         level,
-                         cnt,
-                         &top_candidates,
-                         offset_index2);
-
-    auto temp_queue = top_candidates;
-    if (candidateSetIndex2) {
-        while (!temp_queue.empty()) {
-            std::pair<dist_t, tableint> current = temp_queue.top();
-            temp_queue.pop();
-            (*candidateSetIndex2)[current.second - offset_index2].push_back(std::make_pair(current.first, cur_c + offset_index1));
-        }
-    }
-
-    if (top_candidates.size() + index1->getListCount(index1->get_linklist_at_level(cur_c, level)) > Mcurmax) {
-        ll_cur = index1->get_linklist_at_level(cur_c, level);
-        linklistCount = index1->getListCount(ll_cur);
-        data = (tableint *)(ll_cur + 1);
-        dist = index1->get_dist_at_level(cur_c, level);
-        for (size_t iter = 0; iter < linklistCount; iter++) {
-            candidate_id = data[iter] + offset_index1;
-            dist1 = dist[iter];
-            top_candidates.emplace(dist1, candidate_id);
-        }
-        getNeighborsByHeuristic2(top_candidates, Mcurmax, false, -1, 1.05);
-        ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
-        setListCount(ll_cur, top_candidates.size());
-        data = (tableint *)(ll_cur + 1);
-        dist_t *distData = (dist_t *)get_dist_at_level(cur_c + offset_index1, level);
-        for (size_t idx = 0; top_candidates.size() > 0; idx++) {
-            data[idx] = top_candidates.top().second;
-            distData[idx] = top_candidates.top().first;
-            top_candidates.pop();
-        }
-    } else {
-        linklistsizeint *ll_cur_index1 = index1->get_linklist_at_level(cur_c, level);
-        size_t linklistCount_index1 = index1->getListCount(ll_cur_index1);
-        tableint *data_index1 = (tableint *)(ll_cur_index1 + 1);
-        dist_t *dist_index1 = index1->get_dist_at_level(cur_c, level);
-
-        ll_cur = get_linklist_at_level(cur_c + offset_index1, level);
-        setListCount(ll_cur, top_candidates.size() + linklistCount_index1);
-        data = (tableint *)(ll_cur + 1);
-        dist_t *distData = (dist_t *)get_dist_at_level(cur_c + offset_index1, level);
-        size_t offset = top_candidates.size();
-        for (size_t idx = 0; top_candidates.size() > 0; idx++) {
-            data[idx] = top_candidates.top().second;
-            distData[idx] = top_candidates.top().first;
-            top_candidates.pop();
-        }
-        for (size_t idx = 0; idx < linklistCount_index1; idx++) {
-            data[offset + idx] = data_index1[idx] + offset_index1;
-            distData[offset + idx] = dist_index1[idx];
-        }
-    }
-}
 
 template <typename dist_t>
 void HierarchicalNSW<dist_t>::deepCopyOneLayerOnIndex(HierarchicalNSW<dist_t> *index,
                                                       int level,
                                                       int offset,
                                                       std::vector<std::vector<int>> &layer_node_for_index) {
-#pragma omp parallel for schedule(dynamic)
+// #pragma omp parallel for 
     for (int iter = 0; iter < layer_node_for_index[level].size(); iter++) {
         tableint cur_c = layer_node_for_index[level][iter];
         tableint new_c = cur_c + offset;
@@ -354,7 +275,7 @@ void HierarchicalNSW<dist_t>::deepCopyOneLayerOnIndex(HierarchicalNSW<dist_t> *i
             for (int i = 0; i < linklistCount; i++) {
                 data_new[i] = data_cur[i] + offset;
             }
-            memcpy(ll_new_dist, ll_cur_dist, index->size_dist_links_per_element_);
+            memcpy(ll_new_dist, ll_cur_dist, index->size_dist_links_per_element_); 
         }
     }
 }
@@ -378,7 +299,7 @@ public:
 };
 
 template <typename dist_t>
-HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, HierarchicalNSW<dist_t> *index2, L2Space *space, size_t M = -1, size_t ef_construction = -1) {
+HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, HierarchicalNSW<dist_t> *index2, L2Space *space, int lambda = 4, float alpha = 1.05, size_t M = -1, size_t ef_construction = -1) {
     // TODO: implement logic with deleted node in an index, by re-organize the
     // internal label of nodes in an index
 
@@ -415,9 +336,9 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
     // layer.
 
     std::vector<std::vector<int>> layer_node_for_index1(maxLevel + 2);
-    index1->searchNodeOnEachLayer(layer_node_for_index1);
+    index1->searchNodeOnEachLayer(layer_node_for_index1, true);
     std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 2);
-    index2->searchNodeOnEachLayer(layer_node_for_index2);
+    index2->searchNodeOnEachLayer(layer_node_for_index2, true);
 
     tableint *entry_point_collect_index1_on_index2 = new tableint[element_count_for_index1];
     // tableint *entry_point_collect_index2_on_index1 = new tableint[element_count_for_index2];
@@ -510,7 +431,7 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
 
     // TODO: fix increased-layer nodes
     auto allocateMemory = [&](hnswlib::HierarchicalNSW<dist_t> *index, int element_count_offset) {
-#pragma omp parallel for schedule(dynamic)
+// #pragma omp parallel for 
         for (int id = 0; id < index->cur_element_count; id++) {
             if (index->element_levels_[id] < 1)
                 continue;
@@ -571,90 +492,101 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
         sw2.reset();
         sw3.reset();
 
-        std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>> candidateSetIndex2;
-        candidateSetIndex2.reserve(100000);
+        std::vector<std::vector<std::pair<dist_t,tableint>>>  candidateSetIndex2(element_count_for_index2);
+        std::vector<std::mutex> mtx(element_count_for_index2);
 
-        //         constexpr int NUM_BUCKETS = 128;
-        //         std::vector<std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>>> buckets(NUM_BUCKETS);
-        //         std::vector<std::mutex> bucket_mutexes(NUM_BUCKETS);
-
-        //         for (int cur_level = maxLevel; cur_level >= level; cur_level--) {
-        // #pragma omp parallel for schedule(dynamic)
-        //             for (int iter = 0; iter < layer_node_for_index1[cur_level].size(); iter++) {
-        //                 tableint cur_c = layer_node_for_index1[cur_level][iter];
-        //                 char *data_point = index1->getDataByInternalId(cur_c);
-
-        //                 std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>> local_map;
-        //                 alg_hnsw->mergeIndex1BasedOnIndex2Connection(index1,
-        //                                                              index2,
-        //                                                              cur_c,
-        //                                                              data_point,
-        //                                                              index1_offset,
-        //                                                              index2_offset,
-        //                                                              level,
-        //                                                              entry_point_collect_index1_on_index2[cur_c],
-        //                                                              &local_map);
-        //                 //  &candidateSetIndex2);
-
-        //                 for (const auto &[key, vec] : local_map) {
-        //                     size_t bucket_id = std::hash<tableint>{}(key) % NUM_BUCKETS;
-        //                     std::lock_guard<std::mutex> lock(bucket_mutexes[bucket_id]);
-        //                     auto &target = buckets[bucket_id][key];
-        //                     target.insert(target.end(), vec.begin(), vec.end());
-        //                 }
-        //             }
-        //         }
-
-        // #pragma omp parallel for schedule(dynamic)
-        //         for (int b = 0; b < NUM_BUCKETS; ++b) {
-        //             for (const auto &[key, vec] : buckets[b]) {
-        // #pragma omp critical
-        //                 candidateSetIndex2[key].insert(candidateSetIndex2[key].end(), vec.begin(), vec.end());
-        //             }
-        //         }
-
-        int num_threads = omp_get_max_threads();
-        std::vector<std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>>> thread_maps(num_threads);
-        for (int cur_level = maxLevel; cur_level >= level; --cur_level) {
-            const auto &nodes = layer_node_for_index1[cur_level];
-            size_t n = nodes.size();
-#pragma omp parallel for schedule(dynamic)
-            for (size_t i = 0; i < n; ++i) {
+        int batch_size = 64;
+#pragma omp parallel for
+        for (int b = 0; b < layer_node_for_index1[level].size(); b += batch_size) {
+            for (int i = b; i < b + batch_size && i < layer_node_for_index1[level].size(); ++i) {
                 int tid = omp_get_thread_num();
-                tableint cur_c = nodes[i];
+                tableint cur_c = layer_node_for_index1[level][i];
                 char *data_point = index1->getDataByInternalId(cur_c);
-                alg_hnsw->mergeIndex1BasedOnIndex2Connection(
-                    index1,
-                    index2,
-                    cur_c,
-                    data_point,
-                    index1_offset,
-                    index2_offset,
-                    level,
-                    entry_point_collect_index1_on_index2[cur_c],
-                    &thread_maps[tid]);
-            }
-        }
-        for (auto &thread_map : thread_maps) {
-            for (auto &kv : thread_map) {
-                auto &vec = candidateSetIndex2[kv.first];
-                vec.insert(vec.end(), kv.second.begin(), kv.second.end());
+                tableint &last_entry_point = entry_point_collect_index1_on_index2[cur_c];
+                int higherLevel = last_entry_point == -1 ? index2->maxlevel_ : level;
+                std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> top_candidates;
+
+                linklistsizeint *ll_cur;
+                size_t linklistCount;
+                tableint *data;
+                dist_t *dist;
+                tableint candidate_id;
+                dist_t dist1;
+                dist_t lowerBound;
+                size_t Mcurmax = level ? alg_hnsw->maxM_ : alg_hnsw->maxM0_;
+
+                index2->search2Layer(data_point,
+                                     last_entry_point,
+                                     higherLevel,
+                                     level,
+                                     lambda,
+                                     &top_candidates,
+                                     index2_offset);
+
+                auto temp_queue = top_candidates;
+                while (!temp_queue.empty()) {
+                    std::pair<dist_t, tableint> current = temp_queue.top();
+                    temp_queue.pop();
+                    std::lock_guard<std::mutex> lk(mtx[current.second - index2_offset]);
+                    candidateSetIndex2[current.second - index2_offset].push_back(std::make_pair(current.first, cur_c + index1_offset));
+                }
+
+                if (top_candidates.size() + index1->getListCount(index1->get_linklist_at_level(cur_c, level)) > Mcurmax) {
+                    ll_cur = index1->get_linklist_at_level(cur_c, level);
+                    linklistCount = index1->getListCount(ll_cur);
+                    data = (tableint *)(ll_cur + 1);
+                    dist = index1->get_dist_at_level(cur_c, level);
+                    for (size_t iter = 0; iter < linklistCount; iter++) {
+                        candidate_id = data[iter] + index1_offset;
+                        dist1 = dist[iter];
+                        top_candidates.emplace(dist1, candidate_id);
+                    }
+                    alg_hnsw->getNeighborsByHeuristic2(top_candidates, Mcurmax, false, -1, alpha);
+                    ll_cur = alg_hnsw->get_linklist_at_level(cur_c + index1_offset, level);
+                    alg_hnsw->setListCount(ll_cur, top_candidates.size());
+                    data = (tableint *)(ll_cur + 1);
+                    dist_t *distData = (dist_t *)alg_hnsw->get_dist_at_level(cur_c + index1_offset, level);
+                    for (size_t idx = 0; top_candidates.size() > 0; idx++) {
+                        data[idx] = top_candidates.top().second;
+                        distData[idx] = top_candidates.top().first;
+                        top_candidates.pop();
+                    }
+                } else {
+                    linklistsizeint *ll_cur_index1 = index1->get_linklist_at_level(cur_c, level);
+                    size_t linklistCount_index1 = index1->getListCount(ll_cur_index1);
+                    tableint *data_index1 = (tableint *)(ll_cur_index1 + 1);
+                    dist_t *dist_index1 = index1->get_dist_at_level(cur_c, level);
+
+                    ll_cur = alg_hnsw->get_linklist_at_level(cur_c + index1_offset, level);
+                    alg_hnsw->setListCount(ll_cur, top_candidates.size() + linklistCount_index1);
+                    data = (tableint *)(ll_cur + 1);
+                    dist_t *distData = (dist_t *)alg_hnsw->get_dist_at_level(cur_c + index1_offset, level);
+                    size_t offset = top_candidates.size();
+                    for (size_t idx = 0; top_candidates.size() > 0; idx++) {
+                        data[idx] = top_candidates.top().second;
+                        distData[idx] = top_candidates.top().first;
+                        top_candidates.pop();
+                    }
+                    for (size_t idx = 0; idx < linklistCount_index1; idx++) {
+                        data[offset + idx] = data_index1[idx] + index1_offset;
+                        distData[offset + idx] = dist_index1[idx];
+                    }
+                }
             }
         }
 
         sum0 += sw2.getElapsedTimeMicro();
         sw2.reset();
 
-        for (int cur_level = maxLevel; cur_level >= level; cur_level--) {
-#pragma omp parallel for schedule(dynamic)
-            for (int iter = 0; iter < layer_node_for_index2[cur_level].size(); iter++) {
-                tableint cur_c = layer_node_for_index2[cur_level][iter];
+#pragma omp parallel for
+        for (int b = 0; b < layer_node_for_index1[level].size(); b += batch_size) {
+            for (int i = b; i < b + batch_size && i < layer_node_for_index1[level].size(); ++i) {
+                tableint cur_c = layer_node_for_index2[level][i];
                 char *data_point = index2->getDataByInternalId(cur_c);
 
                 std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> top_candidates;
-                auto it = candidateSetIndex2.find(cur_c);
-                if (it != candidateSetIndex2.end()) {
-                    const std::vector<std::pair<dist_t, tableint>> &candidates = it->second;
+                if( candidateSetIndex2[cur_c].size() > 0) {
+                    const std::vector<std::pair<dist_t, tableint>> &candidates = candidateSetIndex2[cur_c];
                     int candidate_size = candidates.size();
                     linklistsizeint *ll_cur;
                     size_t linklistCount;
@@ -681,7 +613,7 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
                             dist1 = dist[iter];
                             top_candidates.emplace(dist1, candidate_id);
                         }
-                        alg_hnsw->getNeighborsByHeuristic2(top_candidates, Mcurmax, false, -1, 1.05);
+                        alg_hnsw->getNeighborsByHeuristic2(top_candidates, Mcurmax, false, -1, alpha);
                         ll_cur = alg_hnsw->get_linklist_at_level(cur_c + index2_offset, level);
                         alg_hnsw->setListCount(ll_cur, top_candidates.size());
                         data = (tableint *)(ll_cur + 1);

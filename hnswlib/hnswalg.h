@@ -1541,32 +1541,12 @@ public:
         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> *top_candidates = nullptr,
         int offset = 0);
 
-    // void search2Layer_MT(
-    //     const void *query_data,
-    //     tableint &enterpoint_node,
-    //     int level_higher,
-    //     int level_lower,
-    //     int cnt,
-    //     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> *top_candidates = nullptr,
-    //     int offset = 0);
-
     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst>
     ExtendSearchBaseLayer(const void *query_data,
                           //   tableint &entry_point,
                           int level,
                           std::unordered_set<tableint> *eps,
                           size_t local_ef = -1);
-
-    void mergeIndex1BasedOnIndex2Connection(
-        HierarchicalNSW<dist_t> *index1,
-        HierarchicalNSW<dist_t> *index2,
-        tableint cur_c,
-        char *data_point,
-        int offset_index1,
-        int offset_index2,
-        int level,
-        tableint &last_entry_point,
-        std::unordered_map<tableint, std::vector<std::pair<dist_t, tableint>>> *candidateSetIndex2 = nullptr);
 
     tableint addPoint(
         labeltype label,

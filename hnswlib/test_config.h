@@ -22,11 +22,11 @@ enum MergeMethod {
     INSERT,
     TWO_MERGE,
     MULTI_TWO_MERGE,
-    MULTI_MERGE,
     ES,
     NGM,
     IGTM,
-    CGTM
+    CGTM,
+    ABLATION_C
 };
 
 // Config struct
@@ -46,8 +46,9 @@ struct Config {
     int rrange;
     bool rerun = false;
     int thread = 1;
-    int cnt = 6;
-    float alpha = 1.1;
+    int cnt = 4;
+    float alpha = 1.05;
+    bool save_index = true;
     std::string base_filepath;
     std::string query_filepath;
     std::string groundtruth_filepath;
@@ -85,11 +86,11 @@ MergeMethod parseMergeMethod(const std::string &s) {
     if (s == "INSERT") return INSERT;
     if (s == "TWO_MERGE") return TWO_MERGE;
     if (s == "MULTI_TWO_MERGE") return MULTI_TWO_MERGE;
-    if (s == "MULTI_MERGE") return MULTI_MERGE;
     if (s == "ES") return ES;
     if (s == "NGM") return NGM;
     if (s == "IGTM") return IGTM;
     if (s == "CGTM") return CGTM;
+    if (s == "ABLATION_C") return ABLATION_C;
     std::cerr << "Unknown MergeMethod: " << s << std::endl;
     std::exit(1);
 }
@@ -100,11 +101,11 @@ std::string mergeMethodToString(MergeMethod method) {
     case INSERT: return "INSERT";
     case TWO_MERGE: return "TWO_MERGE";
     case MULTI_TWO_MERGE: return "MULTI_TWO_MERGE";
-    case MULTI_MERGE: return "MULTI_MERGE";
     case ES: return "ES";
     case NGM: return "NGM";
     case IGTM: return "IGTM";
     case CGTM: return "CGTM";
+    case ABLATION_C: return "ABLATION_C";
     default: return "UNKNOWN";
     }
 }
@@ -258,6 +259,9 @@ Config loadConfig(const std::string &filename) {
     if (kv.count("nq")) cfg.nq = std::stoi(kv.at("nq"));
     if (kv.count("rerun")) cfg.rerun = (kv.at("rerun") == "true");
     if (kv.count("thread")) cfg.thread = std::stoi(kv.at("thread"));
+    if (kv.count("cnt")) cfg.cnt = std::stoi(kv.at("cnt"));
+    if (kv.count("alpha")) cfg.alpha = std::stof(kv.at("alpha"));
+    if (kv.count("save_index")) cfg.save_index = (kv.at("save_index") == "true");
 
     // Parse remaining numeric fields
     cfg.M = std::stoi(kv.at("M"));

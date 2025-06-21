@@ -196,3 +196,17 @@ float* load_and_convert_to_float_range(const char* fname, size_t start_index, si
   fclose(f);
   return result;
 }
+
+float *read_vectors(const std::string &filepath, int num, size_t *d_out, size_t *n_out) {
+    if (filepath.size() >= 6) {
+        std::string suffix2 = filepath.substr(filepath.size() - 6); // ".fvecs" 或 ".bvecs"
+        if (suffix2 == ".fvecs") {
+            return fvecs_read(filepath.c_str(), d_out, n_out);
+        }
+        if (suffix2 == ".bvecs") {
+            return bvecs_read(filepath.c_str(), num, d_out, n_out);
+        }
+    }
+    std::cerr << "Unsupported vector file format: " << filepath << std::endl;
+    std::exit(1);
+}

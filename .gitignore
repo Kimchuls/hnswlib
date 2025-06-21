@@ -23,4 +23,5 @@ hnswlib/drafts
 hnswlib/scripts
 hnswlib/results/*
 hnswlib/results_drop/*
+hnswlib/hnswlib/config/*
 screenlog*

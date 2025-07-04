@@ -1,0 +1,16 @@
+./exps config/turing10m_merge_2 
+[?2004lfvecs_read: /ssd_root/dataset/turing10m/msturing-10M.fvecs
+loaded base vectors: 10000000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+mergeIndex1BasedOnIndex2Connection sum0: 116.565738
+mergeIndex1BasedOnIndex2Connection sum1: 9.055393
+mergeIndex1BasedOnIndex2Connection sum2: 125.621133
+Total time for insertion: 134.756 s
+Iteration 2/5
+Killed
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 

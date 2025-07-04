@@ -104,7 +104,7 @@ HierarchicalNSW<dist_t> *BasicMerge(HierarchicalNSW<dist_t> *index1, Hierarchica
 }
 
 template <typename dist_t>
-HierarchicalNSW<dist_t> *HNSWMerger_Naive(HierarchicalNSW<dist_t> *index1, HierarchicalNSW<dist_t> *index2, L2Space *space, size_t jump_ef = 40, size_t M = -1, size_t ef_construction = -1) {
+HierarchicalNSW<dist_t> *HNSWMerger_Naive(HierarchicalNSW<dist_t> *index1, HierarchicalNSW<dist_t> *index2, L2Space *space, size_t search_ef = 40, size_t M = -1, size_t ef_construction = -1) {
     double s0 = elapsed();
     if (index1->cur_element_count > index2->cur_element_count || index1->maxlevel_ > index2->maxlevel_) {
         std::swap(index1, index2);
@@ -157,7 +157,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_Naive(HierarchicalNSW<dist_t> *index1, Hiera
 
             tableint entry_point = -1;
 
-            index2->search2Layer(data_point, entry_point, maxLevel, level, jump_ef, &top_candidates, index2_offset);
+            index2->search2Layer(data_point, entry_point, maxLevel, level, search_ef, &top_candidates, index2_offset);
             ll_cur = index1->get_linklist_at_level(cur_c, level);
             linklistCount = index1->getListCount(ll_cur);
             data = (tableint *)(ll_cur + 1);
@@ -186,7 +186,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_Naive(HierarchicalNSW<dist_t> *index1, Hiera
 
             tableint entry_point = -1;
 
-            index1->search2Layer(data_point, entry_point, maxLevel, level, jump_ef, &top_candidates, index1_offset);
+            index1->search2Layer(data_point, entry_point, maxLevel, level, search_ef, &top_candidates, index1_offset);
             ll_cur = index2->get_linklist_at_level(cur_c, level);
             linklistCount = index2->getListCount(ll_cur);
             data = (tableint *)(ll_cur + 1);

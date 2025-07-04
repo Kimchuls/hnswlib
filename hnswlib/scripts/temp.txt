@@ -1,0 +1,15 @@
+g++ -Wno-write-strings -Wno-unused-result -Wno-format -O3 -g test_merge.cpp -o merge
+./merge 
+loaded a 1000000 vectors in 128 dimension 
+[1.041 s] build index1 and index2
+Iteration 0
+Remaining clusters: 50
+Iteration 1
+Remaining clusters: 47
+Iteration 2
+Remaining clusters: 23
+Iteration 3
+Remaining clusters: 22
+Iteration 4
+Remaining clusters: 20
+[11.776 s] cluster points

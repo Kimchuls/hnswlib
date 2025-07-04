@@ -11,17 +11,17 @@ var/
 .vs/
 **.DS_Store
 *.pyc
-bash
+# bash
 # test*
-*.txt
-merge*
-availability*
-hnswlib/indexes
-hnswlib/analysis
-hnswlib/degree_distributions
-hnswlib/drafts
-hnswlib/scripts
-hnswlib/results/*
-hnswlib/results_drop/*
-hnswlib/hnswlib/config/*
-screenlog*
+# *.txt
+# merge*
+# availability*
+# hnswlib/indexes
+# hnswlib/analysis
+# hnswlib/degree_distributions
+# hnswlib/drafts
+# hnswlib/scripts
+# hnswlib/results/*
+# hnswlib/results_drop/*
+# hnswlib/hnswlib/config/*
+# screenlog*

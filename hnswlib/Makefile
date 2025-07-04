@@ -24,8 +24,10 @@ exp:
 	g++ $(CFLAGS_IGNORE) -O3 experiment.cpp -o exps $(CFLAG_FAISS)
 
 debug:
-	g++ $(CFLAGS_IGNORE) -g test_merge.cpp -o merge $(CFLAG_FAISS)
-	gdb ./merge
+	g++ $(CFLAGS_IGNORE) -g experiment.cpp -o exps $(CFLAG_FAISS)
+	gdb ./exps
+	# g++ $(CFLAGS_IGNORE) -g test_merge.cpp -o merge $(CFLAG_FAISS)
+	# gdb ./merge
 
 release:
 	g++ $(CFLAGS_IGNORE) -O3 test_merge.cpp -o merge $(CFLAG_FAISS)

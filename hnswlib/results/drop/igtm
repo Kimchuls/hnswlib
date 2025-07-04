@@ -1,0 +1,395 @@
+
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 
+[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./bash_if[Kgtm 
+[?2004lg++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: IGTM
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: IGTM
+Iteration 1/3
+time for new layer: 6.216340
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 97.117248 
+[log] Index merge process 400000 / 5000000, time: 129.349988 
+[log] Index merge process 600000 / 5000000, time: 159.652336 
+[log] Index merge process 800000 / 5000000, time: 190.067702 
+[log] Index merge process 1000000 / 5000000, time: 223.017367 
+[log] Index merge process 1200000 / 5000000, time: 254.450248 
+[log] Index merge process 1400000 / 5000000, time: 284.742348 
+[log] Index merge process 1600000 / 5000000, time: 325.314489 
+[log] Index merge process 1800000 / 5000000, time: 359.145065 
+[log] Index merge process 2000000 / 5000000, time: 392.614136 
+[log] Index merge process 2200000 / 5000000, time: 426.648719 
+[log] Index merge process 2400000 / 5000000, time: 461.979443 
+[log] Index merge process 2600000 / 5000000, time: 503.696239 
+[log] Index merge process 2800000 / 5000000, time: 541.548763 
+[log] Index merge process 3000000 / 5000000, time: 579.457003 
+[log] Index merge process 3200000 / 5000000, time: 616.953054 
+[log] Index merge process 3400000 / 5000000, time: 656.047702 
+[log] Index merge process 3600000 / 5000000, time: 696.814160 
+[log] Index merge process 3800000 / 5000000, time: 739.244754 
+[log] Index merge process 4000000 / 5000000, time: 783.189383 
+[log] Index merge process 4200000 / 5000000, time: 830.222682 
+[log] Index merge process 4400000 / 5000000, time: 881.713399 
+[log] Index merge process 4600000 / 5000000, time: 937.208315 
+[log] Index merge process 4800000 / 5000000, time: 996.477414 
+[log] Index merge process 5000000 / 5000000, time: 1059.138144 
+[log] Index merge process 200000 / 5000000, time: 1099.191523 
+[log] Index merge process 400000 / 5000000, time: 1126.097452 
+[log] Index merge process 600000 / 5000000, time: 1153.727899 
+[log] Index merge process 800000 / 5000000, time: 1182.294084 
+[log] Index merge process 1000000 / 5000000, time: 1209.392824 
+[log] Index merge process 1200000 / 5000000, time: 1237.947305 
+[log] Index merge process 1400000 / 5000000, time: 1266.631673 
+[log] Index merge process 1600000 / 5000000, time: 1296.118062 
+[log] Index merge process 1800000 / 5000000, time: 1326.736574 
+[log] Index merge process 2000000 / 5000000, time: 1358.472285 
+[log] Index merge process 2200000 / 5000000, time: 1390.711172 
+[log] Index merge process 2400000 / 5000000, time: 1423.698867 
+[log] Index merge process 2600000 / 5000000, time: 1457.846344 
+[log] Index merge process 2800000 / 5000000, time: 1493.738263 
+[log] Index merge process 3000000 / 5000000, time: 1531.022411 
+[log] Index merge process 3200000 / 5000000, time: 1568.714756 
+[log] Index merge process 3400000 / 5000000, time: 1621.352221 
+[log] Index merge process 3600000 / 5000000, time: 1664.856101 
+[log] Index merge process 3800000 / 5000000, time: 1710.476026 
+[log] Index merge process 4000000 / 5000000, time: 1806.063370 
+[log] Index merge process 4200000 / 5000000, time: 1858.838176 
+[log] Index merge process 4400000 / 5000000, time: 1912.199299 
+[log] Index merge process 4600000 / 5000000, time: 1969.409386 
+[log] Index merge process 4800000 / 5000000, time: 2029.806498 
+[log] Index merge process 5000000 / 5000000, time: 2093.806578 
+Total time for insertion: 2093.817 s
+Iteration 2/3
+./bash_igtm: line 25: 612060 Killed                  ./exps ./config/sift10m_igtm
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: IGTM
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: IGTM
+Iteration 1/3
+time for new layer: 7.215535
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 106.514143 
+[log] Index merge process 400000 / 5000000, time: 131.585810 
+[log] Index merge process 600000 / 5000000, time: 160.397534 
+[log] Index merge process 800000 / 5000000, time: 458.359866 
+[log] Index merge process 1000000 / 5000000, time: 1395.503378 
+[log] Index merge process 1200000 / 5000000, time: 1449.488177 
+[log] Index merge process 1400000 / 5000000, time: 1501.674465 
+[log] Index merge process 1600000 / 5000000, time: 1549.936332 
+[log] Index merge process 1800000 / 5000000, time: 1583.632804 
+[log] Index merge process 2000000 / 5000000, time: 1609.041316 
+[log] Index merge process 2200000 / 5000000, time: 1635.081302 
+[log] Index merge process 2400000 / 5000000, time: 1661.938143 
+[log] Index merge process 2600000 / 5000000, time: 1689.052923 
+[log] Index merge process 2800000 / 5000000, time: 1717.173497 
+[log] Index merge process 3000000 / 5000000, time: 1745.953805 
+[log] Index merge process 3200000 / 5000000, time: 1775.979801 
+[log] Index merge process 3400000 / 5000000, time: 1807.164202 
+[log] Index merge process 3600000 / 5000000, time: 1839.775238 
+[log] Index merge process 3800000 / 5000000, time: 1873.967299 
+[log] Index merge process 4000000 / 5000000, time: 1909.990213 
+[log] Index merge process 4200000 / 5000000, time: 1948.267271 
+[log] Index merge process 4400000 / 5000000, time: 1989.500762 
+[log] Index merge process 4600000 / 5000000, time: 2034.516699 
+[log] Index merge process 4800000 / 5000000, time: 2082.347080 
+[log] Index merge process 5000000 / 5000000, time: 2133.389324 
+[log] Index merge process 200000 / 5000000, time: 2154.595875 
+[log] Index merge process 400000 / 5000000, time: 2175.765811 
+[log] Index merge process 600000 / 5000000, time: 2197.403111 
+[log] Index merge process 800000 / 5000000, time: 2219.610010 
+[log] Index merge process 1000000 / 5000000, time: 2241.637332 
+[log] Index merge process 1200000 / 5000000, time: 2264.099396 
+[log] Index merge process 1400000 / 5000000, time: 2287.100344 
+[log] Index merge process 1600000 / 5000000, time: 2310.747728 
+[log] Index merge process 1800000 / 5000000, time: 2334.927455 
+[log] Index merge process 2000000 / 5000000, time: 2359.884704 
+[log] Index merge process 2200000 / 5000000, time: 2385.530504 
+[log] Index merge process 2400000 / 5000000, time: 2412.067160 
+[log] Index merge process 2600000 / 5000000, time: 2439.346120 
+[log] Index merge process 2800000 / 5000000, time: 2467.678640 
+[log] Index merge process 3000000 / 5000000, time: 2497.020628 
+[log] Index merge process 3200000 / 5000000, time: 2527.564901 
+[log] Index merge process 3400000 / 5000000, time: 2559.390356 
+[log] Index merge process 3600000 / 5000000, time: 2592.577726 
+[log] Index merge process 3800000 / 5000000, time: 2627.271254 
+[log] Index merge process 4000000 / 5000000, time: 2663.866827 
+[log] Index merge process 4200000 / 5000000, time: 2702.927185 
+[log] Index merge process 4400000 / 5000000, time: 2745.346038 
+[log] Index merge process 4600000 / 5000000, time: 2791.323587 
+[log] Index merge process 4800000 / 5000000, time: 2840.772740 
+[log] Index merge process 5000000 / 5000000, time: 2893.815823 
+Total time for insertion: 2893.825 s
+Iteration 2/3
+time for new layer: 50.159561
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 102.351449 
+[log] Index merge process 400000 / 5000000, time: 122.958742 
+[log] Index merge process 600000 / 5000000, time: 144.157732 
+[log] Index merge process 800000 / 5000000, time: 165.788302 
+[log] Index merge process 1000000 / 5000000, time: 192.842537 
+[log] Index merge process 1200000 / 5000000, time: 214.326569 
+[log] Index merge process 1400000 / 5000000, time: 236.598337 
+[log] Index merge process 1600000 / 5000000, time: 486.663632 
+[log] Index merge process 1800000 / 5000000, time: 509.972808 
+[log] Index merge process 2000000 / 5000000, time: 533.838213 
+[log] Index merge process 2200000 / 5000000, time: 558.581519 
+[log] Index merge process 2400000 / 5000000, time: 584.174784 
+[log] Index merge process 2600000 / 5000000, time: 610.463211 
+[log] Index merge process 2800000 / 5000000, time: 637.725060 
+[log] Index merge process 3000000 / 5000000, time: 666.031143 
+[log] Index merge process 3200000 / 5000000, time: 695.426739 
+[log] Index merge process 3400000 / 5000000, time: 725.935861 
+[log] Index merge process 3600000 / 5000000, time: 757.617615 
+[log] Index merge process 3800000 / 5000000, time: 791.129161 
+[log] Index merge process 4000000 / 5000000, time: 826.344965 
+[log] Index merge process 4200000 / 5000000, time: 863.704865 
+[log] Index merge process 4400000 / 5000000, time: 903.820921 
+[log] Index merge process 4600000 / 5000000, time: 947.370055 
+[log] Index merge process 4800000 / 5000000, time: 994.520203 
+[log] Index merge process 5000000 / 5000000, time: 1043.759048 
+[log] Index merge process 200000 / 5000000, time: 1063.907791 
+[log] Index merge process 400000 / 5000000, time: 1084.373338 
+[log] Index merge process 600000 / 5000000, time: 1105.294697 
+[log] Index merge process 800000 / 5000000, time: 1126.945901 
+[log] Index merge process 1000000 / 5000000, time: 1148.365401 
+[log] Index merge process 1200000 / 5000000, time: 1170.267054 
+[log] Index merge process 1400000 / 5000000, time: 1192.726558 
+[log] Index merge process 1600000 / 5000000, time: 1215.923734 
+[log] Index merge process 1800000 / 5000000, time: 1239.690731 
+[log] Index merge process 2000000 / 5000000, time: 1264.054198 
+[log] Index merge process 2200000 / 5000000, time: 1289.004035 
+[log] Index merge process 2400000 / 5000000, time: 1314.888859 
+[log] Index merge process 2600000 / 5000000, time: 1341.680279 
+[log] Index merge process 2800000 / 5000000, time: 1369.372339 
+[log] Index merge process 3000000 / 5000000, time: 1398.147170 
+[log] Index merge process 3200000 / 5000000, time: 1428.049507 
+[log] Index merge process 3400000 / 5000000, time: 1459.308106 
+[log] Index merge process 3600000 / 5000000, time: 1491.884130 
+[log] Index merge process 3800000 / 5000000, time: 1526.147613 
+[log] Index merge process 4000000 / 5000000, time: 1562.092113 
+[log] Index merge process 4200000 / 5000000, time: 1600.864021 
+[log] Index merge process 4400000 / 5000000, time: 1642.436840 
+[log] Index merge process 4600000 / 5000000, time: 1687.872741 
+[log] Index merge process 4800000 / 5000000, time: 1736.084398 
+[log] Index merge process 5000000 / 5000000, time: 1786.996419 
+Total time for insertion: 1787.006 s
+Iteration 3/3
+time for new layer: 6.343502
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 226.905810 
+[log] Index merge process 400000 / 5000000, time: 253.539664 
+[log] Index merge process 600000 / 5000000, time: 281.256662 
+[log] Index merge process 800000 / 5000000, time: 311.003079 
+[log] Index merge process 1000000 / 5000000, time: 338.116948 
+[log] Index merge process 1200000 / 5000000, time: 366.272670 
+[log] Index merge process 1400000 / 5000000, time: 393.110906 
+[log] Index merge process 1600000 / 5000000, time: 420.905558 
+[log] Index merge process 1800000 / 5000000, time: 449.059647 
+[log] Index merge process 2000000 / 5000000, time: 480.358153 
+[log] Index merge process 2200000 / 5000000, time: 517.371266 
+[log] Index merge process 2400000 / 5000000, time: 552.112354 
+[log] Index merge process 2600000 / 5000000, time: 584.442184 
+[log] Index merge process 2800000 / 5000000, time: 617.788712 
+[log] Index merge process 3000000 / 5000000, time: 651.029306 
+[log] Index merge process 3200000 / 5000000, time: 685.598099 
+[log] Index merge process 3400000 / 5000000, time: 721.407045 
+[log] Index merge process 3600000 / 5000000, time: 758.907400 
+[log] Index merge process 3800000 / 5000000, time: 799.537748 
+[log] Index merge process 4000000 / 5000000, time: 842.398772 
+[log] Index merge process 4200000 / 5000000, time: 887.935183 
+./bash_igtm: line 26: 619954 Killed                  ./exps ./config/deep10m_igtm
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: IGTM
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: IGTM
+Iteration 1/3
+time for new layer: 6.693463
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 78.605050 
+[log] Index merge process 400000 / 5000000, time: 108.826733 
+[log] Index merge process 600000 / 5000000, time: 143.173603 
+[log] Index merge process 800000 / 5000000, time: 172.143631 
+[log] Index merge process 1000000 / 5000000, time: 200.487827 
+[log] Index merge process 1200000 / 5000000, time: 233.182230 
+[log] Index merge process 1400000 / 5000000, time: 265.056868 
+[log] Index merge process 1600000 / 5000000, time: 296.974332 
+[log] Index merge process 1800000 / 5000000, time: 332.187546 
+[log] Index merge process 2000000 / 5000000, time: 368.343132 
+[log] Index merge process 2200000 / 5000000, time: 413.758179 
+[log] Index merge process 2400000 / 5000000, time: 443.548637 
+[log] Index merge process 2600000 / 5000000, time: 473.902599 
+[log] Index merge process 2800000 / 5000000, time: 509.107484 
+[log] Index merge process 3000000 / 5000000, time: 548.180389 
+[log] Index merge process 3200000 / 5000000, time: 581.690027 
+[log] Index merge process 3400000 / 5000000, time: 625.977099 
+[log] Index merge process 3600000 / 5000000, time: 664.150164 
+[log] Index merge process 3800000 / 5000000, time: 700.028444 
+[log] Index merge process 4000000 / 5000000, time: 737.134989 
+[log] Index merge process 4200000 / 5000000, time: 783.886969 
+[log] Index merge process 4400000 / 5000000, time: 830.218714 
+[log] Index merge process 4600000 / 5000000, time: 886.783658 
+[log] Index merge process 4800000 / 5000000, time: 1187.128143 
+[log] Index merge process 5000000 / 5000000, time: 1828.465514 
+[log] Index merge process 200000 / 5000000, time: 2614.193534 
+[log] Index merge process 400000 / 5000000, time: 3524.584479 
+[log] Index merge process 600000 / 5000000, time: 3548.816738 
+[log] Index merge process 800000 / 5000000, time: 3573.714722 
+[log] Index merge process 1000000 / 5000000, time: 3601.893206 
+[log] Index merge process 1200000 / 5000000, time: 3633.853466 
+[log] Index merge process 1400000 / 5000000, time: 3666.930992 
+[log] Index merge process 1600000 / 5000000, time: 3697.130734 
+[log] Index merge process 1800000 / 5000000, time: 3731.475853 
+[log] Index merge process 2000000 / 5000000, time: 3761.785133 
+[log] Index merge process 2200000 / 5000000, time: 3793.912257 
+[log] Index merge process 2400000 / 5000000, time: 3826.968825 
+[log] Index merge process 2600000 / 5000000, time: 3860.309031 
+[log] Index merge process 2800000 / 5000000, time: 3898.189427 
+[log] Index merge process 3000000 / 5000000, time: 3936.507752 
+[log] Index merge process 3200000 / 5000000, time: 3973.409095 
+[log] Index merge process 3400000 / 5000000, time: 4011.170330 
+[log] Index merge process 3600000 / 5000000, time: 4044.761425 
+[log] Index merge process 3800000 / 5000000, time: 4083.383457 
+[log] Index merge process 4000000 / 5000000, time: 4122.790345 
+[log] Index merge process 4200000 / 5000000, time: 4171.503680 
+[log] Index merge process 4400000 / 5000000, time: 4216.434189 
+[log] Index merge process 4600000 / 5000000, time: 4254.754261 
+[log] Index merge process 4800000 / 5000000, time: 4300.398720 
+[log] Index merge process 5000000 / 5000000, time: 4351.384290 
+Total time for insertion: 4351.397 s
+Iteration 2/3
+time for new layer: 180.238323
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 253.686503 
+[log] Index merge process 400000 / 5000000, time: 276.553978 
+[log] Index merge process 600000 / 5000000, time: 302.049015 
+[log] Index merge process 800000 / 5000000, time: 324.688166 
+[log] Index merge process 1000000 / 5000000, time: 351.409385 
+[log] Index merge process 1200000 / 5000000, time: 382.581780 
+[log] Index merge process 1400000 / 5000000, time: 413.289178 
+[log] Index merge process 1600000 / 5000000, time: 444.545147 
+[log] Index merge process 1800000 / 5000000, time: 479.489249 
+[log] Index merge process 2000000 / 5000000, time: 513.773426 
+[log] Index merge process 2200000 / 5000000, time: 546.573134 
+[log] Index merge process 2400000 / 5000000, time: 574.814685 
+[log] Index merge process 2600000 / 5000000, time: 614.018226 
+[log] Index merge process 2800000 / 5000000, time: 661.339445 
+[log] Index merge process 3000000 / 5000000, time: 701.766070 
+[log] Index merge process 3200000 / 5000000, time: 825.882490 
+[log] Index merge process 3400000 / 5000000, time: 862.139552 
+[log] Index merge process 3600000 / 5000000, time: 898.232010 
+[log] Index merge process 3800000 / 5000000, time: 932.469942 
+[log] Index merge process 4000000 / 5000000, time: 967.818563 
+[log] Index merge process 4200000 / 5000000, time: 1012.867940 
+[log] Index merge process 4400000 / 5000000, time: 1057.653833 
+[log] Index merge process 4600000 / 5000000, time: 1103.819373 
+[log] Index merge process 4800000 / 5000000, time: 1155.922934 
+[log] Index merge process 5000000 / 5000000, time: 1210.033398 
+[log] Index merge process 200000 / 5000000, time: 1233.089847 
+[log] Index merge process 400000 / 5000000, time: 1257.951350 
+[log] Index merge process 600000 / 5000000, time: 1282.296846 
+[log] Index merge process 800000 / 5000000, time: 1307.704604 
+[log] Index merge process 1000000 / 5000000, time: 1336.448814 
+[log] Index merge process 1200000 / 5000000, time: 1369.176467 
+[log] Index merge process 1400000 / 5000000, time: 1403.166020 
+[log] Index merge process 1600000 / 5000000, time: 1434.205196 
+[log] Index merge process 1800000 / 5000000, time: 1470.123181 
+[log] Index merge process 2000000 / 5000000, time: 1501.727577 
+[log] Index merge process 2200000 / 5000000, time: 1535.280867 
+[log] Index merge process 2400000 / 5000000, time: 1569.947187 
+[log] Index merge process 2600000 / 5000000, time: 1604.970907 
+[log] Index merge process 2800000 / 5000000, time: 1644.888024 
+[log] Index merge process 3000000 / 5000000, time: 1685.402973 
+[log] Index merge process 3200000 / 5000000, time: 1724.764029 
+[log] Index merge process 3400000 / 5000000, time: 1765.110721 
+[log] Index merge process 3600000 / 5000000, time: 1800.631527 
+[log] Index merge process 3800000 / 5000000, time: 1841.196680 
+[log] Index merge process 4000000 / 5000000, time: 1882.368641 
+[log] Index merge process 4200000 / 5000000, time: 1933.026283 
+[log] Index merge process 4400000 / 5000000, time: 1979.539429 
+[log] Index merge process 4600000 / 5000000, time: 2019.264755 
+[log] Index merge process 4800000 / 5000000, time: 2066.556801 
+[log] Index merge process 5000000 / 5000000, time: 2120.470943 
+Total time for insertion: 2120.480 s
+Iteration 3/3
+time for new layer: 6.953794
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 817.567501 
+[log] Index merge process 400000 / 5000000, time: 1737.977510 
+./bash_igtm: line 27: 649245 Killed                  ./exps ./config/turing10m_igtm
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[A[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswl
+ib[00m$ [K[A[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ k[Kpji[K[Kkill -9 [K[Ku $()w)h)o)a)m)i)
+[?2004l

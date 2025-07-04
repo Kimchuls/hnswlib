@@ -9,6 +9,7 @@
 
 // Enum definitions
 enum WorkloadType {
+    SIFT1M,
     SIFT10M,
     DEEP10M,
     TURING10M,
@@ -21,12 +22,21 @@ enum MergeMethod {
     REBUILD,
     INSERT,
     TWO_MERGE,
+    MULTI_MERGE,
     MULTI_TWO_MERGE,
     ES,
     NGM,
     IGTM,
     CGTM,
-    ABLATION_C
+    ABLATION_C,
+    BACKWARD_SEARCH,
+    MEMORY_EFFICIENCY
+};
+
+enum MultiTestMethod {
+    LARGE_FIRST,
+    SMALL_FIRST,
+    RANDOM
 };
 
 // Config struct
@@ -49,6 +59,7 @@ struct Config {
     int cnt = 4;
     float alpha = 1.05;
     bool save_index = true;
+    MultiTestMethod multi_test_method = LARGE_FIRST;
     std::string base_filepath;
     std::string query_filepath;
     std::string groundtruth_filepath;
@@ -58,6 +69,7 @@ struct Config {
 
 // Parse string to WorkloadType enum
 WorkloadType parseWorkloadType(const std::string &s) {
+    if (s == "SIFT1M") return SIFT1M;
     if (s == "SIFT10M") return SIFT10M;
     if (s == "DEEP10M") return DEEP10M;
     if (s == "TURING10M") return TURING10M;
@@ -70,6 +82,7 @@ WorkloadType parseWorkloadType(const std::string &s) {
 
 std::string workloadTypeToString(WorkloadType type) {
     switch (type) {
+    case SIFT1M: return "SIFT1M";
     case SIFT10M: return "SIFT10M";
     case DEEP10M: return "DEEP10M";
     case TURING10M: return "TURING10M";
@@ -85,12 +98,15 @@ MergeMethod parseMergeMethod(const std::string &s) {
     if (s == "REBUILD") return REBUILD;
     if (s == "INSERT") return INSERT;
     if (s == "TWO_MERGE") return TWO_MERGE;
+    if (s == "MULTI_MERGE") return MULTI_MERGE;
     if (s == "MULTI_TWO_MERGE") return MULTI_TWO_MERGE;
     if (s == "ES") return ES;
     if (s == "NGM") return NGM;
     if (s == "IGTM") return IGTM;
     if (s == "CGTM") return CGTM;
     if (s == "ABLATION_C") return ABLATION_C;
+    if (s == "BACKWARD_SEARCH") return BACKWARD_SEARCH;
+    if (s=="MEMORY_EFFICIENCY") return MEMORY_EFFICIENCY;
     std::cerr << "Unknown MergeMethod: " << s << std::endl;
     std::exit(1);
 }
@@ -100,12 +116,33 @@ std::string mergeMethodToString(MergeMethod method) {
     case REBUILD: return "REBUILD";
     case INSERT: return "INSERT";
     case TWO_MERGE: return "TWO_MERGE";
+    case MULTI_MERGE: return "MULTI_MERGE";
     case MULTI_TWO_MERGE: return "MULTI_TWO_MERGE";
     case ES: return "ES";
     case NGM: return "NGM";
     case IGTM: return "IGTM";
     case CGTM: return "CGTM";
     case ABLATION_C: return "ABLATION_C";
+    case BACKWARD_SEARCH: return "BACKWARD_SEARCH";
+    case MEMORY_EFFICIENCY: return "MEMORY_EFFICIENCY";
+    default: return "UNKNOWN";
+    }
+}
+
+// Parse string to MultiTestMethod enum
+MultiTestMethod parseMultiTestMethod(const std::string &s) {
+    if (s == "LARGE_FIRST") return LARGE_FIRST;
+    if (s == "SMALL_FIRST") return SMALL_FIRST;
+    if (s == "RANDOM") return RANDOM;
+    std::cerr << "Unknown MultiTestMethod: " << s << std::endl;
+    std::exit(1);
+}
+
+std::string multiTestMethodToString(MultiTestMethod method) {
+    switch (method) {
+    case LARGE_FIRST: return "LARGE_FIRST";
+    case SMALL_FIRST: return "SMALL_FIRST";
+    case RANDOM: return "RANDOM";
     default: return "UNKNOWN";
     }
 }
@@ -143,6 +180,17 @@ std::vector<std::string> parseStringList(const std::string &s) {
 // Set default values for dim, max_elements, nb, k, kk, nq based on workload_type
 void setDefaultsByWorkload(Config &cfg) {
     switch (cfg.workload_type) {
+    case SIFT1M:
+        cfg.dim = 128;
+        cfg.max_elements = 1e6;
+        cfg.nb = 1e6;
+        cfg.k = 100;
+        cfg.kk = 1000;
+        cfg.nq = 10000;
+        cfg.base_filepath = "/ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs";
+        cfg.query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
+        cfg.groundtruth_filepath = "/ssd_root/dataset/ann_sift1b/gnd/idx_1M.ivecs";
+        break;
     case SIFT10M:
         cfg.dim = 128;
         cfg.max_elements = 10e6;
@@ -262,6 +310,8 @@ Config loadConfig(const std::string &filename) {
     if (kv.count("cnt")) cfg.cnt = std::stoi(kv.at("cnt"));
     if (kv.count("alpha")) cfg.alpha = std::stof(kv.at("alpha"));
     if (kv.count("save_index")) cfg.save_index = (kv.at("save_index") == "true");
+
+    if (kv.count("multi_test_method")) cfg.multi_test_method = parseMultiTestMethod(kv.at("multi_test_method"));
 
     // Parse remaining numeric fields
     cfg.M = std::stoi(kv.at("M"));

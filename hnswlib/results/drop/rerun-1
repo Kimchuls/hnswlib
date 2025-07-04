@@ -1,0 +1,562 @@
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 
+[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./basj[Kh2
+[?2004lg++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 4753.457 s
+Iteration 2/5
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 3697.449 s
+Iteration 3/5
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 6225.183 s
+Iteration 4/5
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 9833.399 s
+Iteration 5/5
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 3126.299 s
+Start searchingset ef = 100
+[search time: 4.763 s, pure query time: 4.739 s] ef=100
+Intersection-merged index R@100 = 0.8770
+
+[search time: 4.244 s, pure query time: 4.226 s] ef=100
+Intersection-merged index R@100 = 0.8770
+
+[search time: 4.254 s, pure query time: 4.235 s] ef=100
+Intersection-merged index R@100 = 0.8770
+
+[search time: 4.222 s, pure query time: 4.203 s] ef=100
+Intersection-merged index R@100 = 0.8770
+
+[search time: 4.237 s, pure query time: 4.218 s] ef=100
+Intersection-merged index R@100 = 0.8770
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: REBUILD
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_base.fvecs
+loaded base vectors: 10000000 vectors of dimension 96
+Iteration 1/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 2232.075 s
+Iteration 2/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 2119.317 s
+Iteration 3/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 2144.165 s
+Start searchingset ef = 100
+[search time: 3.885 s, pure query time: 3.865 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+[search time: 3.176 s, pure query time: 3.158 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+[search time: 3.152 s, pure query time: 3.135 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: REBUILD
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+fvecs_read: /ssd_root/dataset/turing10m/msturing-10M.fvecs
+loaded base vectors: 10000000 vectors of dimension 100
+Iteration 1/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 2487.936 s
+Iteration 2/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.

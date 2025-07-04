@@ -1,0 +1,4844 @@
+./bash
+[?2004lg++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: REBUILD
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_base.fvecs
+loaded base vectors: 10000000 vectors of dimension 96
+Iteration 1/3
+Checkpoint: 200000, [17.805 s]
+Checkpoint: 400000, [45.325 s]
+Checkpoint: 600000, [76.865 s]
+Checkpoint: 800000, [110.668 s]
+Checkpoint: 1000000, [145.924 s]
+Checkpoint: 1200000, [182.276 s]
+Checkpoint: 1400000, [219.480 s]
+Checkpoint: 1600000, [257.388 s]
+Checkpoint: 1800000, [295.927 s]
+Checkpoint: 2000000, [334.968 s]
+Checkpoint: 2200000, [374.496 s]
+Checkpoint: 2400000, [414.475 s]
+Checkpoint: 2600000, [454.874 s]
+Checkpoint: 2800000, [495.618 s]
+Checkpoint: 3000000, [536.766 s]
+Checkpoint: 3200000, [578.246 s]
+Checkpoint: 3400000, [620.111 s]
+Checkpoint: 3600000, [662.262 s]
+Checkpoint: 3800000, [704.721 s]
+Checkpoint: 4000000, [747.507 s]
+Checkpoint: 4200000, [790.620 s]
+Checkpoint: 4400000, [834.065 s]
+Checkpoint: 4600000, [877.818 s]
+Checkpoint: 4800000, [921.923 s]
+Checkpoint: 5000000, [966.381 s]
+Checkpoint: 5200000, [1011.124 s]
+Checkpoint: 5400000, [1056.236 s]
+Checkpoint: 5600000, [1101.634 s]
+Checkpoint: 5800000, [1147.336 s]
+Checkpoint: 6000000, [1193.373 s]
+Checkpoint: 6200000, [1239.657 s]
+Checkpoint: 6400000, [1286.199 s]
+Checkpoint: 6600000, [1333.059 s]
+Checkpoint: 6800000, [1380.167 s]
+Checkpoint: 7000000, [1427.612 s]
+Checkpoint: 7200000, [1475.302 s]
+Checkpoint: 7400000, [1523.266 s]
+Checkpoint: 7600000, [1571.462 s]
+Checkpoint: 7800000, [1619.890 s]
+Checkpoint: 8000000, [1668.591 s]
+Checkpoint: 8200000, [1717.469 s]
+Checkpoint: 8400000, [1766.662 s]
+Checkpoint: 8600000, [1816.071 s]
+Checkpoint: 8800000, [1865.643 s]
+Checkpoint: 9000000, [1915.488 s]
+Checkpoint: 9200000, [1965.500 s]
+Checkpoint: 9400000, [2015.725 s]
+Checkpoint: 9600000, [2066.153 s]
+Checkpoint: 9800000, [2116.780 s]
+Checkpoint: 10000000, [2167.616 s]
+Total time for insertion: 2167.616 s
+Iteration 2/3
+Checkpoint: 200000, [17.873 s]
+Checkpoint: 400000, [45.424 s]
+Checkpoint: 600000, [76.762 s]
+Checkpoint: 800000, [110.324 s]
+Checkpoint: 1000000, [145.305 s]
+Checkpoint: 1200000, [181.381 s]
+Checkpoint: 1400000, [218.296 s]
+Checkpoint: 1600000, [255.902 s]
+Checkpoint: 1800000, [294.118 s]
+Checkpoint: 2000000, [332.885 s]
+Checkpoint: 2200000, [372.137 s]
+Checkpoint: 2400000, [411.821 s]
+Checkpoint: 2600000, [451.926 s]
+Checkpoint: 2800000, [492.366 s]
+Checkpoint: 3000000, [533.215 s]
+Checkpoint: 3200000, [574.372 s]
+Checkpoint: 3400000, [615.868 s]
+Checkpoint: 3600000, [657.697 s]
+Checkpoint: 3800000, [699.838 s]
+Checkpoint: 4000000, [742.327 s]
+Checkpoint: 4200000, [785.012 s]
+Checkpoint: 4400000, [828.009 s]
+Checkpoint: 4600000, [871.337 s]
+Checkpoint: 4800000, [915.045 s]
+Checkpoint: 5000000, [959.105 s]
+Checkpoint: 5200000, [1003.437 s]
+Checkpoint: 5400000, [1048.095 s]
+Checkpoint: 5600000, [1093.020 s]
+Checkpoint: 5800000, [1138.284 s]
+Checkpoint: 6000000, [1183.897 s]
+Checkpoint: 6200000, [1229.738 s]
+Checkpoint: 6400000, [1275.826 s]
+Checkpoint: 6600000, [1322.269 s]
+Checkpoint: 6800000, [1368.965 s]
+Checkpoint: 7000000, [1415.963 s]
+Checkpoint: 7200000, [1463.214 s]
+Checkpoint: 7400000, [1510.724 s]
+Checkpoint: 7600000, [1558.472 s]
+Checkpoint: 7800000, [1606.423 s]
+Checkpoint: 8000000, [1654.446 s]
+Checkpoint: 8200000, [1702.653 s]
+Checkpoint: 8400000, [1751.113 s]
+Checkpoint: 8600000, [1799.825 s]
+Checkpoint: 8800000, [1848.753 s]
+Checkpoint: 9000000, [1897.929 s]
+Checkpoint: 9200000, [1947.294 s]
+Checkpoint: 9400000, [1996.864 s]
+Checkpoint: 9600000, [2046.621 s]
+Checkpoint: 9800000, [2096.603 s]
+Checkpoint: 10000000, [2146.790 s]
+Total time for insertion: 2146.790 s
+Iteration 3/3
+Checkpoint: 200000, [17.626 s]
+Checkpoint: 400000, [44.847 s]
+Checkpoint: 600000, [76.024 s]
+Checkpoint: 800000, [109.424 s]
+Checkpoint: 1000000, [144.235 s]
+Checkpoint: 1200000, [180.151 s]
+Checkpoint: 1400000, [216.877 s]
+Checkpoint: 1600000, [254.287 s]
+Checkpoint: 1800000, [292.310 s]
+Checkpoint: 2000000, [330.849 s]
+Checkpoint: 2200000, [369.916 s]
+Checkpoint: 2400000, [409.385 s]
+Checkpoint: 2600000, [449.147 s]
+Checkpoint: 2800000, [489.023 s]
+Checkpoint: 3000000, [529.272 s]
+Checkpoint: 3200000, [569.852 s]
+Checkpoint: 3400000, [610.790 s]
+Checkpoint: 3600000, [652.028 s]
+Checkpoint: 3800000, [693.598 s]
+Checkpoint: 4000000, [735.457 s]
+Checkpoint: 4200000, [777.634 s]
+Checkpoint: 4400000, [820.092 s]
+Checkpoint: 4600000, [862.889 s]
+Checkpoint: 4800000, [905.994 s]
+Checkpoint: 5000000, [949.418 s]
+Checkpoint: 5200000, [993.118 s]
+Checkpoint: 5400000, [1037.180 s]
+Checkpoint: 5600000, [1081.507 s]
+Checkpoint: 5800000, [1126.161 s]
+Checkpoint: 6000000, [1171.146 s]
+Checkpoint: 6200000, [1216.354 s]
+Checkpoint: 6400000, [1261.805 s]
+Checkpoint: 6600000, [1307.575 s]
+Checkpoint: 6800000, [1353.590 s]
+Checkpoint: 7000000, [1399.910 s]
+Checkpoint: 7200000, [1446.469 s]
+Checkpoint: 7400000, [1493.282 s]
+Checkpoint: 7600000, [1540.338 s]
+Checkpoint: 7800000, [1587.664 s]
+Checkpoint: 8000000, [1635.256 s]
+Checkpoint: 8200000, [1683.013 s]
+Checkpoint: 8400000, [1731.039 s]
+Checkpoint: 8600000, [1779.324 s]
+Checkpoint: 8800000, [1827.808 s]
+Checkpoint: 9000000, [1876.541 s]
+Checkpoint: 9200000, [1925.456 s]
+Checkpoint: 9400000, [1974.592 s]
+Checkpoint: 9600000, [2023.928 s]
+Checkpoint: 9800000, [2073.484 s]
+Checkpoint: 10000000, [2123.225 s]
+Total time for insertion: 2123.225 s
+Start searchingset ef = 100
+[search time: 4.086 s, pure query time: 4.064 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+[search time: 3.191 s, pure query time: 3.173 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+[search time: 3.189 s, pure query time: 3.171 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+[search time: 3.190 s, pure query time: 3.173 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+[search time: 3.187 s, pure query time: 3.169 s] ef=100
+Intersection-merged index R@100 = 0.8609
+
+set ef = 120
+[search time: 3.699 s, pure query time: 3.681 s] ef=120
+Intersection-merged index R@100 = 0.8827
+
+[search time: 3.713 s, pure query time: 3.695 s] ef=120
+Intersection-merged index R@100 = 0.8827
+
+[search time: 3.698 s, pure query time: 3.680 s] ef=120
+Intersection-merged index R@100 = 0.8827
+
+[search time: 3.711 s, pure query time: 3.693 s] ef=120
+Intersection-merged index R@100 = 0.8827
+
+[search time: 3.701 s, pure query time: 3.683 s] ef=120
+Intersection-merged index R@100 = 0.8827
+
+set ef = 140
+[search time: 4.213 s, pure query time: 4.195 s] ef=140
+Intersection-merged index R@100 = 0.8990
+
+[search time: 4.215 s, pure query time: 4.196 s] ef=140
+Intersection-merged index R@100 = 0.8990
+
+[search time: 4.213 s, pure query time: 4.195 s] ef=140
+Intersection-merged index R@100 = 0.8990
+
+[search time: 4.211 s, pure query time: 4.177 s] ef=140
+Intersection-merged index R@100 = 0.8990
+
+[search time: 4.210 s, pure query time: 4.191 s] ef=140
+Intersection-merged index R@100 = 0.8990
+
+set ef = 160
+[search time: 4.729 s, pure query time: 4.710 s] ef=160
+Intersection-merged index R@100 = 0.9117
+
+[search time: 4.715 s, pure query time: 4.697 s] ef=160
+Intersection-merged index R@100 = 0.9117
+
+[search time: 4.717 s, pure query time: 4.698 s] ef=160
+Intersection-merged index R@100 = 0.9117
+
+[search time: 4.724 s, pure query time: 4.705 s] ef=160
+Intersection-merged index R@100 = 0.9117
+
+[search time: 4.712 s, pure query time: 4.693 s] ef=160
+Intersection-merged index R@100 = 0.9117
+
+set ef = 180
+[search time: 5.219 s, pure query time: 5.185 s] ef=180
+Intersection-merged index R@100 = 0.9216
+
+[search time: 5.214 s, pure query time: 5.194 s] ef=180
+Intersection-merged index R@100 = 0.9216
+
+[search time: 5.217 s, pure query time: 5.198 s] ef=180
+Intersection-merged index R@100 = 0.9216
+
+[search time: 5.212 s, pure query time: 5.192 s] ef=180
+Intersection-merged index R@100 = 0.9216
+
+[search time: 5.220 s, pure query time: 5.201 s] ef=180
+Intersection-merged index R@100 = 0.9216
+
+set ef = 200
+[search time: 5.705 s, pure query time: 5.684 s] ef=200
+Intersection-merged index R@100 = 0.9297
+
+[search time: 5.702 s, pure query time: 5.681 s] ef=200
+Intersection-merged index R@100 = 0.9297
+
+[search time: 5.698 s, pure query time: 5.670 s] ef=200
+Intersection-merged index R@100 = 0.9297
+
+[search time: 5.707 s, pure query time: 5.686 s] ef=200
+Intersection-merged index R@100 = 0.9297
+
+[search time: 5.706 s, pure query time: 5.685 s] ef=200
+Intersection-merged index R@100 = 0.9297
+
+set ef = 300
+[search time: 8.116 s, pure query time: 8.089 s] ef=300
+Intersection-merged index R@100 = 0.9545
+
+[search time: 8.102 s, pure query time: 8.074 s] ef=300
+Intersection-merged index R@100 = 0.9545
+
+[search time: 8.115 s, pure query time: 8.087 s] ef=300
+Intersection-merged index R@100 = 0.9545
+
+[search time: 8.101 s, pure query time: 8.074 s] ef=300
+Intersection-merged index R@100 = 0.9545
+
+[search time: 8.100 s, pure query time: 8.072 s] ef=300
+Intersection-merged index R@100 = 0.9545
+
+set ef = 400
+[search time: 10.432 s, pure query time: 10.399 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 10.423 s, pure query time: 10.390 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 10.428 s, pure query time: 10.395 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 10.442 s, pure query time: 10.409 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 10.424 s, pure query time: 10.390 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+set ef = 500
+[search time: 12.698 s, pure query time: 12.662 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 12.692 s, pure query time: 12.656 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 12.675 s, pure query time: 12.639 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 12.692 s, pure query time: 12.656 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 12.686 s, pure query time: 12.650 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+set ef = 600
+[search time: 14.904 s, pure query time: 14.868 s] ef=600
+Intersection-merged index R@100 = 0.9796
+
+[search time: 14.887 s, pure query time: 14.850 s] ef=600
+Intersection-merged index R@100 = 0.9796
+
+[search time: 14.888 s, pure query time: 14.851 s] ef=600
+Intersection-merged index R@100 = 0.9796
+
+[search time: 14.905 s, pure query time: 14.868 s] ef=600
+Intersection-merged index R@100 = 0.9796
+
+[search time: 14.898 s, pure query time: 14.862 s] ef=600
+Intersection-merged index R@100 = 0.9796
+
+set ef = 700
+[search time: 17.055 s, pure query time: 17.017 s] ef=700
+Intersection-merged index R@100 = 0.9831
+
+[search time: 17.063 s, pure query time: 17.026 s] ef=700
+Intersection-merged index R@100 = 0.9831
+
+[search time: 17.065 s, pure query time: 17.028 s] ef=700
+Intersection-merged index R@100 = 0.9831
+
+[search time: 17.054 s, pure query time: 17.017 s] ef=700
+Intersection-merged index R@100 = 0.9831
+
+[search time: 17.063 s, pure query time: 17.026 s] ef=700
+Intersection-merged index R@100 = 0.9831
+
+set ef = 800
+[search time: 19.209 s, pure query time: 19.171 s] ef=800
+Intersection-merged index R@100 = 0.9856
+
+[search time: 19.206 s, pure query time: 19.168 s] ef=800
+Intersection-merged index R@100 = 0.9856
+
+[search time: 19.191 s, pure query time: 19.154 s] ef=800
+Intersection-merged index R@100 = 0.9856
+
+[search time: 19.203 s, pure query time: 19.166 s] ef=800
+Intersection-merged index R@100 = 0.9856
+
+[search time: 19.206 s, pure query time: 19.168 s] ef=800
+Intersection-merged index R@100 = 0.9856
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: REBUILD
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+fvecs_read: /ssd_root/dataset/turing10m/msturing-10M.fvecs
+loaded base vectors: 10000000 vectors of dimension 100
+Iteration 1/3
+Checkpoint: 200000, [24.851 s]
+Checkpoint: 400000, [55.687 s]
+Checkpoint: 600000, [89.959 s]
+Checkpoint: 800000, [126.380 s]
+Checkpoint: 1000000, [158.887 s]
+Checkpoint: 1200000, [199.114 s]
+Checkpoint: 1400000, [250.802 s]
+Checkpoint: 1600000, [304.681 s]
+Checkpoint: 1800000, [350.058 s]
+Checkpoint: 2000000, [398.642 s]
+Checkpoint: 2200000, [459.838 s]
+Checkpoint: 2400000, [522.911 s]
+Checkpoint: 2600000, [582.602 s]
+Checkpoint: 2800000, [643.474 s]
+Checkpoint: 3000000, [693.833 s]
+Checkpoint: 3200000, [747.792 s]
+Checkpoint: 3400000, [803.259 s]
+Checkpoint: 3600000, [854.890 s]
+Checkpoint: 3800000, [899.998 s]
+Checkpoint: 4000000, [949.194 s]
+Checkpoint: 4200000, [1001.801 s]
+Checkpoint: 4400000, [1067.290 s]
+Checkpoint: 4600000, [1130.644 s]
+Checkpoint: 4800000, [1193.314 s]
+Checkpoint: 5000000, [1234.622 s]
+Checkpoint: 5200000, [1266.846 s]
+Checkpoint: 5400000, [1324.626 s]
+Checkpoint: 5600000, [1383.024 s]
+Checkpoint: 5800000, [1438.566 s]
+Checkpoint: 6000000, [1494.867 s]
+Checkpoint: 6200000, [1548.705 s]
+Checkpoint: 6400000, [1598.967 s]
+Checkpoint: 6600000, [1651.345 s]
+Checkpoint: 6800000, [1706.469 s]
+Checkpoint: 7000000, [1751.409 s]
+Checkpoint: 7200000, [1804.521 s]
+Checkpoint: 7400000, [1858.759 s]
+Checkpoint: 7600000, [1913.544 s]
+Checkpoint: 7800000, [1968.875 s]
+Checkpoint: 8000000, [2027.951 s]
+Checkpoint: 8200000, [2079.350 s]
+Checkpoint: 8400000, [2125.608 s]
+Checkpoint: 8600000, [2187.247 s]
+Checkpoint: 8800000, [2246.480 s]
+Checkpoint: 9000000, [2300.756 s]
+Checkpoint: 9200000, [2352.694 s]
+Checkpoint: 9400000, [2408.124 s]
+Checkpoint: 9600000, [2462.690 s]
+Checkpoint: 9800000, [2517.012 s]
+Checkpoint: 10000000, [2566.359 s]
+Total time for insertion: 2566.359 s
+Iteration 2/3
+Checkpoint: 200000, [24.834 s]
+Checkpoint: 400000, [55.551 s]
+Checkpoint: 600000, [89.824 s]
+Checkpoint: 800000, [126.285 s]
+Checkpoint: 1000000, [158.778 s]
+Checkpoint: 1200000, [199.014 s]
+Checkpoint: 1400000, [250.700 s]
+Checkpoint: 1600000, [304.552 s]
+Checkpoint: 1800000, [349.896 s]
+Checkpoint: 2000000, [398.494 s]
+Checkpoint: 2200000, [459.740 s]
+Checkpoint: 2400000, [522.860 s]
+Checkpoint: 2600000, [582.587 s]
+Checkpoint: 2800000, [643.508 s]
+Checkpoint: 3000000, [693.914 s]
+Checkpoint: 3200000, [747.892 s]
+Checkpoint: 3400000, [803.367 s]
+Checkpoint: 3600000, [855.041 s]
+Checkpoint: 3800000, [900.218 s]
+Checkpoint: 4000000, [949.512 s]
+Checkpoint: 4200000, [1002.180 s]
+Checkpoint: 4400000, [1067.761 s]
+Checkpoint: 4600000, [1131.249 s]
+Checkpoint: 4800000, [1194.086 s]
+Checkpoint: 5000000, [1235.488 s]
+Checkpoint: 5200000, [1267.748 s]
+Checkpoint: 5400000, [1325.539 s]
+Checkpoint: 5600000, [1383.973 s]
+Checkpoint: 5800000, [1439.617 s]
+Checkpoint: 6000000, [1496.039 s]
+Checkpoint: 6200000, [1549.922 s]
+Checkpoint: 6400000, [1600.254 s]
+Checkpoint: 6600000, [1652.684 s]
+Checkpoint: 6800000, [1707.833 s]
+Checkpoint: 7000000, [1752.765 s]
+Checkpoint: 7200000, [1805.845 s]
+Checkpoint: 7400000, [1860.079 s]
+Checkpoint: 7600000, [1914.890 s]
+Checkpoint: 7800000, [1970.217 s]
+Checkpoint: 8000000, [2029.294 s]
+Checkpoint: 8200000, [2080.645 s]
+Checkpoint: 8400000, [2126.879 s]
+Checkpoint: 8600000, [2188.510 s]
+Checkpoint: 8800000, [2247.756 s]
+Checkpoint: 9000000, [2302.010 s]
+Checkpoint: 9200000, [2353.943 s]
+Checkpoint: 9400000, [2409.351 s]
+Checkpoint: 9600000, [2463.924 s]
+Checkpoint: 9800000, [2518.230 s]
+Checkpoint: 10000000, [2567.592 s]
+Total time for insertion: 2567.592 s
+Iteration 3/3
+Checkpoint: 200000, [24.963 s]
+Checkpoint: 400000, [55.611 s]
+Checkpoint: 600000, [89.930 s]
+Checkpoint: 800000, [126.395 s]
+Checkpoint: 1000000, [158.915 s]
+Checkpoint: 1200000, [199.151 s]
+Checkpoint: 1400000, [250.859 s]
+Checkpoint: 1600000, [304.740 s]
+Checkpoint: 1800000, [350.117 s]
+Checkpoint: 2000000, [398.767 s]
+Checkpoint: 2200000, [460.133 s]
+Checkpoint: 2400000, [523.307 s]
+Checkpoint: 2600000, [583.074 s]
+Checkpoint: 2800000, [644.004 s]
+Checkpoint: 3000000, [694.361 s]
+Checkpoint: 3200000, [748.303 s]
+Checkpoint: 3400000, [803.777 s]
+Checkpoint: 3600000, [855.467 s]
+Checkpoint: 3800000, [900.654 s]
+Checkpoint: 4000000, [949.915 s]
+Checkpoint: 4200000, [1002.564 s]
+Checkpoint: 4400000, [1068.183 s]
+Checkpoint: 4600000, [1131.699 s]
+Checkpoint: 4800000, [1194.393 s]
+Checkpoint: 5000000, [1235.645 s]
+Checkpoint: 5200000, [1267.832 s]
+Checkpoint: 5400000, [1325.598 s]
+Checkpoint: 5600000, [1383.990 s]
+Checkpoint: 5800000, [1439.614 s]
+Checkpoint: 6000000, [1495.977 s]
+Checkpoint: 6200000, [1549.872 s]
+Checkpoint: 6400000, [1600.196 s]
+Checkpoint: 6600000, [1652.586 s]
+Checkpoint: 6800000, [1707.722 s]
+Checkpoint: 7000000, [1752.633 s]
+Checkpoint: 7200000, [1805.691 s]
+Checkpoint: 7400000, [1859.917 s]
+Checkpoint: 7600000, [1914.709 s]
+Checkpoint: 7800000, [1970.051 s]
+Checkpoint: 8000000, [2029.166 s]
+Checkpoint: 8200000, [2080.514 s]
+Checkpoint: 8400000, [2126.789 s]
+Checkpoint: 8600000, [2188.433 s]
+Checkpoint: 8800000, [2247.708 s]
+Checkpoint: 9000000, [2301.968 s]
+Checkpoint: 9200000, [2353.934 s]
+Checkpoint: 9400000, [2409.384 s]
+Checkpoint: 9600000, [2463.972 s]
+Checkpoint: 9800000, [2518.309 s]
+Checkpoint: 10000000, [2567.667 s]
+Total time for insertion: 2567.667 s
+Start searchingset ef = 100
+[search time: 4.756 s, pure query time: 4.712 s] ef=100
+Intersection-merged index R@100 = 0.6664
+
+[search time: 4.721 s, pure query time: 4.696 s] ef=100
+Intersection-merged index R@100 = 0.6664
+
+[search time: 7.798 s, pure query time: 7.778 s] ef=100
+Intersection-merged index R@100 = 0.6664
+
+[search time: 7.727 s, pure query time: 7.708 s] ef=100
+Intersection-merged index R@100 = 0.6664
+
+[search time: 5.919 s, pure query time: 5.899 s] ef=100
+Intersection-merged index R@100 = 0.6664
+
+set ef = 120
+[search time: 5.251 s, pure query time: 5.231 s] ef=120
+Intersection-merged index R@100 = 0.6886
+
+[search time: 5.278 s, pure query time: 5.258 s] ef=120
+Intersection-merged index R@100 = 0.6886
+
+[search time: 5.279 s, pure query time: 5.259 s] ef=120
+Intersection-merged index R@100 = 0.6886
+
+[search time: 5.171 s, pure query time: 5.151 s] ef=120
+Intersection-merged index R@100 = 0.6886
+
+[search time: 5.167 s, pure query time: 5.148 s] ef=120
+Intersection-merged index R@100 = 0.6886
+
+set ef = 140
+[search time: 5.895 s, pure query time: 5.875 s] ef=140
+Intersection-merged index R@100 = 0.7071
+
+[search time: 5.898 s, pure query time: 5.877 s] ef=140
+Intersection-merged index R@100 = 0.7071
+
+[search time: 5.881 s, pure query time: 5.861 s] ef=140
+Intersection-merged index R@100 = 0.7071
+
+[search time: 5.891 s, pure query time: 5.870 s] ef=140
+Intersection-merged index R@100 = 0.7071
+
+[search time: 5.890 s, pure query time: 5.870 s] ef=140
+Intersection-merged index R@100 = 0.7071
+
+set ef = 160
+[search time: 6.571 s, pure query time: 6.549 s] ef=160
+Intersection-merged index R@100 = 0.7224
+
+[search time: 6.602 s, pure query time: 6.581 s] ef=160
+Intersection-merged index R@100 = 0.7224
+
+[search time: 6.590 s, pure query time: 6.568 s] ef=160
+Intersection-merged index R@100 = 0.7224
+
+[search time: 6.578 s, pure query time: 6.556 s] ef=160
+Intersection-merged index R@100 = 0.7224
+
+[search time: 6.582 s, pure query time: 6.560 s] ef=160
+Intersection-merged index R@100 = 0.7224
+
+set ef = 180
+[search time: 7.279 s, pure query time: 7.256 s] ef=180
+Intersection-merged index R@100 = 0.7349
+
+[search time: 7.290 s, pure query time: 7.268 s] ef=180
+Intersection-merged index R@100 = 0.7349
+
+[search time: 7.273 s, pure query time: 7.250 s] ef=180
+Intersection-merged index R@100 = 0.7349
+
+[search time: 7.274 s, pure query time: 7.252 s] ef=180
+Intersection-merged index R@100 = 0.7349
+
+[search time: 7.282 s, pure query time: 7.259 s] ef=180
+Intersection-merged index R@100 = 0.7349
+
+set ef = 200
+[search time: 7.972 s, pure query time: 7.948 s] ef=200
+Intersection-merged index R@100 = 0.7460
+
+[search time: 7.978 s, pure query time: 7.954 s] ef=200
+Intersection-merged index R@100 = 0.7460
+
+[search time: 7.965 s, pure query time: 7.941 s] ef=200
+Intersection-merged index R@100 = 0.7460
+
+[search time: 7.985 s, pure query time: 7.960 s] ef=200
+Intersection-merged index R@100 = 0.7460
+
+[search time: 7.963 s, pure query time: 7.939 s] ef=200
+Intersection-merged index R@100 = 0.7460
+
+set ef = 300
+[search time: 11.415 s, pure query time: 11.386 s] ef=300
+Intersection-merged index R@100 = 0.7858
+
+[search time: 11.460 s, pure query time: 11.430 s] ef=300
+Intersection-merged index R@100 = 0.7858
+
+[search time: 11.420 s, pure query time: 11.391 s] ef=300
+Intersection-merged index R@100 = 0.7858
+
+[search time: 11.424 s, pure query time: 11.395 s] ef=300
+Intersection-merged index R@100 = 0.7858
+
+[search time: 11.445 s, pure query time: 11.416 s] ef=300
+Intersection-merged index R@100 = 0.7858
+
+set ef = 400
+[search time: 14.885 s, pure query time: 14.852 s] ef=400
+Intersection-merged index R@100 = 0.8109
+
+[search time: 14.920 s, pure query time: 14.887 s] ef=400
+Intersection-merged index R@100 = 0.8109
+
+[search time: 14.894 s, pure query time: 14.861 s] ef=400
+Intersection-merged index R@100 = 0.8109
+
+[search time: 14.896 s, pure query time: 14.863 s] ef=400
+Intersection-merged index R@100 = 0.8109
+
+[search time: 14.916 s, pure query time: 14.883 s] ef=400
+Intersection-merged index R@100 = 0.8109
+
+set ef = 500
+[search time: 18.372 s, pure query time: 18.336 s] ef=500
+Intersection-merged index R@100 = 0.8281
+
+[search time: 18.346 s, pure query time: 18.309 s] ef=500
+Intersection-merged index R@100 = 0.8281
+
+[search time: 18.378 s, pure query time: 18.342 s] ef=500
+Intersection-merged index R@100 = 0.8281
+
+[search time: 18.354 s, pure query time: 18.318 s] ef=500
+Intersection-merged index R@100 = 0.8281
+
+[search time: 18.349 s, pure query time: 18.313 s] ef=500
+Intersection-merged index R@100 = 0.8281
+
+set ef = 600
+[search time: 21.816 s, pure query time: 21.778 s] ef=600
+Intersection-merged index R@100 = 0.8414
+
+[search time: 21.798 s, pure query time: 21.760 s] ef=600
+Intersection-merged index R@100 = 0.8414
+
+[search time: 21.770 s, pure query time: 21.733 s] ef=600
+Intersection-merged index R@100 = 0.8414
+
+[search time: 21.799 s, pure query time: 21.761 s] ef=600
+Intersection-merged index R@100 = 0.8414
+
+[search time: 21.779 s, pure query time: 21.742 s] ef=600
+Intersection-merged index R@100 = 0.8414
+
+set ef = 700
+[search time: 25.218 s, pure query time: 25.179 s] ef=700
+Intersection-merged index R@100 = 0.8514
+
+[search time: 25.201 s, pure query time: 25.163 s] ef=700
+Intersection-merged index R@100 = 0.8514
+
+[search time: 25.200 s, pure query time: 25.162 s] ef=700
+Intersection-merged index R@100 = 0.8514
+
+[search time: 25.198 s, pure query time: 25.159 s] ef=700
+Intersection-merged index R@100 = 0.8514
+
+[search time: 25.213 s, pure query time: 25.174 s] ef=700
+Intersection-merged index R@100 = 0.8514
+
+set ef = 800
+[search time: 28.635 s, pure query time: 28.596 s] ef=800
+Intersection-merged index R@100 = 0.8600
+
+[search time: 28.656 s, pure query time: 28.617 s] ef=800
+Intersection-merged index R@100 = 0.8600
+
+[search time: 28.644 s, pure query time: 28.605 s] ef=800
+Intersection-merged index R@100 = 0.8600
+
+[search time: 28.650 s, pure query time: 28.611 s] ef=800
+Intersection-merged index R@100 = 0.8600
+
+[search time: 28.629 s, pure query time: 28.590 s] ef=800
+Intersection-merged index R@100 = 0.8600
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: TWO_MERGE
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 8.034639
+mergeIndex1BasedOnIndex2Connection sum0: 220.587666
+mergeIndex1BasedOnIndex2Connection sum1: 10.857039
+mergeIndex1BasedOnIndex2Connection sum2: 231.444709
+Total time for insertion: 241.655 s
+Iteration 2/5
+time for new layer: 6.843516
+mergeIndex1BasedOnIndex2Connection sum0: 208.527863
+mergeIndex1BasedOnIndex2Connection sum1: 9.127695
+mergeIndex1BasedOnIndex2Connection sum2: 217.655564
+Total time for insertion: 226.673 s
+Iteration 3/5
+time for new layer: 5.377771
+mergeIndex1BasedOnIndex2Connection sum0: 208.144503
+mergeIndex1BasedOnIndex2Connection sum1: 9.044041
+mergeIndex1BasedOnIndex2Connection sum2: 217.188558
+Total time for insertion: 224.730 s
+Iteration 4/5
+time for new layer: 6.060791
+mergeIndex1BasedOnIndex2Connection sum0: 213.968358
+mergeIndex1BasedOnIndex2Connection sum1: 10.385465
+mergeIndex1BasedOnIndex2Connection sum2: 224.353831
+Total time for insertion: 233.291 s
+Iteration 5/5
+time for new layer: 7.437321
+mergeIndex1BasedOnIndex2Connection sum0: 235.023212
+mergeIndex1BasedOnIndex2Connection sum1: 12.562160
+mergeIndex1BasedOnIndex2Connection sum2: 247.585374
+Total time for insertion: 257.897 s
+Start searchingset ef = 100
+[search time: 4.681 s, pure query time: 4.651 s] ef=100
+Intersection-merged index R@100 = 0.8579
+
+[search time: 3.988 s, pure query time: 3.965 s] ef=100
+Intersection-merged index R@100 = 0.8579
+
+[search time: 4.204 s, pure query time: 4.181 s] ef=100
+Intersection-merged index R@100 = 0.8579
+
+[search time: 3.948 s, pure query time: 3.925 s] ef=100
+Intersection-merged index R@100 = 0.8579
+
+[search time: 3.942 s, pure query time: 3.919 s] ef=100
+Intersection-merged index R@100 = 0.8579
+
+set ef = 120
+[search time: 4.588 s, pure query time: 4.564 s] ef=120
+Intersection-merged index R@100 = 0.8802
+
+[search time: 4.591 s, pure query time: 4.567 s] ef=120
+Intersection-merged index R@100 = 0.8802
+
+[search time: 4.602 s, pure query time: 4.578 s] ef=120
+Intersection-merged index R@100 = 0.8802
+
+[search time: 4.646 s, pure query time: 4.622 s] ef=120
+Intersection-merged index R@100 = 0.8802
+
+[search time: 4.673 s, pure query time: 4.649 s] ef=120
+Intersection-merged index R@100 = 0.8802
+
+set ef = 140
+[search time: 7.107 s, pure query time: 7.086 s] ef=140
+Intersection-merged index R@100 = 0.8968
+
+[search time: 7.822 s, pure query time: 7.802 s] ef=140
+Intersection-merged index R@100 = 0.8968
+
+[search time: 6.901 s, pure query time: 6.882 s] ef=140
+Intersection-merged index R@100 = 0.8968
+
+[search time: 6.894 s, pure query time: 6.874 s] ef=140
+Intersection-merged index R@100 = 0.8968
+
+[search time: 6.857 s, pure query time: 6.836 s] ef=140
+Intersection-merged index R@100 = 0.8968
+
+set ef = 160
+[search time: 5.973 s, pure query time: 5.946 s] ef=160
+Intersection-merged index R@100 = 0.9099
+
+[search time: 6.004 s, pure query time: 5.978 s] ef=160
+Intersection-merged index R@100 = 0.9099
+
+[search time: 5.750 s, pure query time: 5.725 s] ef=160
+Intersection-merged index R@100 = 0.9099
+
+[search time: 5.750 s, pure query time: 5.725 s] ef=160
+Intersection-merged index R@100 = 0.9099
+
+[search time: 5.757 s, pure query time: 5.732 s] ef=160
+Intersection-merged index R@100 = 0.9099
+
+set ef = 180
+[search time: 6.366 s, pure query time: 6.340 s] ef=180
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.643 s, pure query time: 6.618 s] ef=180
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.365 s, pure query time: 6.340 s] ef=180
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.346 s, pure query time: 6.321 s] ef=180
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.343 s, pure query time: 6.318 s] ef=180
+Intersection-merged index R@100 = 0.9201
+
+set ef = 200
+[search time: 8.102 s, pure query time: 8.076 s] ef=200
+Intersection-merged index R@100 = 0.9283
+
+[search time: 10.395 s, pure query time: 10.370 s] ef=200
+Intersection-merged index R@100 = 0.9283
+
+[search time: 9.439 s, pure query time: 9.414 s] ef=200
+Intersection-merged index R@100 = 0.9283
+
+[search time: 9.362 s, pure query time: 9.337 s] ef=200
+Intersection-merged index R@100 = 0.9283
+
+[search time: 7.117 s, pure query time: 7.088 s] ef=200
+Intersection-merged index R@100 = 0.9283
+
+set ef = 300
+[search time: 10.163 s, pure query time: 10.130 s] ef=300
+Intersection-merged index R@100 = 0.9540
+
+[search time: 9.928 s, pure query time: 9.895 s] ef=300
+Intersection-merged index R@100 = 0.9540
+
+[search time: 9.986 s, pure query time: 9.953 s] ef=300
+Intersection-merged index R@100 = 0.9540
+
+[search time: 10.205 s, pure query time: 10.172 s] ef=300
+Intersection-merged index R@100 = 0.9540
+
+[search time: 9.926 s, pure query time: 9.893 s] ef=300
+Intersection-merged index R@100 = 0.9540
+
+set ef = 400
+[search time: 15.649 s, pure query time: 15.612 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 16.865 s, pure query time: 16.829 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 14.945 s, pure query time: 14.905 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 13.221 s, pure query time: 13.184 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+[search time: 13.127 s, pure query time: 13.089 s] ef=400
+Intersection-merged index R@100 = 0.9671
+
+set ef = 500
+[search time: 16.234 s, pure query time: 16.195 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 16.759 s, pure query time: 16.720 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 21.379 s, pure query time: 21.341 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 17.760 s, pure query time: 17.718 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+[search time: 15.588 s, pure query time: 15.549 s] ef=500
+Intersection-merged index R@100 = 0.9747
+
+set ef = 600
+[search time: 18.612 s, pure query time: 18.571 s] ef=600
+Intersection-merged index R@100 = 0.9798
+
+[search time: 18.285 s, pure query time: 18.244 s] ef=600
+Intersection-merged index R@100 = 0.9798
+
+[search time: 24.754 s, pure query time: 24.713 s] ef=600
+Intersection-merged index R@100 = 0.9798
+
+[search time: 20.960 s, pure query time: 20.917 s] ef=600
+Intersection-merged index R@100 = 0.9798
+
+[search time: 18.296 s, pure query time: 18.256 s] ef=600
+Intersection-merged index R@100 = 0.9798
+
+set ef = 700
+[search time: 21.261 s, pure query time: 21.220 s] ef=700
+Intersection-merged index R@100 = 0.9834
+
+[search time: 24.386 s, pure query time: 24.346 s] ef=700
+Intersection-merged index R@100 = 0.9834
+
+[search time: 26.373 s, pure query time: 26.331 s] ef=700
+Intersection-merged index R@100 = 0.9834
+
+[search time: 21.708 s, pure query time: 21.667 s] ef=700
+Intersection-merged index R@100 = 0.9834
+
+[search time: 21.754 s, pure query time: 21.712 s] ef=700
+Intersection-merged index R@100 = 0.9834
+
+set ef = 800
+[search time: 27.477 s, pure query time: 27.437 s] ef=800
+Intersection-merged index R@100 = 0.9859
+
+[search time: 28.966 s, pure query time: 28.924 s] ef=800
+Intersection-merged index R@100 = 0.9859
+
+[search time: 23.870 s, pure query time: 23.829 s] ef=800
+Intersection-merged index R@100 = 0.9859
+
+[search time: 23.949 s, pure query time: 23.908 s] ef=800
+Intersection-merged index R@100 = 0.9859
+
+[search time: 29.176 s, pure query time: 29.136 s] ef=800
+Intersection-merged index R@100 = 0.9859
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: TWO_MERGE
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 8.524392
+mergeIndex1BasedOnIndex2Connection sum0: 235.167668
+mergeIndex1BasedOnIndex2Connection sum1: 10.474015
+mergeIndex1BasedOnIndex2Connection sum2: 245.641697
+Total time for insertion: 255.915 s
+Iteration 2/5
+time for new layer: 5.837514
+mergeIndex1BasedOnIndex2Connection sum0: 223.991433
+mergeIndex1BasedOnIndex2Connection sum1: 10.399949
+mergeIndex1BasedOnIndex2Connection sum2: 234.391375
+Total time for insertion: 241.996 s
+Iteration 3/5
+time for new layer: 5.369664
+mergeIndex1BasedOnIndex2Connection sum0: 223.598368
+mergeIndex1BasedOnIndex2Connection sum1: 10.321262
+mergeIndex1BasedOnIndex2Connection sum2: 233.919632
+Total time for insertion: 241.065 s
+Iteration 4/5
+time for new layer: 5.812487
+mergeIndex1BasedOnIndex2Connection sum0: 229.280922
+mergeIndex1BasedOnIndex2Connection sum1: 15.698939
+mergeIndex1BasedOnIndex2Connection sum2: 244.979867
+Total time for insertion: 252.555 s
+Iteration 5/5
+time for new layer: 7.129989
+mergeIndex1BasedOnIndex2Connection sum0: 257.882612
+mergeIndex1BasedOnIndex2Connection sum1: 12.881204
+mergeIndex1BasedOnIndex2Connection sum2: 270.763822
+Total time for insertion: 280.267 s
+Start searchingset ef = 100
+[search time: 7.387 s, pure query time: 7.365 s] ef=100
+Intersection-merged index R@100 = 0.6849
+
+[search time: 6.399 s, pure query time: 6.379 s] ef=100
+Intersection-merged index R@100 = 0.6849
+
+[search time: 6.221 s, pure query time: 6.201 s] ef=100
+Intersection-merged index R@100 = 0.6849
+
+[search time: 6.214 s, pure query time: 6.195 s] ef=100
+Intersection-merged index R@100 = 0.6849
+
+[search time: 6.234 s, pure query time: 6.214 s] ef=100
+Intersection-merged index R@100 = 0.6849
+
+set ef = 120
+[search time: 7.272 s, pure query time: 7.251 s] ef=120
+Intersection-merged index R@100 = 0.7079
+
+[search time: 6.569 s, pure query time: 6.544 s] ef=120
+Intersection-merged index R@100 = 0.7079
+
+[search time: 5.963 s, pure query time: 5.941 s] ef=120
+Intersection-merged index R@100 = 0.7079
+
+[search time: 6.166 s, pure query time: 6.146 s] ef=120
+Intersection-merged index R@100 = 0.7079
+
+[search time: 5.758 s, pure query time: 5.738 s] ef=120
+Intersection-merged index R@100 = 0.7079
+
+set ef = 140
+[search time: 6.540 s, pure query time: 6.518 s] ef=140
+Intersection-merged index R@100 = 0.7261
+
+[search time: 6.593 s, pure query time: 6.572 s] ef=140
+Intersection-merged index R@100 = 0.7261
+
+[search time: 9.258 s, pure query time: 9.227 s] ef=140
+Intersection-merged index R@100 = 0.7261
+
+[search time: 8.282 s, pure query time: 8.255 s] ef=140
+Intersection-merged index R@100 = 0.7261
+
+[search time: 8.229 s, pure query time: 8.202 s] ef=140
+Intersection-merged index R@100 = 0.7261
+
+set ef = 160
+[search time: 8.857 s, pure query time: 8.829 s] ef=160
+Intersection-merged index R@100 = 0.7404
+
+[search time: 7.930 s, pure query time: 7.907 s] ef=160
+Intersection-merged index R@100 = 0.7404
+
+[search time: 7.348 s, pure query time: 7.325 s] ef=160
+Intersection-merged index R@100 = 0.7404
+
+[search time: 7.377 s, pure query time: 7.355 s] ef=160
+Intersection-merged index R@100 = 0.7404
+
+[search time: 7.886 s, pure query time: 7.861 s] ef=160
+Intersection-merged index R@100 = 0.7404
+
+set ef = 180
+[search time: 11.089 s, pure query time: 11.060 s] ef=180
+Intersection-merged index R@100 = 0.7532
+
+[search time: 10.113 s, pure query time: 10.085 s] ef=180
+Intersection-merged index R@100 = 0.7532
+
+[search time: 10.090 s, pure query time: 10.061 s] ef=180
+Intersection-merged index R@100 = 0.7532
+
+[search time: 8.891 s, pure query time: 8.866 s] ef=180
+Intersection-merged index R@100 = 0.7532
+
+[search time: 8.287 s, pure query time: 8.262 s] ef=180
+Intersection-merged index R@100 = 0.7532
+
+set ef = 200
+[search time: 9.068 s, pure query time: 9.042 s] ef=200
+Intersection-merged index R@100 = 0.7636
+
+[search time: 9.390 s, pure query time: 9.364 s] ef=200
+Intersection-merged index R@100 = 0.7636
+
+[search time: 9.288 s, pure query time: 9.263 s] ef=200
+Intersection-merged index R@100 = 0.7636
+
+[search time: 9.070 s, pure query time: 9.045 s] ef=200
+Intersection-merged index R@100 = 0.7636
+
+[search time: 10.261 s, pure query time: 10.233 s] ef=200
+Intersection-merged index R@100 = 0.7636
+
+set ef = 300
+[search time: 16.598 s, pure query time: 16.563 s] ef=300
+Intersection-merged index R@100 = 0.8017
+
+[search time: 15.225 s, pure query time: 15.191 s] ef=300
+Intersection-merged index R@100 = 0.8017
+
+[search time: 13.294 s, pure query time: 13.262 s] ef=300
+Intersection-merged index R@100 = 0.8017
+
+[search time: 12.916 s, pure query time: 12.883 s] ef=300
+Intersection-merged index R@100 = 0.8017
+
+[search time: 17.030 s, pure query time: 16.994 s] ef=300
+Intersection-merged index R@100 = 0.8017
+
+set ef = 400
+[search time: 20.039 s, pure query time: 20.001 s] ef=400
+Intersection-merged index R@100 = 0.8256
+
+[search time: 17.171 s, pure query time: 17.136 s] ef=400
+Intersection-merged index R@100 = 0.8256
+
+[search time: 17.283 s, pure query time: 17.248 s] ef=400
+Intersection-merged index R@100 = 0.8256
+
+[search time: 16.784 s, pure query time: 16.748 s] ef=400
+Intersection-merged index R@100 = 0.8256
+
+[search time: 20.680 s, pure query time: 20.640 s] ef=400
+Intersection-merged index R@100 = 0.8256
+
+set ef = 500
+[search time: 24.603 s, pure query time: 24.563 s] ef=500
+Intersection-merged index R@100 = 0.8426
+
+[search time: 21.041 s, pure query time: 21.003 s] ef=500
+Intersection-merged index R@100 = 0.8426
+
+[search time: 26.297 s, pure query time: 26.255 s] ef=500
+Intersection-merged index R@100 = 0.8426
+
+[search time: 22.985 s, pure query time: 22.947 s] ef=500
+Intersection-merged index R@100 = 0.8426
+
+[search time: 20.766 s, pure query time: 20.729 s] ef=500
+Intersection-merged index R@100 = 0.8426
+
+set ef = 600
+[search time: 25.108 s, pure query time: 25.069 s] ef=600
+Intersection-merged index R@100 = 0.8554
+
+[search time: 31.576 s, pure query time: 31.533 s] ef=600
+Intersection-merged index R@100 = 0.8554
+
+[search time: 25.654 s, pure query time: 25.613 s] ef=600
+Intersection-merged index R@100 = 0.8554
+
+[search time: 29.879 s, pure query time: 29.834 s] ef=600
+Intersection-merged index R@100 = 0.8554
+
+[search time: 27.527 s, pure query time: 27.487 s] ef=600
+Intersection-merged index R@100 = 0.8554
+
+set ef = 700
+[search time: 29.584 s, pure query time: 29.544 s] ef=700
+Intersection-merged index R@100 = 0.8655
+
+[search time: 33.348 s, pure query time: 33.305 s] ef=700
+Intersection-merged index R@100 = 0.8655
+
+[search time: 31.940 s, pure query time: 31.899 s] ef=700
+Intersection-merged index R@100 = 0.8655
+
+[search time: 33.600 s, pure query time: 33.557 s] ef=700
+Intersection-merged index R@100 = 0.8655
+
+[search time: 31.652 s, pure query time: 31.611 s] ef=700
+Intersection-merged index R@100 = 0.8655
+
+set ef = 800
+[search time: 33.136 s, pure query time: 33.095 s] ef=800
+Intersection-merged index R@100 = 0.8737
+
+[search time: 39.252 s, pure query time: 39.209 s] ef=800
+Intersection-merged index R@100 = 0.8737
+
+[search time: 34.459 s, pure query time: 34.416 s] ef=800
+Intersection-merged index R@100 = 0.8737
+
+[search time: 40.087 s, pure query time: 40.043 s] ef=800
+Intersection-merged index R@100 = 0.8737
+
+[search time: 33.165 s, pure query time: 33.124 s] ef=800
+Intersection-merged index R@100 = 0.8737
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: ES
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: ES
+Iteration 1/3
+time for new layer: 3.048757
+Total time for insertion: 1544.656 s
+Iteration 2/3
+time for new layer: 3.248945
+Total time for insertion: 1563.351 s
+Iteration 3/3
+time for new layer: 3.318929
+Total time for insertion: 1571.468 s
+Start searchingset ef = 100
+[search time: 5.242 s, pure query time: 5.214 s] ef=100
+Intersection-merged index R@100 = 0.8819
+
+[search time: 4.111 s, pure query time: 4.086 s] ef=100
+Intersection-merged index R@100 = 0.8819
+
+[search time: 4.132 s, pure query time: 4.105 s] ef=100
+Intersection-merged index R@100 = 0.8819
+
+[search time: 4.075 s, pure query time: 4.050 s] ef=100
+Intersection-merged index R@100 = 0.8819
+
+[search time: 4.119 s, pure query time: 4.094 s] ef=100
+Intersection-merged index R@100 = 0.8819
+
+set ef = 120
+[search time: 4.758 s, pure query time: 4.733 s] ef=120
+Intersection-merged index R@100 = 0.9038
+
+[search time: 4.789 s, pure query time: 4.764 s] ef=120
+Intersection-merged index R@100 = 0.9038
+
+[search time: 4.777 s, pure query time: 4.752 s] ef=120
+Intersection-merged index R@100 = 0.9038
+
+[search time: 5.991 s, pure query time: 5.965 s] ef=120
+Intersection-merged index R@100 = 0.9038
+
+[search time: 12.556 s, pure query time: 12.534 s] ef=120
+Intersection-merged index R@100 = 0.9038
+
+set ef = 140
+[search time: 7.665 s, pure query time: 7.643 s] ef=140
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.529 s, pure query time: 6.508 s] ef=140
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.524 s, pure query time: 6.503 s] ef=140
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.491 s, pure query time: 6.469 s] ef=140
+Intersection-merged index R@100 = 0.9201
+
+[search time: 6.543 s, pure query time: 6.522 s] ef=140
+Intersection-merged index R@100 = 0.9201
+
+set ef = 160
+[search time: 7.301 s, pure query time: 7.278 s] ef=160
+Intersection-merged index R@100 = 0.9324
+
+[search time: 7.295 s, pure query time: 7.273 s] ef=160
+Intersection-merged index R@100 = 0.9324
+
+[search time: 7.294 s, pure query time: 7.272 s] ef=160
+Intersection-merged index R@100 = 0.9324
+
+[search time: 7.313 s, pure query time: 7.290 s] ef=160
+Intersection-merged index R@100 = 0.9324
+
+[search time: 7.316 s, pure query time: 7.294 s] ef=160
+Intersection-merged index R@100 = 0.9324
+
+set ef = 180
+[search time: 8.176 s, pure query time: 8.152 s] ef=180
+Intersection-merged index R@100 = 0.9421
+
+[search time: 8.003 s, pure query time: 7.981 s] ef=180
+Intersection-merged index R@100 = 0.9421
+
+[search time: 7.999 s, pure query time: 7.977 s] ef=180
+Intersection-merged index R@100 = 0.9421
+
+[search time: 8.053 s, pure query time: 8.030 s] ef=180
+Intersection-merged index R@100 = 0.9421
+
+[search time: 8.007 s, pure query time: 7.984 s] ef=180
+Intersection-merged index R@100 = 0.9421
+
+set ef = 200
+[search time: 8.759 s, pure query time: 8.735 s] ef=200
+Intersection-merged index R@100 = 0.9496
+
+[search time: 8.818 s, pure query time: 8.794 s] ef=200
+Intersection-merged index R@100 = 0.9496
+
+[search time: 8.778 s, pure query time: 8.754 s] ef=200
+Intersection-merged index R@100 = 0.9496
+
+[search time: 8.760 s, pure query time: 8.736 s] ef=200
+Intersection-merged index R@100 = 0.9496
+
+[search time: 8.823 s, pure query time: 8.799 s] ef=200
+Intersection-merged index R@100 = 0.9496
+
+set ef = 300
+[search time: 12.480 s, pure query time: 12.449 s] ef=300
+Intersection-merged index R@100 = 0.9719
+
+[search time: 12.537 s, pure query time: 12.507 s] ef=300
+Intersection-merged index R@100 = 0.9719
+
+[search time: 12.468 s, pure query time: 12.438 s] ef=300
+Intersection-merged index R@100 = 0.9719
+
+[search time: 12.532 s, pure query time: 12.501 s] ef=300
+Intersection-merged index R@100 = 0.9719
+
+[search time: 12.472 s, pure query time: 12.442 s] ef=300
+Intersection-merged index R@100 = 0.9719
+
+set ef = 400
+[search time: 16.132 s, pure query time: 16.098 s] ef=400
+Intersection-merged index R@100 = 0.9819
+
+[search time: 16.053 s, pure query time: 16.018 s] ef=400
+Intersection-merged index R@100 = 0.9819
+
+[search time: 16.110 s, pure query time: 16.076 s] ef=400
+Intersection-merged index R@100 = 0.9819
+
+[search time: 16.117 s, pure query time: 16.082 s] ef=400
+Intersection-merged index R@100 = 0.9819
+
+[search time: 16.048 s, pure query time: 16.014 s] ef=400
+Intersection-merged index R@100 = 0.9819
+
+set ef = 500
+[search time: 19.609 s, pure query time: 19.572 s] ef=500
+Intersection-merged index R@100 = 0.9873
+
+[search time: 19.631 s, pure query time: 19.593 s] ef=500
+Intersection-merged index R@100 = 0.9873
+
+[search time: 19.615 s, pure query time: 19.578 s] ef=500
+Intersection-merged index R@100 = 0.9873
+
+[search time: 19.556 s, pure query time: 19.519 s] ef=500
+Intersection-merged index R@100 = 0.9873
+
+[search time: 19.611 s, pure query time: 19.574 s] ef=500
+Intersection-merged index R@100 = 0.9873
+
+set ef = 600
+[search time: 23.030 s, pure query time: 22.993 s] ef=600
+Intersection-merged index R@100 = 0.9905
+
+[search time: 23.040 s, pure query time: 23.002 s] ef=600
+Intersection-merged index R@100 = 0.9905
+
+[search time: 23.060 s, pure query time: 23.022 s] ef=600
+Intersection-merged index R@100 = 0.9905
+
+[search time: 23.025 s, pure query time: 22.987 s] ef=600
+Intersection-merged index R@100 = 0.9905
+
+[search time: 23.031 s, pure query time: 22.993 s] ef=600
+Intersection-merged index R@100 = 0.9905
+
+set ef = 700
+[search time: 26.375 s, pure query time: 26.336 s] ef=700
+Intersection-merged index R@100 = 0.9927
+
+[search time: 26.370 s, pure query time: 26.331 s] ef=700
+Intersection-merged index R@100 = 0.9927
+
+[search time: 26.389 s, pure query time: 26.350 s] ef=700
+Intersection-merged index R@100 = 0.9927
+
+[search time: 26.380 s, pure query time: 26.342 s] ef=700
+Intersection-merged index R@100 = 0.9927
+
+[search time: 26.382 s, pure query time: 26.343 s] ef=700
+Intersection-merged index R@100 = 0.9927
+
+set ef = 800
+[search time: 29.671 s, pure query time: 29.632 s] ef=800
+Intersection-merged index R@100 = 0.9941
+
+[search time: 29.701 s, pure query time: 29.662 s] ef=800
+Intersection-merged index R@100 = 0.9941
+
+[search time: 29.672 s, pure query time: 29.632 s] ef=800
+Intersection-merged index R@100 = 0.9941
+
+[search time: 29.692 s, pure query time: 29.653 s] ef=800
+Intersection-merged index R@100 = 0.9941
+
+[search time: 29.701 s, pure query time: 29.663 s] ef=800
+Intersection-merged index R@100 = 0.9941
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: NGM
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: NGM
+Iteration 1/3
+time for new layer: 5.448977
+Total time for insertion: 1676.122 s
+Iteration 2/3
+time for new layer: 5.406186
+Total time for insertion: 1674.521 s
+Iteration 3/3
+time for new layer: 5.752215
+Total time for insertion: 1817.840 s
+Start searchingset ef = 100
+[search time: 3.262 s, pure query time: 3.242 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 2.918 s, pure query time: 2.900 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 2.919 s, pure query time: 2.900 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 2.919 s, pure query time: 2.901 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 2.910 s, pure query time: 2.892 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+set ef = 120
+[search time: 3.409 s, pure query time: 3.391 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 3.405 s, pure query time: 3.387 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 3.406 s, pure query time: 3.389 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 3.451 s, pure query time: 3.433 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 3.464 s, pure query time: 3.446 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+set ef = 140
+[search time: 3.872 s, pure query time: 3.854 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 3.863 s, pure query time: 3.845 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 3.869 s, pure query time: 3.851 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 3.878 s, pure query time: 3.860 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 3.875 s, pure query time: 3.857 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+set ef = 160
+[search time: 4.335 s, pure query time: 4.316 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.372 s, pure query time: 4.353 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.396 s, pure query time: 4.377 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.378 s, pure query time: 4.359 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.344 s, pure query time: 4.325 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+set ef = 180
+[search time: 4.801 s, pure query time: 4.782 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.797 s, pure query time: 4.778 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.805 s, pure query time: 4.786 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.798 s, pure query time: 4.779 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.874 s, pure query time: 4.855 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+set ef = 200
+[search time: 5.326 s, pure query time: 5.307 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.270 s, pure query time: 5.249 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.267 s, pure query time: 5.247 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.261 s, pure query time: 5.241 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.259 s, pure query time: 5.239 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+set ef = 300
+[search time: 7.569 s, pure query time: 7.544 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 7.575 s, pure query time: 7.550 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 7.520 s, pure query time: 7.495 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 7.507 s, pure query time: 7.482 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 7.504 s, pure query time: 7.480 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+set ef = 400
+[search time: 9.813 s, pure query time: 9.782 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.695 s, pure query time: 9.664 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.681 s, pure query time: 9.650 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.742 s, pure query time: 9.711 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.770 s, pure query time: 9.740 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+set ef = 500
+[search time: 11.825 s, pure query time: 11.791 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.856 s, pure query time: 11.822 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.909 s, pure query time: 11.875 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.816 s, pure query time: 11.781 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.865 s, pure query time: 11.830 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+set ef = 600
+[search time: 14.016 s, pure query time: 13.979 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 13.911 s, pure query time: 13.874 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 14.038 s, pure query time: 14.001 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 13.912 s, pure query time: 13.876 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 13.964 s, pure query time: 13.928 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+set ef = 700
+[search time: 16.043 s, pure query time: 16.006 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 15.949 s, pure query time: 15.912 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 16.103 s, pure query time: 16.066 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 15.962 s, pure query time: 15.925 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 16.097 s, pure query time: 16.060 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+set ef = 800
+[search time: 17.989 s, pure query time: 17.951 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 18.113 s, pure query time: 18.076 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 17.985 s, pure query time: 17.947 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 18.121 s, pure query time: 18.083 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 18.004 s, pure query time: 17.966 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: ES
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: ES
+Iteration 1/3
+time for new layer: 2.973693
+Total time for insertion: 1234.627 s
+Iteration 2/3
+time for new layer: 3.056138
+Total time for insertion: 1234.209 s
+Iteration 3/3
+time for new layer: 3.077990
+Total time for insertion: 1276.140 s
+Start searchingset ef = 100
+[search time: 6.032 s, pure query time: 6.007 s] ef=100
+Intersection-merged index R@100 = 0.6826
+
+[search time: 4.584 s, pure query time: 4.565 s] ef=100
+Intersection-merged index R@100 = 0.6826
+
+[search time: 4.561 s, pure query time: 4.542 s] ef=100
+Intersection-merged index R@100 = 0.6826
+
+[search time: 4.552 s, pure query time: 4.533 s] ef=100
+Intersection-merged index R@100 = 0.6826
+
+[search time: 4.554 s, pure query time: 4.535 s] ef=100
+Intersection-merged index R@100 = 0.6826
+
+set ef = 120
+[search time: 5.305 s, pure query time: 5.284 s] ef=120
+Intersection-merged index R@100 = 0.7069
+
+[search time: 5.338 s, pure query time: 5.317 s] ef=120
+Intersection-merged index R@100 = 0.7069
+
+[search time: 5.290 s, pure query time: 5.269 s] ef=120
+Intersection-merged index R@100 = 0.7069
+
+[search time: 5.291 s, pure query time: 5.271 s] ef=120
+Intersection-merged index R@100 = 0.7069
+
+[search time: 5.288 s, pure query time: 5.267 s] ef=120
+Intersection-merged index R@100 = 0.7069
+
+set ef = 140
+[search time: 6.060 s, pure query time: 6.038 s] ef=140
+Intersection-merged index R@100 = 0.7265
+
+[search time: 6.019 s, pure query time: 5.997 s] ef=140
+Intersection-merged index R@100 = 0.7265
+
+[search time: 6.001 s, pure query time: 5.979 s] ef=140
+Intersection-merged index R@100 = 0.7265
+
+[search time: 5.997 s, pure query time: 5.974 s] ef=140
+Intersection-merged index R@100 = 0.7265
+
+[search time: 6.061 s, pure query time: 6.038 s] ef=140
+Intersection-merged index R@100 = 0.7265
+
+set ef = 160
+[search time: 6.738 s, pure query time: 6.715 s] ef=160
+Intersection-merged index R@100 = 0.7424
+
+[search time: 6.713 s, pure query time: 6.690 s] ef=160
+Intersection-merged index R@100 = 0.7424
+
+[search time: 6.730 s, pure query time: 6.707 s] ef=160
+Intersection-merged index R@100 = 0.7424
+
+[search time: 6.792 s, pure query time: 6.769 s] ef=160
+Intersection-merged index R@100 = 0.7424
+
+[search time: 6.716 s, pure query time: 6.693 s] ef=160
+Intersection-merged index R@100 = 0.7424
+
+set ef = 180
+[search time: 7.417 s, pure query time: 7.393 s] ef=180
+Intersection-merged index R@100 = 0.7553
+
+[search time: 7.438 s, pure query time: 7.414 s] ef=180
+Intersection-merged index R@100 = 0.7553
+
+[search time: 7.464 s, pure query time: 7.440 s] ef=180
+Intersection-merged index R@100 = 0.7553
+
+[search time: 7.411 s, pure query time: 7.388 s] ef=180
+Intersection-merged index R@100 = 0.7553
+
+[search time: 7.428 s, pure query time: 7.404 s] ef=180
+Intersection-merged index R@100 = 0.7553
+
+set ef = 200
+[search time: 8.194 s, pure query time: 8.169 s] ef=200
+Intersection-merged index R@100 = 0.7670
+
+[search time: 8.140 s, pure query time: 8.115 s] ef=200
+Intersection-merged index R@100 = 0.7670
+
+[search time: 8.135 s, pure query time: 8.110 s] ef=200
+Intersection-merged index R@100 = 0.7670
+
+[search time: 8.204 s, pure query time: 8.179 s] ef=200
+Intersection-merged index R@100 = 0.7670
+
+[search time: 8.124 s, pure query time: 8.099 s] ef=200
+Intersection-merged index R@100 = 0.7670
+
+set ef = 300
+[search time: 11.677 s, pure query time: 11.647 s] ef=300
+Intersection-merged index R@100 = 0.8083
+
+[search time: 11.721 s, pure query time: 11.692 s] ef=300
+Intersection-merged index R@100 = 0.8083
+
+[search time: 11.657 s, pure query time: 11.627 s] ef=300
+Intersection-merged index R@100 = 0.8083
+
+[search time: 11.723 s, pure query time: 11.694 s] ef=300
+Intersection-merged index R@100 = 0.8083
+
+[search time: 11.651 s, pure query time: 11.622 s] ef=300
+Intersection-merged index R@100 = 0.8083
+
+set ef = 400
+[search time: 15.243 s, pure query time: 15.210 s] ef=400
+Intersection-merged index R@100 = 0.8333
+
+[search time: 15.203 s, pure query time: 15.167 s] ef=400
+Intersection-merged index R@100 = 0.8333
+
+[search time: 15.201 s, pure query time: 15.167 s] ef=400
+Intersection-merged index R@100 = 0.8333
+
+[search time: 15.233 s, pure query time: 15.199 s] ef=400
+Intersection-merged index R@100 = 0.8333
+
+[search time: 15.178 s, pure query time: 15.144 s] ef=400
+Intersection-merged index R@100 = 0.8333
+
+set ef = 500
+[search time: 18.753 s, pure query time: 18.717 s] ef=500
+Intersection-merged index R@100 = 0.8509
+
+[search time: 18.739 s, pure query time: 18.703 s] ef=500
+Intersection-merged index R@100 = 0.8509
+
+[search time: 18.728 s, pure query time: 18.691 s] ef=500
+Intersection-merged index R@100 = 0.8509
+
+[search time: 18.692 s, pure query time: 18.656 s] ef=500
+Intersection-merged index R@100 = 0.8509
+
+[search time: 18.742 s, pure query time: 18.705 s] ef=500
+Intersection-merged index R@100 = 0.8509
+
+set ef = 600
+[search time: 22.236 s, pure query time: 22.198 s] ef=600
+Intersection-merged index R@100 = 0.8639
+
+[search time: 22.241 s, pure query time: 22.203 s] ef=600
+Intersection-merged index R@100 = 0.8639
+
+[search time: 22.243 s, pure query time: 22.205 s] ef=600
+Intersection-merged index R@100 = 0.8639
+
+[search time: 22.200 s, pure query time: 22.162 s] ef=600
+Intersection-merged index R@100 = 0.8639
+
+[search time: 22.203 s, pure query time: 22.165 s] ef=600
+Intersection-merged index R@100 = 0.8639
+
+set ef = 700
+[search time: 25.714 s, pure query time: 25.675 s] ef=700
+Intersection-merged index R@100 = 0.8739
+
+[search time: 25.728 s, pure query time: 25.689 s] ef=700
+Intersection-merged index R@100 = 0.8739
+
+[search time: 25.724 s, pure query time: 25.685 s] ef=700
+Intersection-merged index R@100 = 0.8739
+
+[search time: 25.730 s, pure query time: 25.691 s] ef=700
+Intersection-merged index R@100 = 0.8739
+
+[search time: 25.718 s, pure query time: 25.679 s] ef=700
+Intersection-merged index R@100 = 0.8739
+
+set ef = 800
+[search time: 29.256 s, pure query time: 29.217 s] ef=800
+Intersection-merged index R@100 = 0.8824
+
+[search time: 29.234 s, pure query time: 29.194 s] ef=800
+Intersection-merged index R@100 = 0.8824
+
+[search time: 29.204 s, pure query time: 29.164 s] ef=800
+Intersection-merged index R@100 = 0.8824
+
+[search time: 29.210 s, pure query time: 29.170 s] ef=800
+Intersection-merged index R@100 = 0.8824
+
+[search time: 29.211 s, pure query time: 29.171 s] ef=800
+Intersection-merged index R@100 = 0.8824
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: NGM
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: NGM
+Iteration 1/3
+time for new layer: 5.945429
+Total time for insertion: 2202.572 s
+Iteration 2/3
+time for new layer: 10.243007
+Total time for insertion: 2274.736 s
+Iteration 3/3
+time for new layer: 6.493854
+Total time for insertion: 2130.014 s
+Start searchingset ef = 100
+[search time: 4.383 s, pure query time: 4.357 s] ef=100
+Intersection-merged index R@100 = 0.8409
+
+[search time: 3.276 s, pure query time: 3.257 s] ef=100
+Intersection-merged index R@100 = 0.8409
+
+[search time: 3.268 s, pure query time: 3.248 s] ef=100
+Intersection-merged index R@100 = 0.8409
+
+[search time: 3.268 s, pure query time: 3.250 s] ef=100
+Intersection-merged index R@100 = 0.8409
+
+[search time: 3.310 s, pure query time: 3.291 s] ef=100
+Intersection-merged index R@100 = 0.8409
+
+set ef = 120
+[search time: 3.886 s, pure query time: 3.866 s] ef=120
+Intersection-merged index R@100 = 0.8687
+
+[search time: 3.859 s, pure query time: 3.839 s] ef=120
+Intersection-merged index R@100 = 0.8687
+
+[search time: 3.838 s, pure query time: 3.819 s] ef=120
+Intersection-merged index R@100 = 0.8687
+
+[search time: 3.883 s, pure query time: 3.864 s] ef=120
+Intersection-merged index R@100 = 0.8687
+
+[search time: 3.852 s, pure query time: 3.833 s] ef=120
+Intersection-merged index R@100 = 0.8687
+
+set ef = 140
+[search time: 4.375 s, pure query time: 4.355 s] ef=140
+Intersection-merged index R@100 = 0.8893
+
+[search time: 4.381 s, pure query time: 4.362 s] ef=140
+Intersection-merged index R@100 = 0.8893
+
+[search time: 4.374 s, pure query time: 4.354 s] ef=140
+Intersection-merged index R@100 = 0.8893
+
+[search time: 4.430 s, pure query time: 4.410 s] ef=140
+Intersection-merged index R@100 = 0.8893
+
+[search time: 5.829 s, pure query time: 5.806 s] ef=140
+Intersection-merged index R@100 = 0.8893
+
+set ef = 160
+[search time: 10.645 s, pure query time: 10.622 s] ef=160
+Intersection-merged index R@100 = 0.9051
+
+[search time: 6.961 s, pure query time: 6.939 s] ef=160
+Intersection-merged index R@100 = 0.9051
+
+[search time: 6.911 s, pure query time: 6.890 s] ef=160
+Intersection-merged index R@100 = 0.9051
+
+[search time: 6.943 s, pure query time: 6.922 s] ef=160
+Intersection-merged index R@100 = 0.9051
+
+[search time: 6.944 s, pure query time: 6.922 s] ef=160
+Intersection-merged index R@100 = 0.9051
+
+set ef = 180
+[search time: 7.615 s, pure query time: 7.593 s] ef=180
+Intersection-merged index R@100 = 0.9177
+
+[search time: 7.631 s, pure query time: 7.609 s] ef=180
+Intersection-merged index R@100 = 0.9177
+
+[search time: 7.686 s, pure query time: 7.664 s] ef=180
+Intersection-merged index R@100 = 0.9177
+
+[search time: 7.683 s, pure query time: 7.661 s] ef=180
+Intersection-merged index R@100 = 0.9177
+
+[search time: 7.593 s, pure query time: 7.568 s] ef=180
+Intersection-merged index R@100 = 0.9177
+
+set ef = 200
+[search time: 7.654 s, pure query time: 7.625 s] ef=200
+Intersection-merged index R@100 = 0.9277
+
+[search time: 6.955 s, pure query time: 6.926 s] ef=200
+Intersection-merged index R@100 = 0.9277
+
+[search time: 6.931 s, pure query time: 6.903 s] ef=200
+Intersection-merged index R@100 = 0.9277
+
+[search time: 6.931 s, pure query time: 6.902 s] ef=200
+Intersection-merged index R@100 = 0.9277
+
+[search time: 6.930 s, pure query time: 6.902 s] ef=200
+Intersection-merged index R@100 = 0.9277
+
+set ef = 300
+[search time: 12.451 s, pure query time: 12.418 s] ef=300
+Intersection-merged index R@100 = 0.9578
+
+[search time: 12.453 s, pure query time: 12.423 s] ef=300
+Intersection-merged index R@100 = 0.9578
+
+[search time: 12.035 s, pure query time: 12.005 s] ef=300
+Intersection-merged index R@100 = 0.9578
+
+[search time: 13.001 s, pure query time: 12.969 s] ef=300
+Intersection-merged index R@100 = 0.9578
+
+[search time: 9.535 s, pure query time: 9.506 s] ef=300
+Intersection-merged index R@100 = 0.9578
+
+set ef = 400
+[search time: 11.144 s, pure query time: 11.111 s] ef=400
+Intersection-merged index R@100 = 0.9719
+
+[search time: 11.153 s, pure query time: 11.119 s] ef=400
+Intersection-merged index R@100 = 0.9719
+
+[search time: 11.255 s, pure query time: 11.222 s] ef=400
+Intersection-merged index R@100 = 0.9719
+
+[search time: 11.148 s, pure query time: 11.113 s] ef=400
+Intersection-merged index R@100 = 0.9719
+
+[search time: 11.146 s, pure query time: 11.113 s] ef=400
+Intersection-merged index R@100 = 0.9719
+
+set ef = 500
+[search time: 13.704 s, pure query time: 13.666 s] ef=500
+Intersection-merged index R@100 = 0.9797
+
+[search time: 13.642 s, pure query time: 13.607 s] ef=500
+Intersection-merged index R@100 = 0.9797
+
+[search time: 13.628 s, pure query time: 13.591 s] ef=500
+Intersection-merged index R@100 = 0.9797
+
+[search time: 13.707 s, pure query time: 13.671 s] ef=500
+Intersection-merged index R@100 = 0.9797
+
+[search time: 13.628 s, pure query time: 13.592 s] ef=500
+Intersection-merged index R@100 = 0.9797
+
+set ef = 600
+[search time: 16.084 s, pure query time: 16.047 s] ef=600
+Intersection-merged index R@100 = 0.9846
+
+[search time: 16.153 s, pure query time: 16.115 s] ef=600
+Intersection-merged index R@100 = 0.9846
+
+[search time: 16.088 s, pure query time: 16.050 s] ef=600
+Intersection-merged index R@100 = 0.9846
+
+[search time: 16.155 s, pure query time: 16.117 s] ef=600
+Intersection-merged index R@100 = 0.9846
+
+[search time: 16.075 s, pure query time: 16.038 s] ef=600
+Intersection-merged index R@100 = 0.9846
+
+set ef = 700
+[search time: 20.041 s, pure query time: 20.002 s] ef=700
+Intersection-merged index R@100 = 0.9879
+
+[search time: 29.271 s, pure query time: 29.228 s] ef=700
+Intersection-merged index R@100 = 0.9879
+
+[search time: 25.679 s, pure query time: 25.636 s] ef=700
+Intersection-merged index R@100 = 0.9879
+
+[search time: 22.535 s, pure query time: 22.495 s] ef=700
+Intersection-merged index R@100 = 0.9879
+
+[search time: 21.040 s, pure query time: 21.002 s] ef=700
+Intersection-merged index R@100 = 0.9879
+
+set ef = 800
+[search time: 29.936 s, pure query time: 29.892 s] ef=800
+Intersection-merged index R@100 = 0.9901
+
+[search time: 28.656 s, pure query time: 28.614 s] ef=800
+Intersection-merged index R@100 = 0.9901
+
+[search time: 21.120 s, pure query time: 21.081 s] ef=800
+Intersection-merged index R@100 = 0.9901
+
+[search time: 21.212 s, pure query time: 21.173 s] ef=800
+Intersection-merged index R@100 = 0.9901
+
+[search time: 20.941 s, pure query time: 20.902 s] ef=800
+Intersection-merged index R@100 = 0.9901
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: NGM
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: NGM
+Iteration 1/3
+time for new layer: 5.360222
+Total time for insertion: 1675.392 s
+Iteration 2/3
+time for new layer: 5.333052
+Total time for insertion: 1674.999 s
+Iteration 3/3
+time for new layer: 7.176432
+Total time for insertion: 2044.129 s
+Start searchingset ef = 100
+[search time: 3.809 s, pure query time: 3.782 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 2.950 s, pure query time: 2.930 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 3.375 s, pure query time: 3.353 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 3.739 s, pure query time: 3.720 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+[search time: 4.129 s, pure query time: 4.110 s] ef=100
+Intersection-merged index R@100 = 0.8216
+
+set ef = 120
+[search time: 4.828 s, pure query time: 4.808 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 4.480 s, pure query time: 4.461 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 4.285 s, pure query time: 4.265 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 4.262 s, pure query time: 4.243 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+[search time: 4.260 s, pure query time: 4.241 s] ef=120
+Intersection-merged index R@100 = 0.8480
+
+set ef = 140
+[search time: 4.853 s, pure query time: 4.834 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 4.849 s, pure query time: 4.830 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 4.859 s, pure query time: 4.840 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 4.881 s, pure query time: 4.862 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+[search time: 4.711 s, pure query time: 4.689 s] ef=140
+Intersection-merged index R@100 = 0.8680
+
+set ef = 160
+[search time: 4.418 s, pure query time: 4.393 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.453 s, pure query time: 4.428 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.610 s, pure query time: 4.585 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.480 s, pure query time: 4.456 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+[search time: 4.472 s, pure query time: 4.447 s] ef=160
+Intersection-merged index R@100 = 0.8835
+
+set ef = 180
+[search time: 4.928 s, pure query time: 4.903 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.931 s, pure query time: 4.907 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.926 s, pure query time: 4.901 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.932 s, pure query time: 4.907 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+[search time: 4.965 s, pure query time: 4.939 s] ef=180
+Intersection-merged index R@100 = 0.8961
+
+set ef = 200
+[search time: 5.541 s, pure query time: 5.515 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.505 s, pure query time: 5.479 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.416 s, pure query time: 5.390 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.401 s, pure query time: 5.375 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+[search time: 5.405 s, pure query time: 5.379 s] ef=200
+Intersection-merged index R@100 = 0.9065
+
+set ef = 300
+[search time: 7.697 s, pure query time: 7.666 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 13.383 s, pure query time: 13.352 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 7.586 s, pure query time: 7.560 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 7.016 s, pure query time: 6.989 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+[search time: 7.023 s, pure query time: 6.997 s] ef=300
+Intersection-merged index R@100 = 0.9383
+
+set ef = 400
+[search time: 9.060 s, pure query time: 9.028 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.092 s, pure query time: 9.061 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.205 s, pure query time: 9.173 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.029 s, pure query time: 8.997 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+[search time: 9.028 s, pure query time: 8.996 s] ef=400
+Intersection-merged index R@100 = 0.9548
+
+set ef = 500
+[search time: 10.986 s, pure query time: 10.951 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.044 s, pure query time: 11.009 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.016 s, pure query time: 10.981 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.006 s, pure query time: 10.971 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+[search time: 11.052 s, pure query time: 11.017 s] ef=500
+Intersection-merged index R@100 = 0.9646
+
+set ef = 600
+[search time: 12.968 s, pure query time: 12.931 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 12.997 s, pure query time: 12.960 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 12.934 s, pure query time: 12.898 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 12.940 s, pure query time: 12.904 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+[search time: 12.982 s, pure query time: 12.946 s] ef=600
+Intersection-merged index R@100 = 0.9712
+
+set ef = 700
+[search time: 14.851 s, pure query time: 14.814 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 14.883 s, pure query time: 14.846 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 14.835 s, pure query time: 14.798 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 14.880 s, pure query time: 14.843 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+[search time: 14.833 s, pure query time: 14.796 s] ef=700
+Intersection-merged index R@100 = 0.9758
+
+set ef = 800
+[search time: 16.750 s, pure query time: 16.712 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 16.753 s, pure query time: 16.715 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 16.746 s, pure query time: 16.709 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 16.740 s, pure query time: 16.701 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+[search time: 16.748 s, pure query time: 16.711 s] ef=800
+Intersection-merged index R@100 = 0.9791
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: NGM
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: NGM
+Iteration 1/3
+time for new layer: 5.479765
+Total time for insertion: 2082.015 s
+Iteration 2/3
+time for new layer: 5.383321
+Total time for insertion: 2076.522 s
+Iteration 3/3
+time for new layer: 7.501697
+Total time for insertion: 2511.878 s
+Start searchingset ef = 100
+[search time: 5.112 s, pure query time: 5.085 s] ef=100
+Intersection-merged index R@100 = 0.6539
+
+[search time: 4.288 s, pure query time: 4.269 s] ef=100
+Intersection-merged index R@100 = 0.6539
+
+[search time: 4.301 s, pure query time: 4.282 s] ef=100
+Intersection-merged index R@100 = 0.6539
+
+[search time: 4.562 s, pure query time: 4.538 s] ef=100
+Intersection-merged index R@100 = 0.6539
+
+[search time: 4.652 s, pure query time: 4.628 s] ef=100
+Intersection-merged index R@100 = 0.6539
+
+set ef = 120
+[search time: 5.828 s, pure query time: 5.804 s] ef=120
+Intersection-merged index R@100 = 0.6802
+
+[search time: 5.495 s, pure query time: 5.470 s] ef=120
+Intersection-merged index R@100 = 0.6802
+
+[search time: 5.302 s, pure query time: 5.277 s] ef=120
+Intersection-merged index R@100 = 0.6802
+
+[search time: 5.300 s, pure query time: 5.276 s] ef=120
+Intersection-merged index R@100 = 0.6802
+
+[search time: 5.297 s, pure query time: 5.272 s] ef=120
+Intersection-merged index R@100 = 0.6802
+
+set ef = 140
+[search time: 6.030 s, pure query time: 6.004 s] ef=140
+Intersection-merged index R@100 = 0.7006
+
+[search time: 6.026 s, pure query time: 6.001 s] ef=140
+Intersection-merged index R@100 = 0.7006
+
+[search time: 6.038 s, pure query time: 6.012 s] ef=140
+Intersection-merged index R@100 = 0.7006
+
+[search time: 6.049 s, pure query time: 6.024 s] ef=140
+Intersection-merged index R@100 = 0.7006
+
+[search time: 5.739 s, pure query time: 5.718 s] ef=140
+Intersection-merged index R@100 = 0.7006
+
+set ef = 160
+[search time: 6.830 s, pure query time: 6.808 s] ef=160
+Intersection-merged index R@100 = 0.7176
+
+[search time: 6.379 s, pure query time: 6.357 s] ef=160
+Intersection-merged index R@100 = 0.7176
+
+[search time: 6.368 s, pure query time: 6.346 s] ef=160
+Intersection-merged index R@100 = 0.7176
+
+[search time: 6.369 s, pure query time: 6.347 s] ef=160
+Intersection-merged index R@100 = 0.7176
+
+[search time: 6.366 s, pure query time: 6.344 s] ef=160
+Intersection-merged index R@100 = 0.7176
+
+set ef = 180
+[search time: 7.522 s, pure query time: 7.495 s] ef=180
+Intersection-merged index R@100 = 0.7322
+
+[search time: 8.177 s, pure query time: 8.149 s] ef=180
+Intersection-merged index R@100 = 0.7322
+
+[search time: 7.543 s, pure query time: 7.516 s] ef=180
+Intersection-merged index R@100 = 0.7322
+
+[search time: 7.460 s, pure query time: 7.433 s] ef=180
+Intersection-merged index R@100 = 0.7322
+
+[search time: 7.457 s, pure query time: 7.429 s] ef=180
+Intersection-merged index R@100 = 0.7322
+
+set ef = 200
+[search time: 8.181 s, pure query time: 8.152 s] ef=200
+Intersection-merged index R@100 = 0.7447
+
+[search time: 8.227 s, pure query time: 8.202 s] ef=200
+Intersection-merged index R@100 = 0.7447
+
+[search time: 8.023 s, pure query time: 7.999 s] ef=200
+Intersection-merged index R@100 = 0.7447
+
+[search time: 7.766 s, pure query time: 7.742 s] ef=200
+Intersection-merged index R@100 = 0.7447
+
+[search time: 7.767 s, pure query time: 7.743 s] ef=200
+Intersection-merged index R@100 = 0.7447
+
+set ef = 300
+[search time: 11.303 s, pure query time: 11.272 s] ef=300
+Intersection-merged index R@100 = 0.7860
+
+[search time: 12.707 s, pure query time: 12.673 s] ef=300
+Intersection-merged index R@100 = 0.7860
+
+[search time: 11.749 s, pure query time: 11.715 s] ef=300
+Intersection-merged index R@100 = 0.7860
+
+[search time: 11.728 s, pure query time: 11.695 s] ef=300
+Intersection-merged index R@100 = 0.7860
+
+[search time: 11.678 s, pure query time: 11.646 s] ef=300
+Intersection-merged index R@100 = 0.7860
+
+set ef = 400
+[search time: 14.882 s, pure query time: 14.847 s] ef=400
+Intersection-merged index R@100 = 0.8118
+
+[search time: 14.535 s, pure query time: 14.501 s] ef=400
+Intersection-merged index R@100 = 0.8118
+
+[search time: 15.870 s, pure query time: 15.832 s] ef=400
+Intersection-merged index R@100 = 0.8118
+
+[search time: 15.414 s, pure query time: 15.376 s] ef=400
+Intersection-merged index R@100 = 0.8118
+
+[search time: 15.290 s, pure query time: 15.252 s] ef=400
+Intersection-merged index R@100 = 0.8118
+
+set ef = 500
+[search time: 18.651 s, pure query time: 18.613 s] ef=500
+Intersection-merged index R@100 = 0.8301
+
+[search time: 17.932 s, pure query time: 17.895 s] ef=500
+Intersection-merged index R@100 = 0.8301
+
+[search time: 19.539 s, pure query time: 19.499 s] ef=500
+Intersection-merged index R@100 = 0.8301
+
+[search time: 18.851 s, pure query time: 18.810 s] ef=500
+Intersection-merged index R@100 = 0.8301
+
+[search time: 18.804 s, pure query time: 18.765 s] ef=500
+Intersection-merged index R@100 = 0.8301
+
+set ef = 600
+[search time: 21.606 s, pure query time: 21.568 s] ef=600
+Intersection-merged index R@100 = 0.8441
+
+[search time: 22.628 s, pure query time: 22.587 s] ef=600
+Intersection-merged index R@100 = 0.8441
+
+[search time: 22.573 s, pure query time: 22.530 s] ef=600
+Intersection-merged index R@100 = 0.8441
+
+[search time: 22.459 s, pure query time: 22.419 s] ef=600
+Intersection-merged index R@100 = 0.8441
+
+[search time: 21.379 s, pure query time: 21.342 s] ef=600
+Intersection-merged index R@100 = 0.8441
+
+set ef = 700
+[search time: 26.557 s, pure query time: 26.514 s] ef=700
+Intersection-merged index R@100 = 0.8548
+
+[search time: 25.933 s, pure query time: 25.890 s] ef=700
+Intersection-merged index R@100 = 0.8548
+
+[search time: 25.308 s, pure query time: 25.269 s] ef=700
+Intersection-merged index R@100 = 0.8548
+
+[search time: 26.264 s, pure query time: 26.223 s] ef=700
+Intersection-merged index R@100 = 0.8548
+
+[search time: 26.046 s, pure query time: 26.004 s] ef=700
+Intersection-merged index R@100 = 0.8548
+
+set ef = 800
+[search time: 29.021 s, pure query time: 28.981 s] ef=800
+Intersection-merged index R@100 = 0.8637
+
+[search time: 29.614 s, pure query time: 29.572 s] ef=800
+Intersection-merged index R@100 = 0.8637
+
+[search time: 29.582 s, pure query time: 29.538 s] ef=800
+Intersection-merged index R@100 = 0.8637
+
+[search time: 28.951 s, pure query time: 28.910 s] ef=800
+Intersection-merged index R@100 = 0.8637
+
+[search time: 30.034 s, pure query time: 29.991 s] ef=800
+Intersection-merged index R@100 = 0.8637
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: IGTM
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: IGTM
+Iteration 1/3
+time for new layer: 5.910841
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 68.612531 
+[log] Index merge process 400000 / 5000000, time: 94.105239 
+[log] Index merge process 600000 / 5000000, time: 120.440117 
+[log] Index merge process 800000 / 5000000, time: 147.730747 
+[log] Index merge process 1000000 / 5000000, time: 175.581887 
+[log] Index merge process 1200000 / 5000000, time: 204.119681 
+[log] Index merge process 1400000 / 5000000, time: 231.906646 
+[log] Index merge process 1600000 / 5000000, time: 261.504019 
+[log] Index merge process 1800000 / 5000000, time: 290.264815 
+[log] Index merge process 2000000 / 5000000, time: 319.905813 
+[log] Index merge process 2200000 / 5000000, time: 350.245987 
+[log] Index merge process 2400000 / 5000000, time: 381.885241 
+[log] Index merge process 2600000 / 5000000, time: 414.514496 
+[log] Index merge process 2800000 / 5000000, time: 448.051053 
+[log] Index merge process 3000000 / 5000000, time: 482.001539 
+[log] Index merge process 3200000 / 5000000, time: 516.540127 
+[log] Index merge process 3400000 / 5000000, time: 567.882961 
+[log] Index merge process 3600000 / 5000000, time: 623.979348 
+[log] Index merge process 3800000 / 5000000, time: 667.717947 
+[log] Index merge process 4000000 / 5000000, time: 720.959143 
+[log] Index merge process 4200000 / 5000000, time: 780.437343 
+[log] Index merge process 4400000 / 5000000, time: 833.413066 
+[log] Index merge process 4600000 / 5000000, time: 886.653162 
+[log] Index merge process 4800000 / 5000000, time: 941.328334 
+[log] Index merge process 5000000 / 5000000, time: 999.130716 
+[log] Index merge process 200000 / 5000000, time: 1024.899942 
+[log] Index merge process 400000 / 5000000, time: 1050.901603 
+[log] Index merge process 600000 / 5000000, time: 1077.552445 
+[log] Index merge process 800000 / 5000000, time: 1105.102984 
+[log] Index merge process 1000000 / 5000000, time: 1131.092769 
+[log] Index merge process 1200000 / 5000000, time: 1158.521598 
+[log] Index merge process 1400000 / 5000000, time: 1185.994043 
+[log] Index merge process 1600000 / 5000000, time: 1214.167861 
+[log] Index merge process 1800000 / 5000000, time: 1243.397279 
+[log] Index merge process 2000000 / 5000000, time: 1273.643774 
+[log] Index merge process 2200000 / 5000000, time: 1304.235077 
+[log] Index merge process 2400000 / 5000000, time: 1335.505807 
+[log] Index merge process 2600000 / 5000000, time: 1367.711135 
+[log] Index merge process 2800000 / 5000000, time: 1401.433297 
+[log] Index merge process 3000000 / 5000000, time: 1436.425799 
+[log] Index merge process 3200000 / 5000000, time: 1471.616856 
+[log] Index merge process 3400000 / 5000000, time: 1508.730088 
+[log] Index merge process 3600000 / 5000000, time: 1547.218470 
+[log] Index merge process 3800000 / 5000000, time: 1587.469325 
+[log] Index merge process 4000000 / 5000000, time: 1629.297316 
+[log] Index merge process 4200000 / 5000000, time: 1674.655004 
+[log] Index merge process 4400000 / 5000000, time: 1723.518598 
+[log] Index merge process 4600000 / 5000000, time: 1775.446149 
+[log] Index merge process 4800000 / 5000000, time: 1830.000549 
+[log] Index merge process 5000000 / 5000000, time: 1887.682362 
+Total time for insertion: 1887.690 s
+Iteration 2/3
+time for new layer: 6.024258
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 68.992967 
+[log] Index merge process 400000 / 5000000, time: 94.552452 
+[log] Index merge process 600000 / 5000000, time: 120.904093 
+[log] Index merge process 800000 / 5000000, time: 148.262918 
+[log] Index merge process 1000000 / 5000000, time: 176.173827 
+[log] Index merge process 1200000 / 5000000, time: 204.853448 
+[log] Index merge process 1400000 / 5000000, time: 232.728321 
+[log] Index merge process 1600000 / 5000000, time: 262.388986 
+[log] Index merge process 1800000 / 5000000, time: 291.235128 
+[log] Index merge process 2000000 / 5000000, time: 320.960798 
+[log] Index merge process 2200000 / 5000000, time: 351.350348 
+[log] Index merge process 2400000 / 5000000, time: 383.069605 
+[log] Index merge process 2600000 / 5000000, time: 415.767639 
+[log] Index merge process 2800000 / 5000000, time: 449.469958 
+[log] Index merge process 3000000 / 5000000, time: 483.551765 
+[log] Index merge process 3200000 / 5000000, time: 518.203038 
+[log] Index merge process 3400000 / 5000000, time: 554.285095 
+[log] Index merge process 3600000 / 5000000, time: 592.298989 
+[log] Index merge process 3800000 / 5000000, time: 632.047894 
+[log] Index merge process 4000000 / 5000000, time: 673.470689 
+[log] Index merge process 4200000 / 5000000, time: 717.867551 
+[log] Index merge process 4400000 / 5000000, time: 766.364398 
+[log] Index merge process 4600000 / 5000000, time: 818.353519 
+[log] Index merge process 4800000 / 5000000, time: 873.033407 
+[log] Index merge process 5000000 / 5000000, time: 930.863635 
+[log] Index merge process 200000 / 5000000, time: 956.128312 
+[log] Index merge process 400000 / 5000000, time: 981.836107 
+[log] Index merge process 600000 / 5000000, time: 1008.280029 
+[log] Index merge process 800000 / 5000000, time: 1035.716372 
+[log] Index merge process 1000000 / 5000000, time: 1061.682173 
+[log] Index merge process 1200000 / 5000000, time: 1089.084470 
+[log] Index merge process 1400000 / 5000000, time: 1116.609545 
+[log] Index merge process 1600000 / 5000000, time: 1144.803603 
+[log] Index merge process 1800000 / 5000000, time: 1174.085001 
+[log] Index merge process 2000000 / 5000000, time: 1204.371043 
+[log] Index merge process 2200000 / 5000000, time: 1234.969637 
+[log] Index merge process 2400000 / 5000000, time: 1266.221329 
+[log] Index merge process 2600000 / 5000000, time: 1298.403840 
+[log] Index merge process 2800000 / 5000000, time: 1332.158223 
+[log] Index merge process 3000000 / 5000000, time: 1367.148365 
+[log] Index merge process 3200000 / 5000000, time: 1402.431097 
+[log] Index merge process 3400000 / 5000000, time: 1439.620111 
+[log] Index merge process 3600000 / 5000000, time: 1478.143212 
+[log] Index merge process 3800000 / 5000000, time: 1518.396686 
+[log] Index merge process 4000000 / 5000000, time: 1560.304781 
+[log] Index merge process 4200000 / 5000000, time: 1605.674490 
+[log] Index merge process 4400000 / 5000000, time: 1654.644293 
+[log] Index merge process 4600000 / 5000000, time: 1706.576713 
+[log] Index merge process 4800000 / 5000000, time: 1761.176078 
+[log] Index merge process 5000000 / 5000000, time: 1818.965798 
+Total time for insertion: 1818.972 s
+Iteration 3/3
+time for new layer: 7.916344
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 79.102966 
+[log] Index merge process 400000 / 5000000, time: 111.260139 
+[log] Index merge process 600000 / 5000000, time: 146.383682 
+[log] Index merge process 800000 / 5000000, time: 177.190981 
+[log] Index merge process 1000000 / 5000000, time: 210.275447 
+[log] Index merge process 1200000 / 5000000, time: 248.998567 
+[log] Index merge process 1400000 / 5000000, time: 280.082621 
+[log] Index merge process 1600000 / 5000000, time: 312.487237 
+[log] Index merge process 1800000 / 5000000, time: 345.034728 
+[log] Index merge process 2000000 / 5000000, time: 385.087252 
+[log] Index merge process 2200000 / 5000000, time: 420.807339 
+[log] Index merge process 2400000 / 5000000, time: 459.733006 
+[log] Index merge process 2600000 / 5000000, time: 503.256898 
+[log] Index merge process 2800000 / 5000000, time: 539.348177 
+[log] Index merge process 3000000 / 5000000, time: 576.153072 
+[log] Index merge process 3200000 / 5000000, time: 623.761800 
+[log] Index merge process 3400000 / 5000000, time: 666.020169 
+[log] Index merge process 3600000 / 5000000, time: 715.500150 
+[log] Index merge process 3800000 / 5000000, time: 763.691799 
+[log] Index merge process 4000000 / 5000000, time: 808.169321 
+[log] Index merge process 4200000 / 5000000, time: 867.672378 
+[log] Index merge process 4400000 / 5000000, time: 923.544890 
+[log] Index merge process 4600000 / 5000000, time: 992.951968 
+[log] Index merge process 4800000 / 5000000, time: 1050.932663 
+[log] Index merge process 5000000 / 5000000, time: 1128.294260 
+[log] Index merge process 200000 / 5000000, time: 1155.683243 
+[log] Index merge process 400000 / 5000000, time: 1183.814204 
+[log] Index merge process 600000 / 5000000, time: 1214.094775 
+[log] Index merge process 800000 / 5000000, time: 1249.639123 
+[log] Index merge process 1000000 / 5000000, time: 1281.127437 
+[log] Index merge process 1200000 / 5000000, time: 1312.130007 
+[log] Index merge process 1400000 / 5000000, time: 1348.066932 
+[log] Index merge process 1600000 / 5000000, time: 1382.470527 
+[log] Index merge process 1800000 / 5000000, time: 1413.870874 
+[log] Index merge process 2000000 / 5000000, time: 1446.325030 
+[log] Index merge process 2200000 / 5000000, time: 1486.736078 
+[log] Index merge process 2400000 / 5000000, time: 1525.620431 
+[log] Index merge process 2600000 / 5000000, time: 1563.534639 
+[log] Index merge process 2800000 / 5000000, time: 1608.910477 
+[log] Index merge process 3000000 / 5000000, time: 1646.653907 
+[log] Index merge process 3200000 / 5000000, time: 1684.782515 
+[log] Index merge process 3400000 / 5000000, time: 1734.808722 
+[log] Index merge process 3600000 / 5000000, time: 1779.824947 
+[log] Index merge process 3800000 / 5000000, time: 1833.268392 
+[log] Index merge process 4000000 / 5000000, time: 1881.960740 
+[log] Index merge process 4200000 / 5000000, time: 1944.492831 
+[log] Index merge process 4400000 / 5000000, time: 2001.733359 
+[log] Index merge process 4600000 / 5000000, time: 2068.044452 
+[log] Index merge process 4800000 / 5000000, time: 2141.017199 
+[log] Index merge process 5000000 / 5000000, time: 2210.967082 
+Total time for insertion: 2210.978 s
+Start searchingset ef = 100
+[search time: 5.600 s, pure query time: 5.564 s] ef=100
+Intersection-merged index R@100 = 0.7948
+
+[search time: 4.253 s, pure query time: 4.229 s] ef=100
+Intersection-merged index R@100 = 0.7948
+
+[search time: 4.272 s, pure query time: 4.248 s] ef=100
+Intersection-merged index R@100 = 0.7948
+
+[search time: 4.261 s, pure query time: 4.237 s] ef=100
+Intersection-merged index R@100 = 0.7948
+
+[search time: 5.723 s, pure query time: 5.701 s] ef=100
+Intersection-merged index R@100 = 0.7948
+
+set ef = 120
+[search time: 7.726 s, pure query time: 7.706 s] ef=120
+Intersection-merged index R@100 = 0.8275
+
+[search time: 6.497 s, pure query time: 6.477 s] ef=120
+Intersection-merged index R@100 = 0.8275
+
+[search time: 6.367 s, pure query time: 6.347 s] ef=120
+Intersection-merged index R@100 = 0.8275
+
+[search time: 6.511 s, pure query time: 6.491 s] ef=120
+Intersection-merged index R@100 = 0.8275
+
+[search time: 6.344 s, pure query time: 6.324 s] ef=120
+Intersection-merged index R@100 = 0.8275
+
+set ef = 140
+[search time: 7.211 s, pure query time: 7.189 s] ef=140
+Intersection-merged index R@100 = 0.8526
+
+[search time: 5.983 s, pure query time: 5.959 s] ef=140
+Intersection-merged index R@100 = 0.8526
+
+[search time: 5.882 s, pure query time: 5.861 s] ef=140
+Intersection-merged index R@100 = 0.8526
+
+[search time: 6.395 s, pure query time: 6.374 s] ef=140
+Intersection-merged index R@100 = 0.8526
+
+[search time: 5.726 s, pure query time: 5.705 s] ef=140
+Intersection-merged index R@100 = 0.8526
+
+set ef = 160
+[search time: 6.440 s, pure query time: 6.419 s] ef=160
+Intersection-merged index R@100 = 0.8720
+
+[search time: 6.430 s, pure query time: 6.409 s] ef=160
+Intersection-merged index R@100 = 0.8720
+
+[search time: 6.436 s, pure query time: 6.415 s] ef=160
+Intersection-merged index R@100 = 0.8720
+
+[search time: 6.432 s, pure query time: 6.411 s] ef=160
+Intersection-merged index R@100 = 0.8720
+
+[search time: 6.445 s, pure query time: 6.424 s] ef=160
+Intersection-merged index R@100 = 0.8720
+
+set ef = 180
+[search time: 7.287 s, pure query time: 7.265 s] ef=180
+Intersection-merged index R@100 = 0.8879
+
+[search time: 7.249 s, pure query time: 7.227 s] ef=180
+Intersection-merged index R@100 = 0.8879
+
+[search time: 7.289 s, pure query time: 7.266 s] ef=180
+Intersection-merged index R@100 = 0.8879
+
+[search time: 7.137 s, pure query time: 7.115 s] ef=180
+Intersection-merged index R@100 = 0.8879
+
+[search time: 7.143 s, pure query time: 7.121 s] ef=180
+Intersection-merged index R@100 = 0.8879
+
+set ef = 200
+[search time: 7.935 s, pure query time: 7.911 s] ef=200
+Intersection-merged index R@100 = 0.9009
+
+[search time: 9.999 s, pure query time: 9.969 s] ef=200
+Intersection-merged index R@100 = 0.9009
+
+[search time: 7.881 s, pure query time: 7.857 s] ef=200
+Intersection-merged index R@100 = 0.9009
+
+[search time: 11.348 s, pure query time: 11.319 s] ef=200
+Intersection-merged index R@100 = 0.9009
+
+[search time: 10.053 s, pure query time: 10.024 s] ef=200
+Intersection-merged index R@100 = 0.9009
+
+set ef = 300
+[search time: 11.454 s, pure query time: 11.424 s] ef=300
+Intersection-merged index R@100 = 0.9404
+
+[search time: 11.039 s, pure query time: 11.009 s] ef=300
+Intersection-merged index R@100 = 0.9404
+
+[search time: 11.144 s, pure query time: 11.114 s] ef=300
+Intersection-merged index R@100 = 0.9404
+
+[search time: 11.236 s, pure query time: 11.207 s] ef=300
+Intersection-merged index R@100 = 0.9404
+
+[search time: 11.019 s, pure query time: 10.990 s] ef=300
+Intersection-merged index R@100 = 0.9404
+
+set ef = 400
+[search time: 16.439 s, pure query time: 16.402 s] ef=400
+Intersection-merged index R@100 = 0.9597
+
+[search time: 19.773 s, pure query time: 19.734 s] ef=400
+Intersection-merged index R@100 = 0.9597
+
+[search time: 18.526 s, pure query time: 18.488 s] ef=400
+Intersection-merged index R@100 = 0.9597
+
+[search time: 16.218 s, pure query time: 16.181 s] ef=400
+Intersection-merged index R@100 = 0.9597
+
+^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A[search time: 14.585 s, pure query time: 14.550 s] ef=400
+Intersection-merged index R@100 = 0.9597
+
+set ef = 500
+[search time: 17.197 s, pure query time: 17.159 s] ef=500
+Intersection-merged index R@100 = 0.9707
+
+[search time: 15.992 s, pure query time: 15.956 s] ef=500
+Intersection-merged index R@100 = 0.9707
+
+[search time: 16.031 s, pure query time: 15.994 s] ef=500
+Intersection-merged index R@100 = 0.9707
+
+[search time: 15.982 s, pure query time: 15.946 s] ef=500
+Intersection-merged index R@100 = 0.9707
+
+[search time: 16.025 s, pure query time: 15.989 s] ef=500
+Intersection-merged index R@100 = 0.9707
+
+set ef = 600
+[search time: 18.841 s, pure query time: 18.803 s] ef=600
+Intersection-merged index R@100 = 0.9774
+
+[search time: 18.883 s, pure query time: 18.846 s] ef=600
+Intersection-merged index R@100 = 0.9774
+
+[search time: 18.852 s, pure query time: 18.815 s] ef=600
+Intersection-merged index R@100 = 0.9774
+
+[search time: 18.879 s, pure query time: 18.841 s] ef=600
+Intersection-merged index R@100 = 0.9774
+
+[search time: 18.881 s, pure query time: 18.843 s] ef=600
+Intersection-merged index R@100 = 0.9774
+
+set ef = 700
+[search time: 25.048 s, pure query time: 25.007 s] ef=700
+Intersection-merged index R@100 = 0.9821
+
+[search time: 21.851 s, pure query time: 21.813 s] ef=700
+Intersection-merged index R@100 = 0.9821
+
+[search time: 21.863 s, pure query time: 21.825 s] ef=700
+Intersection-merged index R@100 = 0.9821
+
+[search time: 21.923 s, pure query time: 21.885 s] ef=700
+Intersection-merged index R@100 = 0.9821
+
+[search time: 21.949 s, pure query time: 21.911 s] ef=700
+Intersection-merged index R@100 = 0.9821
+
+set ef = 800
+[search time: 24.744 s, pure query time: 24.705 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 24.746 s, pure query time: 24.708 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 24.761 s, pure query time: 24.722 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 24.763 s, pure query time: 24.724 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 24.721 s, pure query time: 24.682 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: IGTM
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: IGTM
+Iteration 1/3
+time for new layer: 5.326414
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 53.400503 
+[log] Index merge process 400000 / 5000000, time: 72.544191 
+[log] Index merge process 600000 / 5000000, time: 92.164679 
+[log] Index merge process 800000 / 5000000, time: 112.383802 
+[log] Index merge process 1000000 / 5000000, time: 132.446532 
+[log] Index merge process 1200000 / 5000000, time: 152.883117 
+[log] Index merge process 1400000 / 5000000, time: 173.740359 
+[log] Index merge process 1600000 / 5000000, time: 195.131502 
+[log] Index merge process 1800000 / 5000000, time: 217.070716 
+[log] Index merge process 2000000 / 5000000, time: 239.603903 
+[log] Index merge process 2200000 / 5000000, time: 262.752354 
+[log] Index merge process 2400000 / 5000000, time: 286.639915 
+[log] Index merge process 2600000 / 5000000, time: 311.281443 
+[log] Index merge process 2800000 / 5000000, time: 336.717826 
+[log] Index merge process 3000000 / 5000000, time: 362.990009 
+[log] Index merge process 3200000 / 5000000, time: 390.300771 
+[log] Index merge process 3400000 / 5000000, time: 418.655558 
+[log] Index merge process 3600000 / 5000000, time: 448.229811 
+[log] Index merge process 3800000 / 5000000, time: 479.044710 
+[log] Index merge process 4000000 / 5000000, time: 511.508923 
+[log] Index merge process 4200000 / 5000000, time: 545.925762 
+[log] Index merge process 4400000 / 5000000, time: 582.958321 
+[log] Index merge process 4600000 / 5000000, time: 623.162356 
+[log] Index merge process 4800000 / 5000000, time: 665.748515 
+[log] Index merge process 5000000 / 5000000, time: 711.031034 
+[log] Index merge process 200000 / 5000000, time: 729.924795 
+[log] Index merge process 400000 / 5000000, time: 749.030426 
+[log] Index merge process 600000 / 5000000, time: 768.649239 
+[log] Index merge process 800000 / 5000000, time: 788.849257 
+[log] Index merge process 1000000 / 5000000, time: 808.827112 
+[log] Index merge process 1200000 / 5000000, time: 829.246780 
+[log] Index merge process 1400000 / 5000000, time: 850.117656 
+[log] Index merge process 1600000 / 5000000, time: 871.499544 
+[log] Index merge process 1800000 / 5000000, time: 893.427384 
+[log] Index merge process 2000000 / 5000000, time: 915.994609 
+[log] Index merge process 2200000 / 5000000, time: 939.140283 
+[log] Index merge process 2400000 / 5000000, time: 963.013542 
+[log] Index merge process 2600000 / 5000000, time: 987.525152 
+[log] Index merge process 2800000 / 5000000, time: 1012.924216 
+[log] Index merge process 3000000 / 5000000, time: 1039.213030 
+[log] Index merge process 3200000 / 5000000, time: 1066.523313 
+[log] Index merge process 3400000 / 5000000, time: 1094.897426 
+[log] Index merge process 3600000 / 5000000, time: 1124.425752 
+[log] Index merge process 3800000 / 5000000, time: 1155.277851 
+[log] Index merge process 4000000 / 5000000, time: 1187.627703 
+[log] Index merge process 4200000 / 5000000, time: 1222.109374 
+[log] Index merge process 4400000 / 5000000, time: 1259.169152 
+[log] Index merge process 4600000 / 5000000, time: 1299.397301 
+[log] Index merge process 4800000 / 5000000, time: 1342.059726 
+[log] Index merge process 5000000 / 5000000, time: 1387.419172 
+Total time for insertion: 1387.426 s
+Iteration 2/3
+time for new layer: 5.245465
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 53.177776 
+[log] Index merge process 400000 / 5000000, time: 72.345653 
+[log] Index merge process 600000 / 5000000, time: 91.983714 
+[log] Index merge process 800000 / 5000000, time: 112.217853 
+[log] Index merge process 1000000 / 5000000, time: 132.292536 
+[log] Index merge process 1200000 / 5000000, time: 152.683739 
+[log] Index merge process 1400000 / 5000000, time: 173.556643 
+[log] Index merge process 1600000 / 5000000, time: 194.925695 
+[log] Index merge process 1800000 / 5000000, time: 216.886647 
+[log] Index merge process 2000000 / 5000000, time: 239.453447 
+[log] Index merge process 2200000 / 5000000, time: 262.566409 
+[log] Index merge process 2400000 / 5000000, time: 286.451871 
+[log] Index merge process 2600000 / 5000000, time: 311.110733 
+[log] Index merge process 2800000 / 5000000, time: 336.475211 
+[log] Index merge process 3000000 / 5000000, time: 362.786673 
+[log] Index merge process 3200000 / 5000000, time: 390.115456 
+[log] Index merge process 3400000 / 5000000, time: 418.480201 
+[log] Index merge process 3600000 / 5000000, time: 448.010286 
+[log] Index merge process 3800000 / 5000000, time: 478.820766 
+[log] Index merge process 4000000 / 5000000, time: 511.249363 
+[log] Index merge process 4200000 / 5000000, time: 545.695161 
+[log] Index merge process 4400000 / 5000000, time: 582.719543 
+[log] Index merge process 4600000 / 5000000, time: 622.898273 
+[log] Index merge process 4800000 / 5000000, time: 665.508297 
+[log] Index merge process 5000000 / 5000000, time: 710.768703 
+[log] Index merge process 200000 / 5000000, time: 729.605775 
+[log] Index merge process 400000 / 5000000, time: 748.708634 
+[log] Index merge process 600000 / 5000000, time: 768.310619 
+[log] Index merge process 800000 / 5000000, time: 788.514324 
+[log] Index merge process 1000000 / 5000000, time: 808.504675 
+[log] Index merge process 1200000 / 5000000, time: 828.902590 
+[log] Index merge process 1400000 / 5000000, time: 849.775638 
+[log] Index merge process 1600000 / 5000000, time: 871.109321 
+[log] Index merge process 1800000 / 5000000, time: 893.031369 
+[log] Index merge process 2000000 / 5000000, time: 915.614614 
+[log] Index merge process 2200000 / 5000000, time: 938.716747 
+[log] Index merge process 2400000 / 5000000, time: 962.584732 
+[log] Index merge process 2600000 / 5000000, time: 987.121464 
+[log] Index merge process 2800000 / 5000000, time: 1012.491998 
+[log] Index merge process 3000000 / 5000000, time: 1038.797657 
+[log] Index merge process 3200000 / 5000000, time: 1066.070187 
+[log] Index merge process 3400000 / 5000000, time: 1094.443107 
+[log] Index merge process 3600000 / 5000000, time: 1123.942285 
+[log] Index merge process 3800000 / 5000000, time: 1154.747143 
+[log] Index merge process 4000000 / 5000000, time: 1187.154157 
+[log] Index merge process 4200000 / 5000000, time: 1221.572043 
+[log] Index merge process 4400000 / 5000000, time: 1258.600196 
+[log] Index merge process 4600000 / 5000000, time: 1298.785419 
+[log] Index merge process 4800000 / 5000000, time: 1341.434490 
+[log] Index merge process 5000000 / 5000000, time: 1386.756115 
+Total time for insertion: 1386.762 s
+Iteration 3/3
+time for new layer: 5.202407
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 53.267382 
+[log] Index merge process 400000 / 5000000, time: 72.482992 
+[log] Index merge process 600000 / 5000000, time: 92.076943 
+[log] Index merge process 800000 / 5000000, time: 114.230514 
+[log] Index merge process 1000000 / 5000000, time: 147.563639 
+[log] Index merge process 1200000 / 5000000, time: 175.298991 
+[log] Index merge process 1400000 / 5000000, time: 205.277092 
+[log] Index merge process 1600000 / 5000000, time: 229.833367 
+[log] Index merge process 1800000 / 5000000, time: 254.657486 
+[log] Index merge process 2000000 / 5000000, time: 281.158748 
+[log] Index merge process 2200000 / 5000000, time: 307.439420 
+[log] Index merge process 2400000 / 5000000, time: 339.919755 
+[log] Index merge process 2600000 / 5000000, time: 373.311688 
+[log] Index merge process 2800000 / 5000000, time: 401.848802 
+[log] Index merge process 3000000 / 5000000, time: 432.020889 
+[log] Index merge process 3200000 / 5000000, time: 462.656633 
+[log] Index merge process 3400000 / 5000000, time: 505.170650 
+[log] Index merge process 3600000 / 5000000, time: 543.492983 
+[log] Index merge process 3800000 / 5000000, time: 575.533454 
+[log] Index merge process 4000000 / 5000000, time: 608.907231 
+[log] Index merge process 4200000 / 5000000, time: 644.215202 
+[log] Index merge process 4400000 / 5000000, time: 682.081334 
+[log] Index merge process 4600000 / 5000000, time: 723.134765 
+[log] Index merge process 4800000 / 5000000, time: 766.608420 
+[log] Index merge process 5000000 / 5000000, time: 812.858446 
+[log] Index merge process 200000 / 5000000, time: 832.519287 
+[log] Index merge process 400000 / 5000000, time: 852.262231 
+[log] Index merge process 600000 / 5000000, time: 872.292678 
+[log] Index merge process 800000 / 5000000, time: 892.972356 
+[log] Index merge process 1000000 / 5000000, time: 913.285677 
+[log] Index merge process 1200000 / 5000000, time: 934.104704 
+[log] Index merge process 1400000 / 5000000, time: 955.345957 
+[log] Index merge process 1600000 / 5000000, time: 977.068005 
+[log] Index merge process 1800000 / 5000000, time: 999.405302 
+[log] Index merge process 2000000 / 5000000, time: 1022.328317 
+[log] Index merge process 2200000 / 5000000, time: 1045.846248 
+[log] Index merge process 2400000 / 5000000, time: 1070.182081 
+[log] Index merge process 2600000 / 5000000, time: 1095.131926 
+[log] Index merge process 2800000 / 5000000, time: 1120.951270 
+[log] Index merge process 3000000 / 5000000, time: 1147.751575 
+[log] Index merge process 3200000 / 5000000, time: 1175.566670 
+[log] Index merge process 3400000 / 5000000, time: 1204.514923 
+[log] Index merge process 3600000 / 5000000, time: 1234.556746 
+[log] Index merge process 3800000 / 5000000, time: 1265.933935 
+[log] Index merge process 4000000 / 5000000, time: 1298.941604 
+[log] Index merge process 4200000 / 5000000, time: 1334.031187 
+[log] Index merge process 4400000 / 5000000, time: 1371.821123 
+[log] Index merge process 4600000 / 5000000, time: 1412.893896 
+[log] Index merge process 4800000 / 5000000, time: 1456.392462 
+[log] Index merge process 5000000 / 5000000, time: 1502.683943 
+Total time for insertion: 1502.691 s
+Start searchingset ef = 100
+[search time: 4.401 s, pure query time: 4.374 s] ef=100
+Intersection-merged index R@100 = 0.7785
+
+[search time: 2.981 s, pure query time: 2.964 s] ef=100
+Intersection-merged index R@100 = 0.7785
+
+[search time: 2.997 s, pure query time: 2.980 s] ef=100
+Intersection-merged index R@100 = 0.7785
+
+[search time: 2.983 s, pure query time: 2.966 s] ef=100
+Intersection-merged index R@100 = 0.7785
+
+[search time: 2.999 s, pure query time: 2.982 s] ef=100
+Intersection-merged index R@100 = 0.7785
+
+set ef = 120
+[search time: 3.451 s, pure query time: 3.433 s] ef=120
+Intersection-merged index R@100 = 0.8101
+
+[search time: 3.456 s, pure query time: 3.438 s] ef=120
+Intersection-merged index R@100 = 0.8101
+
+[search time: 3.452 s, pure query time: 3.435 s] ef=120
+Intersection-merged index R@100 = 0.8101
+
+[search time: 3.447 s, pure query time: 3.429 s] ef=120
+Intersection-merged index R@100 = 0.8101
+
+[search time: 3.451 s, pure query time: 3.433 s] ef=120
+Intersection-merged index R@100 = 0.8101
+
+set ef = 140
+[search time: 3.938 s, pure query time: 3.919 s] ef=140
+Intersection-merged index R@100 = 0.8346
+
+[search time: 3.938 s, pure query time: 3.919 s] ef=140
+Intersection-merged index R@100 = 0.8346
+
+[search time: 3.996 s, pure query time: 3.978 s] ef=140
+Intersection-merged index R@100 = 0.8346
+
+[search time: 4.006 s, pure query time: 3.988 s] ef=140
+Intersection-merged index R@100 = 0.8346
+
+[search time: 3.934 s, pure query time: 3.916 s] ef=140
+Intersection-merged index R@100 = 0.8346
+
+set ef = 160
+[search time: 4.420 s, pure query time: 4.401 s] ef=160
+Intersection-merged index R@100 = 0.8535
+
+[search time: 4.419 s, pure query time: 4.400 s] ef=160
+Intersection-merged index R@100 = 0.8535
+
+[search time: 4.413 s, pure query time: 4.395 s] ef=160
+Intersection-merged index R@100 = 0.8535
+
+[search time: 4.418 s, pure query time: 4.399 s] ef=160
+Intersection-merged index R@100 = 0.8535
+
+[search time: 4.423 s, pure query time: 4.405 s] ef=160
+Intersection-merged index R@100 = 0.8535
+
+set ef = 180
+[search time: 4.956 s, pure query time: 4.937 s] ef=180
+Intersection-merged index R@100 = 0.8688
+
+[search time: 4.935 s, pure query time: 4.916 s] ef=180
+Intersection-merged index R@100 = 0.8688
+
+[search time: 4.898 s, pure query time: 4.879 s] ef=180
+Intersection-merged index R@100 = 0.8688
+
+[search time: 6.811 s, pure query time: 6.786 s] ef=180
+Intersection-merged index R@100 = 0.8688
+
+[search time: 7.065 s, pure query time: 7.040 s] ef=180
+Intersection-merged index R@100 = 0.8688
+
+set ef = 200
+[search time: 7.750 s, pure query time: 7.724 s] ef=200
+Intersection-merged index R@100 = 0.8814
+
+[search time: 7.803 s, pure query time: 7.776 s] ef=200
+Intersection-merged index R@100 = 0.8814
+
+[search time: 7.804 s, pure query time: 7.778 s] ef=200
+Intersection-merged index R@100 = 0.8814
+
+[search time: 7.879 s, pure query time: 7.851 s] ef=200
+Intersection-merged index R@100 = 0.8814
+
+[search time: 9.183 s, pure query time: 9.157 s] ef=200
+Intersection-merged index R@100 = 0.8814
+
+set ef = 300
+[search time: 11.730 s, pure query time: 11.699 s] ef=300
+Intersection-merged index R@100 = 0.9217
+
+[search time: 11.254 s, pure query time: 11.224 s] ef=300
+Intersection-merged index R@100 = 0.9217
+
+[search time: 11.247 s, pure query time: 11.216 s] ef=300
+Intersection-merged index R@100 = 0.9217
+
+[search time: 9.174 s, pure query time: 9.145 s] ef=300
+Intersection-merged index R@100 = 0.9217
+
+[search time: 7.940 s, pure query time: 7.912 s] ef=300
+Intersection-merged index R@100 = 0.9217
+
+set ef = 400
+[search time: 9.984 s, pure query time: 9.951 s] ef=400
+Intersection-merged index R@100 = 0.9425
+
+[search time: 9.810 s, pure query time: 9.777 s] ef=400
+Intersection-merged index R@100 = 0.9425
+
+[search time: 9.855 s, pure query time: 9.822 s] ef=400
+Intersection-merged index R@100 = 0.9425
+
+[search time: 10.037 s, pure query time: 10.004 s] ef=400
+Intersection-merged index R@100 = 0.9425
+
+[search time: 9.714 s, pure query time: 9.682 s] ef=400
+Intersection-merged index R@100 = 0.9425
+
+set ef = 500
+[search time: 11.827 s, pure query time: 11.792 s] ef=500
+Intersection-merged index R@100 = 0.9551
+
+[search time: 11.908 s, pure query time: 11.873 s] ef=500
+Intersection-merged index R@100 = 0.9551
+
+[search time: 11.863 s, pure query time: 11.827 s] ef=500
+Intersection-merged index R@100 = 0.9551
+
+[search time: 11.841 s, pure query time: 11.805 s] ef=500
+Intersection-merged index R@100 = 0.9551
+
+[search time: 11.885 s, pure query time: 11.849 s] ef=500
+Intersection-merged index R@100 = 0.9551
+
+set ef = 600
+[search time: 13.984 s, pure query time: 13.946 s] ef=600
+Intersection-merged index R@100 = 0.9636
+
+[search time: 13.928 s, pure query time: 13.891 s] ef=600
+Intersection-merged index R@100 = 0.9636
+
+[search time: 14.001 s, pure query time: 13.964 s] ef=600
+Intersection-merged index R@100 = 0.9636
+
+[search time: 13.933 s, pure query time: 13.896 s] ef=600
+Intersection-merged index R@100 = 0.9636
+
+[search time: 14.456 s, pure query time: 14.418 s] ef=600
+Intersection-merged index R@100 = 0.9636
+
+set ef = 700
+[search time: 26.365 s, pure query time: 26.322 s] ef=700
+Intersection-merged index R@100 = 0.9695
+
+[search time: 18.772 s, pure query time: 18.733 s] ef=700
+Intersection-merged index R@100 = 0.9695
+
+[search time: 18.884 s, pure query time: 18.845 s] ef=700
+Intersection-merged index R@100 = 0.9695
+
+[search time: 18.727 s, pure query time: 18.689 s] ef=700
+Intersection-merged index R@100 = 0.9695
+
+[search time: 18.327 s, pure query time: 18.289 s] ef=700
+Intersection-merged index R@100 = 0.9695
+
+set ef = 800
+[search time: 20.612 s, pure query time: 20.574 s] ef=800
+Intersection-merged index R@100 = 0.9739
+
+[search time: 20.628 s, pure query time: 20.589 s] ef=800
+Intersection-merged index R@100 = 0.9739
+
+[search time: 20.583 s, pure query time: 20.545 s] ef=800
+Intersection-merged index R@100 = 0.9739
+
+[search time: 20.628 s, pure query time: 20.589 s] ef=800
+Intersection-merged index R@100 = 0.9739
+
+[search time: 20.647 s, pure query time: 20.608 s] ef=800
+Intersection-merged index R@100 = 0.9739
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: IGTM
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: IGTM
+Iteration 1/3
+time for new layer: 5.303952
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 68.297928 
+[log] Index merge process 400000 / 5000000, time: 89.311853 
+[log] Index merge process 600000 / 5000000, time: 113.242720 
+[log] Index merge process 800000 / 5000000, time: 134.540550 
+[log] Index merge process 1000000 / 5000000, time: 159.681462 
+[log] Index merge process 1200000 / 5000000, time: 189.248756 
+[log] Index merge process 1400000 / 5000000, time: 218.099119 
+[log] Index merge process 1600000 / 5000000, time: 247.429867 
+[log] Index merge process 1800000 / 5000000, time: 280.087063 
+[log] Index merge process 2000000 / 5000000, time: 312.250628 
+[log] Index merge process 2200000 / 5000000, time: 342.418874 
+[log] Index merge process 2400000 / 5000000, time: 368.300763 
+[log] Index merge process 2600000 / 5000000, time: 395.169948 
+[log] Index merge process 2800000 / 5000000, time: 426.313507 
+[log] Index merge process 3000000 / 5000000, time: 461.276246 
+[log] Index merge process 3200000 / 5000000, time: 491.295855 
+[log] Index merge process 3400000 / 5000000, time: 524.099957 
+[log] Index merge process 3600000 / 5000000, time: 556.853966 
+[log] Index merge process 3800000 / 5000000, time: 588.378598 
+[log] Index merge process 4000000 / 5000000, time: 621.158195 
+[log] Index merge process 4200000 / 5000000, time: 662.696488 
+[log] Index merge process 4400000 / 5000000, time: 703.247146 
+[log] Index merge process 4600000 / 5000000, time: 745.068549 
+[log] Index merge process 4800000 / 5000000, time: 792.533632 
+[log] Index merge process 5000000 / 5000000, time: 841.631410 
+[log] Index merge process 200000 / 5000000, time: 862.679028 
+[log] Index merge process 400000 / 5000000, time: 885.508702 
+[log] Index merge process 600000 / 5000000, time: 907.591093 
+[log] Index merge process 800000 / 5000000, time: 930.639514 
+[log] Index merge process 1000000 / 5000000, time: 956.338825 
+[log] Index merge process 1200000 / 5000000, time: 985.572456 
+[log] Index merge process 1400000 / 5000000, time: 1016.121616 
+[log] Index merge process 1600000 / 5000000, time: 1044.239779 
+[log] Index merge process 1800000 / 5000000, time: 1076.206936 
+[log] Index merge process 2000000 / 5000000, time: 1104.335781 
+[log] Index merge process 2200000 / 5000000, time: 1134.171697 
+[log] Index merge process 2400000 / 5000000, time: 1165.127615 
+[log] Index merge process 2600000 / 5000000, time: 1196.619738 
+[log] Index merge process 2800000 / 5000000, time: 1232.250955 
+[log] Index merge process 3000000 / 5000000, time: 1267.852780 
+[log] Index merge process 3200000 / 5000000, time: 1302.033984 
+[log] Index merge process 3400000 / 5000000, time: 1337.081988 
+[log] Index merge process 3600000 / 5000000, time: 1368.602354 
+[log] Index merge process 3800000 / 5000000, time: 1404.778798 
+[log] Index merge process 4000000 / 5000000, time: 1441.719448 
+[log] Index merge process 4200000 / 5000000, time: 1486.934580 
+[log] Index merge process 4400000 / 5000000, time: 1528.704043 
+[log] Index merge process 4600000 / 5000000, time: 1563.846513 
+[log] Index merge process 4800000 / 5000000, time: 1606.121456 
+[log] Index merge process 5000000 / 5000000, time: 1654.440333 
+Total time for insertion: 1654.447 s
+Iteration 2/3
+time for new layer: 5.247575
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 68.092531 
+[log] Index merge process 400000 / 5000000, time: 89.022200 
+[log] Index merge process 600000 / 5000000, time: 112.871140 
+[log] Index merge process 800000 / 5000000, time: 134.067303 
+[log] Index merge process 1000000 / 5000000, time: 159.121402 
+[log] Index merge process 1200000 / 5000000, time: 188.581778 
+[log] Index merge process 1400000 / 5000000, time: 217.369388 
+[log] Index merge process 1600000 / 5000000, time: 246.574171 
+[log] Index merge process 1800000 / 5000000, time: 279.094547 
+[log] Index merge process 2000000 / 5000000, time: 311.224626 
+[log] Index merge process 2200000 / 5000000, time: 341.256896 
+[log] Index merge process 2400000 / 5000000, time: 367.065652 
+[log] Index merge process 2600000 / 5000000, time: 393.847322 
+[log] Index merge process 2800000 / 5000000, time: 424.908658 
+[log] Index merge process 3000000 / 5000000, time: 459.801858 
+[log] Index merge process 3200000 / 5000000, time: 489.722976 
+[log] Index merge process 3400000 / 5000000, time: 522.407689 
+[log] Index merge process 3600000 / 5000000, time: 555.094478 
+[log] Index merge process 3800000 / 5000000, time: 586.481754 
+[log] Index merge process 4000000 / 5000000, time: 619.207402 
+[log] Index merge process 4200000 / 5000000, time: 660.651533 
+[log] Index merge process 4400000 / 5000000, time: 701.037541 
+[log] Index merge process 4600000 / 5000000, time: 742.681857 
+[log] Index merge process 4800000 / 5000000, time: 790.027690 
+[log] Index merge process 5000000 / 5000000, time: 838.986527 
+[log] Index merge process 200000 / 5000000, time: 860.029898 
+[log] Index merge process 400000 / 5000000, time: 882.767704 
+[log] Index merge process 600000 / 5000000, time: 904.836737 
+[log] Index merge process 800000 / 5000000, time: 927.806457 
+[log] Index merge process 1000000 / 5000000, time: 953.473024 
+[log] Index merge process 1200000 / 5000000, time: 982.574082 
+[log] Index merge process 1400000 / 5000000, time: 1013.087379 
+[log] Index merge process 1600000 / 5000000, time: 1041.107232 
+[log] Index merge process 1800000 / 5000000, time: 1073.013318 
+[log] Index merge process 2000000 / 5000000, time: 1101.120546 
+[log] Index merge process 2200000 / 5000000, time: 1130.880647 
+[log] Index merge process 2400000 / 5000000, time: 1161.809511 
+[log] Index merge process 2600000 / 5000000, time: 1193.279014 
+[log] Index merge process 2800000 / 5000000, time: 1228.845267 
+[log] Index merge process 3000000 / 5000000, time: 1264.410559 
+[log] Index merge process 3200000 / 5000000, time: 1298.612353 
+[log] Index merge process 3400000 / 5000000, time: 1333.600474 
+[log] Index merge process 3600000 / 5000000, time: 1365.118645 
+[log] Index merge process 3800000 / 5000000, time: 1401.239301 
+[log] Index merge process 4000000 / 5000000, time: 1438.106377 
+[log] Index merge process 4200000 / 5000000, time: 1483.295714 
+[log] Index merge process 4400000 / 5000000, time: 1524.972638 
+[log] Index merge process 4600000 / 5000000, time: 1560.121995 
+[log] Index merge process 4800000 / 5000000, time: 1602.651979 
+[log] Index merge process 5000000 / 5000000, time: 1651.521229 
+Total time for insertion: 1651.527 s
+Iteration 3/3
+time for new layer: 5.990007
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] layer: 0
+[log] Index merge process 200000 / 5000000, time: 70.110951 
+[log] Index merge process 400000 / 5000000, time: 99.200573 
+[log] Index merge process 600000 / 5000000, time: 133.265909 
+[log] Index merge process 800000 / 5000000, time: 161.727139 
+[log] Index merge process 1000000 / 5000000, time: 194.834613 
+[log] Index merge process 1200000 / 5000000, time: 234.687620 
+[log] Index merge process 1400000 / 5000000, time: 268.719261 
+[log] Index merge process 1600000 / 5000000, time: 305.513481 
+[log] Index merge process 1800000 / 5000000, time: 342.139672 
+[log] Index merge process 2000000 / 5000000, time: 376.002242 
+[log] Index merge process 2200000 / 5000000, time: 407.006659 
+[log] Index merge process 2400000 / 5000000, time: 433.759242 
+[log] Index merge process 2600000 / 5000000, time: 461.403298 
+[log] Index merge process 2800000 / 5000000, time: 493.471532 
+[log] Index merge process 3000000 / 5000000, time: 539.224881 
+[log] Index merge process 3200000 / 5000000, time: 584.568367 
+[log] Index merge process 3400000 / 5000000, time: 627.136211 
+[log] Index merge process 3600000 / 5000000, time: 668.262068 
+[log] Index merge process 3800000 / 5000000, time: 709.682593 
+[log] Index merge process 4000000 / 5000000, time: 752.019655 
+[log] Index merge process 4200000 / 5000000, time: 797.103459 
+[log] Index merge process 4400000 / 5000000, time: 838.772595 
+[log] Index merge process 4600000 / 5000000, time: 881.760578 
+[log] Index merge process 4800000 / 5000000, time: 932.231937 
+[log] Index merge process 5000000 / 5000000, time: 1004.560259 
+[log] Index merge process 200000 / 5000000, time: 1029.210631 
+[log] Index merge process 400000 / 5000000, time: 1057.439636 
+[log] Index merge process 600000 / 5000000, time: 1082.891309 
+[log] Index merge process 800000 / 5000000, time: 1108.229789 
+[log] Index merge process 1000000 / 5000000, time: 1136.042514 
+[log] Index merge process 1200000 / 5000000, time: 1167.931691 
+[log] Index merge process 1400000 / 5000000, time: 1206.689797 
+[log] Index merge process 1600000 / 5000000, time: 1248.466447 
+[log] Index merge process 1800000 / 5000000, time: 1289.411645 
+[log] Index merge process 2000000 / 5000000, time: 1325.323978 
+[log] Index merge process 2200000 / 5000000, time: 1366.063003 
+[log] Index merge process 2400000 / 5000000, time: 1406.507303 
+[log] Index merge process 2600000 / 5000000, time: 1448.132416 
+[log] Index merge process 2800000 / 5000000, time: 1493.804334 
+[log] Index merge process 3000000 / 5000000, time: 1532.053145 
+[log] Index merge process 3200000 / 5000000, time: 1567.786442 
+[log] Index merge process 3400000 / 5000000, time: 1604.600698 
+[log] Index merge process 3600000 / 5000000, time: 1639.106494 
+[log] Index merge process 3800000 / 5000000, time: 1697.150075 
+[log] Index merge process 4000000 / 5000000, time: 1748.548784 
+[log] Index merge process 4200000 / 5000000, time: 1807.761647 
+[log] Index merge process 4400000 / 5000000, time: 1863.999681 
+[log] Index merge process 4600000 / 5000000, time: 1910.077469 
+[log] Index merge process 4800000 / 5000000, time: 1956.579656 
+[log] Index merge process 5000000 / 5000000, time: 2006.743212 
+Total time for insertion: 2006.756 s
+Start searchingset ef = 100
+[search time: 5.109 s, pure query time: 5.076 s] ef=100
+Intersection-merged index R@100 = 0.6331
+
+[search time: 3.909 s, pure query time: 3.886 s] ef=100
+Intersection-merged index R@100 = 0.6331
+
+[search time: 3.920 s, pure query time: 3.897 s] ef=100
+Intersection-merged index R@100 = 0.6331
+
+[search time: 3.974 s, pure query time: 3.951 s] ef=100
+Intersection-merged index R@100 = 0.6331
+
+[search time: 4.035 s, pure query time: 4.012 s] ef=100
+Intersection-merged index R@100 = 0.6331
+
+set ef = 120
+[search time: 4.546 s, pure query time: 4.522 s] ef=120
+Intersection-merged index R@100 = 0.6605
+
+[search time: 4.529 s, pure query time: 4.504 s] ef=120
+Intersection-merged index R@100 = 0.6605
+
+[search time: 4.522 s, pure query time: 4.498 s] ef=120
+Intersection-merged index R@100 = 0.6605
+
+[search time: 4.524 s, pure query time: 4.500 s] ef=120
+Intersection-merged index R@100 = 0.6605
+
+[search time: 4.524 s, pure query time: 4.500 s] ef=120
+Intersection-merged index R@100 = 0.6605
+
+set ef = 140
+[search time: 5.135 s, pure query time: 5.110 s] ef=140
+Intersection-merged index R@100 = 0.6815
+
+[search time: 5.176 s, pure query time: 5.151 s] ef=140
+Intersection-merged index R@100 = 0.6815
+
+[search time: 5.222 s, pure query time: 5.197 s] ef=140
+Intersection-merged index R@100 = 0.6815
+
+[search time: 5.297 s, pure query time: 5.271 s] ef=140
+Intersection-merged index R@100 = 0.6815
+
+[search time: 5.134 s, pure query time: 5.109 s] ef=140
+Intersection-merged index R@100 = 0.6815
+
+set ef = 160
+[search time: 5.746 s, pure query time: 5.721 s] ef=160
+Intersection-merged index R@100 = 0.6999
+
+[search time: 5.741 s, pure query time: 5.715 s] ef=160
+Intersection-merged index R@100 = 0.6999
+
+[search time: 5.744 s, pure query time: 5.717 s] ef=160
+Intersection-merged index R@100 = 0.6999
+
+[search time: 5.781 s, pure query time: 5.755 s] ef=160
+Intersection-merged index R@100 = 0.6999
+
+[search time: 7.490 s, pure query time: 7.466 s] ef=160
+Intersection-merged index R@100 = 0.6999
+
+set ef = 180
+[search time: 10.144 s, pure query time: 10.120 s] ef=180
+Intersection-merged index R@100 = 0.7151
+
+[search time: 9.256 s, pure query time: 9.232 s] ef=180
+Intersection-merged index R@100 = 0.7151
+
+[search time: 9.029 s, pure query time: 9.005 s] ef=180
+Intersection-merged index R@100 = 0.7151
+
+[search time: 9.031 s, pure query time: 9.008 s] ef=180
+Intersection-merged index R@100 = 0.7151
+
+[search time: 9.083 s, pure query time: 9.060 s] ef=180
+Intersection-merged index R@100 = 0.7151
+
+set ef = 200
+[search time: 9.442 s, pure query time: 9.415 s] ef=200
+Intersection-merged index R@100 = 0.7272
+
+[search time: 7.270 s, pure query time: 7.245 s] ef=200
+Intersection-merged index R@100 = 0.7272
+
+[search time: 7.064 s, pure query time: 7.038 s] ef=200
+Intersection-merged index R@100 = 0.7272
+
+[search time: 6.981 s, pure query time: 6.955 s] ef=200
+Intersection-merged index R@100 = 0.7272
+
+[search time: 6.987 s, pure query time: 6.962 s] ef=200
+Intersection-merged index R@100 = 0.7272
+
+set ef = 300
+[search time: 9.987 s, pure query time: 9.957 s] ef=300
+Intersection-merged index R@100 = 0.7702
+
+[search time: 10.172 s, pure query time: 10.142 s] ef=300
+Intersection-merged index R@100 = 0.7702
+
+[search time: 10.070 s, pure query time: 10.041 s] ef=300
+Intersection-merged index R@100 = 0.7702
+
+[search time: 9.990 s, pure query time: 9.960 s] ef=300
+Intersection-merged index R@100 = 0.7702
+
+[search time: 9.999 s, pure query time: 9.970 s] ef=300
+Intersection-merged index R@100 = 0.7702
+
+set ef = 400
+[search time: 13.243 s, pure query time: 13.209 s] ef=400
+Intersection-merged index R@100 = 0.7970
+
+[search time: 12.984 s, pure query time: 12.950 s] ef=400
+Intersection-merged index R@100 = 0.7970
+
+[search time: 12.985 s, pure query time: 12.951 s] ef=400
+Intersection-merged index R@100 = 0.7970
+
+[search time: 18.239 s, pure query time: 18.201 s] ef=400
+Intersection-merged index R@100 = 0.7970
+
+[search time: 18.465 s, pure query time: 18.427 s] ef=400
+Intersection-merged index R@100 = 0.7970
+
+set ef = 500
+[search time: 19.527 s, pure query time: 19.488 s] ef=500
+Intersection-merged index R@100 = 0.8159
+
+[search time: 16.149 s, pure query time: 16.112 s] ef=500
+Intersection-merged index R@100 = 0.8159
+
+[search time: 16.055 s, pure query time: 16.019 s] ef=500
+Intersection-merged index R@100 = 0.8159
+
+[search time: 16.334 s, pure query time: 16.297 s] ef=500
+Intersection-merged index R@100 = 0.8159
+
+[search time: 16.053 s, pure query time: 16.017 s] ef=500
+Intersection-merged index R@100 = 0.8159
+
+set ef = 600
+[search time: 19.316 s, pure query time: 19.279 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 19.061 s, pure query time: 19.023 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 23.983 s, pure query time: 23.942 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 27.012 s, pure query time: 26.970 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 20.491 s, pure query time: 20.451 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+set ef = 700
+[search time: 22.127 s, pure query time: 22.088 s] ef=700
+Intersection-merged index R@100 = 0.8412
+
+[search time: 22.378 s, pure query time: 22.339 s] ef=700
+Intersection-merged index R@100 = 0.8412
+
+[search time: 22.152 s, pure query time: 22.114 s] ef=700
+Intersection-merged index R@100 = 0.8412
+
+[search time: 22.341 s, pure query time: 22.303 s] ef=700
+Intersection-merged index R@100 = 0.8412
+
+[search time: 25.595 s, pure query time: 25.555 s] ef=700
+Intersection-merged index R@100 = 0.8412
+
+set ef = 800
+[search time: 35.742 s, pure query time: 35.698 s] ef=800
+Intersection-merged index R@100 = 0.8507
+
+[search time: 25.451 s, pure query time: 25.412 s] ef=800
+Intersection-merged index R@100 = 0.8507
+
+[search time: 25.453 s, pure query time: 25.414 s] ef=800
+Intersection-merged index R@100 = 0.8507
+
+[search time: 25.204 s, pure query time: 25.165 s] ef=800
+Intersection-merged index R@100 = 0.8507
+
+[search time: 25.478 s, pure query time: 25.438 s] ef=800
+Intersection-merged index R@100 = 0.8507
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: CGTM
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: CGTM
+Iteration 1/3
+time for new layer: 5.756758
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 21.879425
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 57.065995
+[log] Index merge process 400000 / 10000000, time 69.304889
+[log] Index merge process 600000 / 10000000, time 83.198515
+[log] Index merge process 800000 / 10000000, time 98.025949
+[log] Index merge process 1000000 / 10000000, time 113.763688
+[log] Index merge process 1200000 / 10000000, time 130.390427
+[log] Index merge process 1400000 / 10000000, time 147.698532
+[log] Index merge process 1600000 / 10000000, time 165.643509
+[log] Index merge process 1800000 / 10000000, time 184.263252
+[log] Index merge process 2000000 / 10000000, time 203.500757
+[log] Index merge process 2200000 / 10000000, time 223.480537
+[log] Index merge process 2400000 / 10000000, time 244.081813
+[log] Index merge process 2600000 / 10000000, time 265.276491
+[log] Index merge process 2800000 / 10000000, time 286.969214
+[log] Index merge process 3000000 / 10000000, time 309.106816
+[log] Index merge process 3200000 / 10000000, time 332.146237
+[log] Index merge process 3400000 / 10000000, time 355.738251
+[log] Index merge process 3600000 / 10000000, time 380.076580
+[log] Index merge process 3800000 / 10000000, time 404.944457
+[log] Index merge process 4000000 / 10000000, time 430.742453
+[log] Index merge process 4200000 / 10000000, time 457.357802
+[log] Index merge process 4400000 / 10000000, time 484.611001
+[log] Index merge process 4600000 / 10000000, time 513.039999
+[log] Index merge process 4800000 / 10000000, time 542.359854
+[log] Index merge process 5000000 / 10000000, time 572.726025
+[log] Index merge process 5200000 / 10000000, time 604.423800
+[log] Index merge process 5400000 / 10000000, time 637.398744
+[log] Index merge process 5600000 / 10000000, time 671.639684
+[log] Index merge process 5800000 / 10000000, time 706.937313
+[log] Index merge process 6000000 / 10000000, time 743.720350
+[log] Index merge process 6200000 / 10000000, time 781.888857
+[log] Index merge process 6400000 / 10000000, time 822.036705
+[log] Index merge process 6600000 / 10000000, time 863.774197
+[log] Index merge process 6800000 / 10000000, time 907.322020
+[log] Index merge process 7000000 / 10000000, time 953.046105
+[log] Index merge process 7200000 / 10000000, time 1001.115856
+[log] Index merge process 7400000 / 10000000, time 1051.976850
+[log] Index merge process 7600000 / 10000000, time 1105.784449
+[log] Index merge process 7800000 / 10000000, time 1162.487147
+[log] Index merge process 8000000 / 10000000, time 1222.404350
+[log] Index merge process 8200000 / 10000000, time 1285.743061
+[log] Index merge process 8400000 / 10000000, time 1353.443248
+[log] Index merge process 8600000 / 10000000, time 1425.302200
+[log] Index merge process 8800000 / 10000000, time 1502.612378
+[log] Index merge process 9000000 / 10000000, time 1586.618660
+[log] Index merge process 9200000 / 10000000, time 1676.788998
+[log] Index merge process 9400000 / 10000000, time 1774.828473
+[log] Index merge process 9600000 / 10000000, time 1880.231381
+[log] Index merge process 9800000 / 10000000, time 1992.753493
+[log] Index merge process 10000000 / 10000000, time 2117.803788
+Total time for insertion: 2117.816 s
+Iteration 2/3
+time for new layer: 5.693372
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 21.850945
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 56.991395
+[log] Index merge process 400000 / 10000000, time 69.210348
+[log] Index merge process 600000 / 10000000, time 83.081651
+[log] Index merge process 800000 / 10000000, time 97.923227
+[log] Index merge process 1000000 / 10000000, time 113.659121
+[log] Index merge process 1200000 / 10000000, time 130.223505
+[log] Index merge process 1400000 / 10000000, time 147.527155
+[log] Index merge process 1600000 / 10000000, time 165.463979
+[log] Index merge process 1800000 / 10000000, time 184.103812
+[log] Index merge process 2000000 / 10000000, time 203.275587
+[log] Index merge process 2200000 / 10000000, time 223.247348
+[log] Index merge process 2400000 / 10000000, time 243.833780
+[log] Index merge process 2600000 / 10000000, time 265.040606
+[log] Index merge process 2800000 / 10000000, time 286.703125
+[log] Index merge process 3000000 / 10000000, time 308.842682
+[log] Index merge process 3200000 / 10000000, time 331.845782
+[log] Index merge process 3400000 / 10000000, time 355.415395
+[log] Index merge process 3600000 / 10000000, time 379.750565
+[log] Index merge process 3800000 / 10000000, time 404.569017
+[log] Index merge process 4000000 / 10000000, time 430.352529
+[log] Index merge process 4200000 / 10000000, time 456.967412
+[log] Index merge process 4400000 / 10000000, time 484.167736
+[log] Index merge process 4600000 / 10000000, time 512.549837
+[log] Index merge process 4800000 / 10000000, time 541.855876
+[log] Index merge process 5000000 / 10000000, time 572.159060
+[log] Index merge process 5200000 / 10000000, time 603.895860
+[log] Index merge process 5400000 / 10000000, time 636.786034
+[log] Index merge process 5600000 / 10000000, time 671.004093
+[log] Index merge process 5800000 / 10000000, time 706.294658
+[log] Index merge process 6000000 / 10000000, time 743.004408
+[log] Index merge process 6200000 / 10000000, time 781.152894
+[log] Index merge process 6400000 / 10000000, time 821.264626
+[log] Index merge process 6600000 / 10000000, time 862.937240
+[log] Index merge process 6800000 / 10000000, time 906.477381
+[log] Index merge process 7000000 / 10000000, time 952.162825
+[log] Index merge process 7200000 / 10000000, time 1000.180406
+[log] Index merge process 7400000 / 10000000, time 1050.982826
+[log] Index merge process 7600000 / 10000000, time 1105.255158
+[log] Index merge process 7800000 / 10000000, time 1162.997529
+[log] Index merge process 8000000 / 10000000, time 1224.052172
+[log] Index merge process 8200000 / 10000000, time 1288.537681
+[log] Index merge process 8400000 / 10000000, time 1357.424641
+[log] Index merge process 8600000 / 10000000, time 1430.613673
+[log] Index merge process 8800000 / 10000000, time 1509.296890
+[log] Index merge process 9000000 / 10000000, time 1594.809130
+[log] Index merge process 9200000 / 10000000, time 1686.424908
+[log] Index merge process 9400000 / 10000000, time 1786.086925
+[log] Index merge process 9600000 / 10000000, time 1893.268438
+[log] Index merge process 9800000 / 10000000, time 2007.490063
+[log] Index merge process 10000000 / 10000000, time 2134.533155
+Total time for insertion: 2134.545 s
+Iteration 3/3
+time for new layer: 6.858755
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 23.620200
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 60.937407
+[log] Index merge process 400000 / 10000000, time 77.231569
+[log] Index merge process 600000 / 10000000, time 97.042792
+[log] Index merge process 800000 / 10000000, time 117.381232
+[log] Index merge process 1000000 / 10000000, time 139.050401
+[log] Index merge process 1200000 / 10000000, time 163.757890
+[log] Index merge process 1400000 / 10000000, time 183.870503
+[log] Index merge process 1600000 / 10000000, time 203.692367
+[log] Index merge process 1800000 / 10000000, time 224.131240
+[log] Index merge process 2000000 / 10000000, time 245.352260
+[log] Index merge process 2200000 / 10000000, time 267.064055
+[log] Index merge process 2400000 / 10000000, time 289.822202
+[log] Index merge process 2600000 / 10000000, time 315.873991
+[log] Index merge process 2800000 / 10000000, time 346.528499
+[log] Index merge process 3000000 / 10000000, time 377.013433
+[log] Index merge process 3200000 / 10000000, time 402.322189
+[log] Index merge process 3400000 / 10000000, time 427.484259
+[log] Index merge process 3600000 / 10000000, time 453.723866
+[log] Index merge process 3800000 / 10000000, time 480.199074
+[log] Index merge process 4000000 / 10000000, time 507.792641
+[log] Index merge process 4200000 / 10000000, time 544.054363
+[log] Index merge process 4400000 / 10000000, time 583.183937
+[log] Index merge process 4600000 / 10000000, time 614.450107
+[log] Index merge process 4800000 / 10000000, time 646.078572
+[log] Index merge process 5000000 / 10000000, time 678.466724
+[log] Index merge process 5200000 / 10000000, time 712.487416
+[log] Index merge process 5400000 / 10000000, time 755.895275
+[log] Index merge process 5600000 / 10000000, time 802.907496
+[log] Index merge process 5800000 / 10000000, time 841.827220
+[log] Index merge process 6000000 / 10000000, time 882.065417
+[log] Index merge process 6200000 / 10000000, time 923.842616
+[log] Index merge process 6400000 / 10000000, time 977.800335
+[log] Index merge process 6600000 / 10000000, time 1030.024640
+[log] Index merge process 6800000 / 10000000, time 1076.604607
+[log] Index merge process 7000000 / 10000000, time 1125.181945
+[log] Index merge process 7200000 / 10000000, time 1188.010223
+[log] Index merge process 7400000 / 10000000, time 1249.918492
+[log] Index merge process 7600000 / 10000000, time 1307.115996
+[log] Index merge process 7800000 / 10000000, time 1373.102718
+[log] Index merge process 8000000 / 10000000, time 1451.607682
+[log] Index merge process 8200000 / 10000000, time 1520.531987
+[log] Index merge process 8400000 / 10000000, time 1606.144348
+[log] Index merge process 8600000 / 10000000, time 1688.719172
+[log] Index merge process 8800000 / 10000000, time 1771.602582
+[log] Index merge process 9000000 / 10000000, time 1879.131475
+[log] Index merge process 9200000 / 10000000, time 1976.205726
+[log] Index merge process 9400000 / 10000000, time 2099.407738
+[log] Index merge process 9600000 / 10000000, time 2231.048433
+[log] Index merge process 9800000 / 10000000, time 2350.214165
+[log] Index merge process 10000000 / 10000000, time 2501.975887
+Total time for insertion: 2502.002 s
+Start searchingset ef = 100
+[search time: 4.389 s, pure query time: 4.357 s] ef=100
+Intersection-merged index R@100 = 0.7908
+
+[search time: 3.673 s, pure query time: 3.650 s] ef=100
+Intersection-merged index R@100 = 0.7908
+
+[search time: 3.533 s, pure query time: 3.511 s] ef=100
+Intersection-merged index R@100 = 0.7908
+
+[search time: 3.522 s, pure query time: 3.500 s] ef=100
+Intersection-merged index R@100 = 0.7908
+
+[search time: 3.550 s, pure query time: 3.528 s] ef=100
+Intersection-merged index R@100 = 0.7908
+
+set ef = 120
+[search time: 4.166 s, pure query time: 4.143 s] ef=120
+Intersection-merged index R@100 = 0.8239
+
+[search time: 4.148 s, pure query time: 4.125 s] ef=120
+Intersection-merged index R@100 = 0.8239
+
+[search time: 4.206 s, pure query time: 4.183 s] ef=120
+Intersection-merged index R@100 = 0.8239
+
+[search time: 4.280 s, pure query time: 4.257 s] ef=120
+Intersection-merged index R@100 = 0.8239
+
+[search time: 4.405 s, pure query time: 4.379 s] ef=120
+Intersection-merged index R@100 = 0.8239
+
+set ef = 140
+[search time: 4.721 s, pure query time: 4.698 s] ef=140
+Intersection-merged index R@100 = 0.8495
+
+[search time: 4.718 s, pure query time: 4.695 s] ef=140
+Intersection-merged index R@100 = 0.8495
+
+[search time: 4.709 s, pure query time: 4.686 s] ef=140
+Intersection-merged index R@100 = 0.8495
+
+[search time: 4.722 s, pure query time: 4.699 s] ef=140
+Intersection-merged index R@100 = 0.8495
+
+[search time: 4.714 s, pure query time: 4.691 s] ef=140
+Intersection-merged index R@100 = 0.8495
+
+set ef = 160
+[search time: 5.349 s, pure query time: 5.325 s] ef=160
+Intersection-merged index R@100 = 0.8694
+
+[search time: 6.256 s, pure query time: 6.233 s] ef=160
+Intersection-merged index R@100 = 0.8694
+
+[search time: 7.335 s, pure query time: 7.312 s] ef=160
+Intersection-merged index R@100 = 0.8694
+
+[search time: 6.875 s, pure query time: 6.851 s] ef=160
+Intersection-merged index R@100 = 0.8694
+
+[search time: 6.439 s, pure query time: 6.416 s] ef=160
+Intersection-merged index R@100 = 0.8694
+
+set ef = 180
+[search time: 7.123 s, pure query time: 7.100 s] ef=180
+Intersection-merged index R@100 = 0.8853
+
+[search time: 7.122 s, pure query time: 7.099 s] ef=180
+Intersection-merged index R@100 = 0.8853
+
+[search time: 7.152 s, pure query time: 7.128 s] ef=180
+Intersection-merged index R@100 = 0.8853
+
+[search time: 7.186 s, pure query time: 7.162 s] ef=180
+Intersection-merged index R@100 = 0.8853
+
+[search time: 7.093 s, pure query time: 7.067 s] ef=180
+Intersection-merged index R@100 = 0.8853
+
+set ef = 200
+[search time: 6.706 s, pure query time: 6.680 s] ef=200
+Intersection-merged index R@100 = 0.8986
+
+[search time: 6.742 s, pure query time: 6.716 s] ef=200
+Intersection-merged index R@100 = 0.8986
+
+[search time: 6.467 s, pure query time: 6.442 s] ef=200
+Intersection-merged index R@100 = 0.8986
+
+[search time: 6.462 s, pure query time: 6.437 s] ef=200
+Intersection-merged index R@100 = 0.8986
+
+[search time: 6.486 s, pure query time: 6.460 s] ef=200
+Intersection-merged index R@100 = 0.8986
+
+set ef = 300
+[search time: 9.337 s, pure query time: 9.306 s] ef=300
+Intersection-merged index R@100 = 0.9392
+
+[search time: 9.910 s, pure query time: 9.878 s] ef=300
+Intersection-merged index R@100 = 0.9392
+
+[search time: 9.247 s, pure query time: 9.216 s] ef=300
+Intersection-merged index R@100 = 0.9392
+
+[search time: 9.238 s, pure query time: 9.207 s] ef=300
+Intersection-merged index R@100 = 0.9392
+
+[search time: 9.278 s, pure query time: 9.247 s] ef=300
+Intersection-merged index R@100 = 0.9392
+
+set ef = 400
+[search time: 14.661 s, pure query time: 14.625 s] ef=400
+Intersection-merged index R@100 = 0.9590
+
+[search time: 15.130 s, pure query time: 15.095 s] ef=400
+Intersection-merged index R@100 = 0.9590
+
+[search time: 14.059 s, pure query time: 14.025 s] ef=400
+Intersection-merged index R@100 = 0.9590
+
+[search time: 14.027 s, pure query time: 13.993 s] ef=400
+Intersection-merged index R@100 = 0.9590
+
+[search time: 14.230 s, pure query time: 14.191 s] ef=400
+Intersection-merged index R@100 = 0.9590
+
+set ef = 500
+[search time: 15.797 s, pure query time: 15.761 s] ef=500
+Intersection-merged index R@100 = 0.9702
+
+[search time: 14.758 s, pure query time: 14.722 s] ef=500
+Intersection-merged index R@100 = 0.9702
+
+[search time: 15.135 s, pure query time: 15.099 s] ef=500
+Intersection-merged index R@100 = 0.9702
+
+[search time: 14.832 s, pure query time: 14.796 s] ef=500
+Intersection-merged index R@100 = 0.9702
+
+[search time: 14.775 s, pure query time: 14.739 s] ef=500
+Intersection-merged index R@100 = 0.9702
+
+set ef = 600
+[search time: 22.802 s, pure query time: 22.759 s] ef=600
+Intersection-merged index R@100 = 0.9773
+
+[search time: 20.194 s, pure query time: 20.153 s] ef=600
+Intersection-merged index R@100 = 0.9773
+
+[search time: 20.062 s, pure query time: 20.022 s] ef=600
+Intersection-merged index R@100 = 0.9773
+
+[search time: 17.331 s, pure query time: 17.293 s] ef=600
+Intersection-merged index R@100 = 0.9773
+
+[search time: 17.064 s, pure query time: 17.027 s] ef=600
+Intersection-merged index R@100 = 0.9773
+
+set ef = 700
+[search time: 20.100 s, pure query time: 20.061 s] ef=700
+Intersection-merged index R@100 = 0.9820
+
+[search time: 19.620 s, pure query time: 19.582 s] ef=700
+Intersection-merged index R@100 = 0.9820
+
+[search time: 25.738 s, pure query time: 25.695 s] ef=700
+Intersection-merged index R@100 = 0.9820
+
+[search time: 24.090 s, pure query time: 24.048 s] ef=700
+Intersection-merged index R@100 = 0.9820
+
+[search time: 20.407 s, pure query time: 20.368 s] ef=700
+Intersection-merged index R@100 = 0.9820
+
+set ef = 800
+[search time: 22.506 s, pure query time: 22.467 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 22.119 s, pure query time: 22.080 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 27.436 s, pure query time: 27.394 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 27.009 s, pure query time: 26.966 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+[search time: 22.987 s, pure query time: 22.947 s] ef=800
+Intersection-merged index R@100 = 0.9854
+
+Configuration:
+  Workload Type: DEEP10M
+  Merge Method: CGTM
+  Dimension: 96
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: CGTM
+Iteration 1/3
+time for new layer: 5.401110
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 20.124252
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 50.108358
+[log] Index merge process 400000 / 10000000, time 60.207686
+[log] Index merge process 600000 / 10000000, time 71.497367
+[log] Index merge process 800000 / 10000000, time 83.698255
+[log] Index merge process 1000000 / 10000000, time 97.080634
+[log] Index merge process 1200000 / 10000000, time 111.198117
+[log] Index merge process 1400000 / 10000000, time 126.158042
+[log] Index merge process 1600000 / 10000000, time 141.958987
+[log] Index merge process 1800000 / 10000000, time 158.468207
+[log] Index merge process 2000000 / 10000000, time 175.885056
+[log] Index merge process 2200000 / 10000000, time 194.192199
+[log] Index merge process 2400000 / 10000000, time 213.272884
+[log] Index merge process 2600000 / 10000000, time 232.895464
+[log] Index merge process 2800000 / 10000000, time 253.507555
+[log] Index merge process 3000000 / 10000000, time 274.856768
+[log] Index merge process 3200000 / 10000000, time 297.010957
+[log] Index merge process 3400000 / 10000000, time 319.931494
+[log] Index merge process 3600000 / 10000000, time 343.821190
+[log] Index merge process 3800000 / 10000000, time 368.565032
+[log] Index merge process 4000000 / 10000000, time 394.199549
+[log] Index merge process 4200000 / 10000000, time 420.929336
+[log] Index merge process 4400000 / 10000000, time 448.568701
+[log] Index merge process 4600000 / 10000000, time 477.199057
+[log] Index merge process 4800000 / 10000000, time 506.979279
+[log] Index merge process 5000000 / 10000000, time 537.965822
+[log] Index merge process 5200000 / 10000000, time 569.928628
+[log] Index merge process 5400000 / 10000000, time 603.021168
+[log] Index merge process 5600000 / 10000000, time 637.397101
+[log] Index merge process 5800000 / 10000000, time 673.010731
+[log] Index merge process 6000000 / 10000000, time 709.959810
+[log] Index merge process 6200000 / 10000000, time 748.258837
+[log] Index merge process 6400000 / 10000000, time 788.299513
+[log] Index merge process 6600000 / 10000000, time 829.701560
+[log] Index merge process 6800000 / 10000000, time 872.955737
+[log] Index merge process 7000000 / 10000000, time 917.895913
+[log] Index merge process 7200000 / 10000000, time 964.687408
+[log] Index merge process 7400000 / 10000000, time 1013.460777
+[log] Index merge process 7600000 / 10000000, time 1064.460758
+[log] Index merge process 7800000 / 10000000, time 1117.718509
+[log] Index merge process 8000000 / 10000000, time 1173.461562
+[log] Index merge process 8200000 / 10000000, time 1231.931131
+[log] Index merge process 8400000 / 10000000, time 1293.172043
+[log] Index merge process 8600000 / 10000000, time 1358.033448
+[log] Index merge process 8800000 / 10000000, time 1426.686227
+[log] Index merge process 9000000 / 10000000, time 1499.305224
+[log] Index merge process 9200000 / 10000000, time 1576.477505
+[log] Index merge process 9400000 / 10000000, time 1658.861469
+[log] Index merge process 9600000 / 10000000, time 1745.755693
+[log] Index merge process 9800000 / 10000000, time 1837.528019
+[log] Index merge process 10000000 / 10000000, time 1936.184146
+Total time for insertion: 1936.204 s
+Iteration 2/3
+time for new layer: 5.334142
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 19.994171
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 49.959441
+[log] Index merge process 400000 / 10000000, time 60.063453
+[log] Index merge process 600000 / 10000000, time 71.302901
+[log] Index merge process 800000 / 10000000, time 83.555318
+[log] Index merge process 1000000 / 10000000, time 96.891202
+[log] Index merge process 1200000 / 10000000, time 111.014691
+[log] Index merge process 1400000 / 10000000, time 125.958105
+[log] Index merge process 1600000 / 10000000, time 141.702055
+[log] Index merge process 1800000 / 10000000, time 158.256037
+[log] Index merge process 2000000 / 10000000, time 175.646795
+[log] Index merge process 2200000 / 10000000, time 193.976726
+[log] Index merge process 2400000 / 10000000, time 213.000928
+[log] Index merge process 2600000 / 10000000, time 232.622709
+[log] Index merge process 2800000 / 10000000, time 253.194603
+[log] Index merge process 3000000 / 10000000, time 274.535782
+[log] Index merge process 3200000 / 10000000, time 296.697411
+[log] Index merge process 3400000 / 10000000, time 319.591712
+[log] Index merge process 3600000 / 10000000, time 343.477940
+[log] Index merge process 3800000 / 10000000, time 368.228443
+[log] Index merge process 4000000 / 10000000, time 393.823917
+[log] Index merge process 4200000 / 10000000, time 420.510438
+[log] Index merge process 4400000 / 10000000, time 448.154692
+[log] Index merge process 4600000 / 10000000, time 476.786449
+[log] Index merge process 4800000 / 10000000, time 510.645190
+[log] Index merge process 5000000 / 10000000, time 553.851566
+[log] Index merge process 5200000 / 10000000, time 592.750551
+[log] Index merge process 5400000 / 10000000, time 637.898203
+[log] Index merge process 5600000 / 10000000, time 681.442402
+[log] Index merge process 5800000 / 10000000, time 721.901072
+[log] Index merge process 6000000 / 10000000, time 759.111640
+[log] Index merge process 6200000 / 10000000, time 797.589027
+[log] Index merge process 6400000 / 10000000, time 837.744867
+[log] Index merge process 6600000 / 10000000, time 879.291760
+[log] Index merge process 6800000 / 10000000, time 922.624451
+[log] Index merge process 7000000 / 10000000, time 967.560977
+[log] Index merge process 7200000 / 10000000, time 1014.380231
+[log] Index merge process 7400000 / 10000000, time 1063.093530
+[log] Index merge process 7600000 / 10000000, time 1114.107590
+[log] Index merge process 7800000 / 10000000, time 1167.244085
+[log] Index merge process 8000000 / 10000000, time 1222.961233
+[log] Index merge process 8200000 / 10000000, time 1281.299969
+[log] Index merge process 8400000 / 10000000, time 1342.391394
+[log] Index merge process 8600000 / 10000000, time 1407.113169
+[log] Index merge process 8800000 / 10000000, time 1475.634484
+[log] Index merge process 9000000 / 10000000, time 1548.139159
+[log] Index merge process 9200000 / 10000000, time 1625.076963
+[log] Index merge process 9400000 / 10000000, time 1707.274144
+[log] Index merge process 9600000 / 10000000, time 1793.918651
+[log] Index merge process 9800000 / 10000000, time 1885.420286
+[log] Index merge process 10000000 / 10000000, time 1983.878082
+Total time for insertion: 1983.898 s
+Iteration 3/3
+time for new layer: 5.396622
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 20.174004
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 50.246544
+[log] Index merge process 400000 / 10000000, time 60.411827
+[log] Index merge process 600000 / 10000000, time 71.956888
+[log] Index merge process 800000 / 10000000, time 84.060153
+[log] Index merge process 1000000 / 10000000, time 97.367883
+[log] Index merge process 1200000 / 10000000, time 111.410534
+[log] Index merge process 1400000 / 10000000, time 126.276232
+[log] Index merge process 1600000 / 10000000, time 141.941375
+[log] Index merge process 1800000 / 10000000, time 158.331923
+[log] Index merge process 2000000 / 10000000, time 175.666620
+[log] Index merge process 2200000 / 10000000, time 193.821139
+[log] Index merge process 2400000 / 10000000, time 212.772151
+[log] Index merge process 2600000 / 10000000, time 232.244822
+[log] Index merge process 2800000 / 10000000, time 252.681653
+[log] Index merge process 3000000 / 10000000, time 273.882968
+[log] Index merge process 3200000 / 10000000, time 295.828511
+[log] Index merge process 3400000 / 10000000, time 318.618070
+[log] Index merge process 3600000 / 10000000, time 342.334223
+[log] Index merge process 3800000 / 10000000, time 366.873725
+[log] Index merge process 4000000 / 10000000, time 392.304125
+[log] Index merge process 4200000 / 10000000, time 418.817480
+[log] Index merge process 4400000 / 10000000, time 446.220977
+[log] Index merge process 4600000 / 10000000, time 474.648426
+[log] Index merge process 4800000 / 10000000, time 504.130638
+[log] Index merge process 5000000 / 10000000, time 534.871972
+[log] Index merge process 5200000 / 10000000, time 566.571304
+[log] Index merge process 5400000 / 10000000, time 599.389103
+[log] Index merge process 5600000 / 10000000, time 633.471577
+[log] Index merge process 5800000 / 10000000, time 668.797347
+[log] Index merge process 6000000 / 10000000, time 705.380529
+[log] Index merge process 6200000 / 10000000, time 743.333105
+[log] Index merge process 6400000 / 10000000, time 783.037711
+[log] Index merge process 6600000 / 10000000, time 824.110563
+[log] Index merge process 6800000 / 10000000, time 866.981361
+[log] Index merge process 7000000 / 10000000, time 911.471786
+[log] Index merge process 7200000 / 10000000, time 957.856551
+[log] Index merge process 7400000 / 10000000, time 1006.180742
+[log] Index merge process 7600000 / 10000000, time 1056.697108
+[log] Index merge process 7800000 / 10000000, time 1109.472813
+[log] Index merge process 8000000 / 10000000, time 1164.714447
+[log] Index merge process 8200000 / 10000000, time 1222.559893
+[log] Index merge process 8400000 / 10000000, time 1283.220275
+[log] Index merge process 8600000 / 10000000, time 1347.432029
+[log] Index merge process 8800000 / 10000000, time 1415.403729
+[log] Index merge process 9000000 / 10000000, time 1487.359923
+[log] Index merge process 9200000 / 10000000, time 1563.674552
+[log] Index merge process 9400000 / 10000000, time 1645.249596
+[log] Index merge process 9600000 / 10000000, time 1731.252700
+[log] Index merge process 9800000 / 10000000, time 1822.056728
+[log] Index merge process 10000000 / 10000000, time 1919.707578
+Total time for insertion: 1919.719 s
+Start searchingset ef = 100
+[search time: 3.479 s, pure query time: 3.450 s] ef=100
+Intersection-merged index R@100 = 0.7758
+
+[search time: 2.401 s, pure query time: 2.383 s] ef=100
+Intersection-merged index R@100 = 0.7758
+
+[search time: 2.398 s, pure query time: 2.381 s] ef=100
+Intersection-merged index R@100 = 0.7758
+
+[search time: 2.396 s, pure query time: 2.378 s] ef=100
+Intersection-merged index R@100 = 0.7758
+
+[search time: 2.429 s, pure query time: 2.412 s] ef=100
+Intersection-merged index R@100 = 0.7758
+
+set ef = 120
+[search time: 2.803 s, pure query time: 2.786 s] ef=120
+Intersection-merged index R@100 = 0.8076
+
+[search time: 2.798 s, pure query time: 2.780 s] ef=120
+Intersection-merged index R@100 = 0.8076
+
+[search time: 2.797 s, pure query time: 2.779 s] ef=120
+Intersection-merged index R@100 = 0.8076
+
+[search time: 2.798 s, pure query time: 2.781 s] ef=120
+Intersection-merged index R@100 = 0.8076
+
+[search time: 2.796 s, pure query time: 2.778 s] ef=120
+Intersection-merged index R@100 = 0.8076
+
+set ef = 140
+[search time: 3.191 s, pure query time: 3.172 s] ef=140
+Intersection-merged index R@100 = 0.8319
+
+[search time: 3.239 s, pure query time: 3.221 s] ef=140
+Intersection-merged index R@100 = 0.8319
+
+[search time: 3.210 s, pure query time: 3.192 s] ef=140
+Intersection-merged index R@100 = 0.8319
+
+[search time: 3.192 s, pure query time: 3.174 s] ef=140
+Intersection-merged index R@100 = 0.8319
+
+[search time: 3.187 s, pure query time: 3.169 s] ef=140
+Intersection-merged index R@100 = 0.8319
+
+set ef = 160
+[search time: 3.618 s, pure query time: 3.599 s] ef=160
+Intersection-merged index R@100 = 0.8509
+
+[search time: 3.574 s, pure query time: 3.556 s] ef=160
+Intersection-merged index R@100 = 0.8509
+
+[search time: 3.575 s, pure query time: 3.556 s] ef=160
+Intersection-merged index R@100 = 0.8509
+
+[search time: 3.583 s, pure query time: 3.564 s] ef=160
+Intersection-merged index R@100 = 0.8509
+
+[search time: 3.580 s, pure query time: 3.561 s] ef=160
+Intersection-merged index R@100 = 0.8509
+
+set ef = 180
+[search time: 3.990 s, pure query time: 3.971 s] ef=180
+Intersection-merged index R@100 = 0.8664
+
+[search time: 4.003 s, pure query time: 3.984 s] ef=180
+Intersection-merged index R@100 = 0.8664
+
+[search time: 3.973 s, pure query time: 3.954 s] ef=180
+Intersection-merged index R@100 = 0.8664
+
+[search time: 3.960 s, pure query time: 3.941 s] ef=180
+Intersection-merged index R@100 = 0.8664
+
+[search time: 4.001 s, pure query time: 3.982 s] ef=180
+Intersection-merged index R@100 = 0.8664
+
+set ef = 200
+[search time: 4.342 s, pure query time: 4.322 s] ef=200
+Intersection-merged index R@100 = 0.8793
+
+[search time: 4.352 s, pure query time: 4.333 s] ef=200
+Intersection-merged index R@100 = 0.8793
+
+[search time: 4.341 s, pure query time: 4.321 s] ef=200
+Intersection-merged index R@100 = 0.8793
+
+[search time: 4.375 s, pure query time: 4.356 s] ef=200
+Intersection-merged index R@100 = 0.8793
+
+[search time: 4.391 s, pure query time: 4.372 s] ef=200
+Intersection-merged index R@100 = 0.8793
+
+set ef = 300
+[search time: 6.230 s, pure query time: 6.205 s] ef=300
+Intersection-merged index R@100 = 0.9200
+
+[search time: 6.260 s, pure query time: 6.235 s] ef=300
+Intersection-merged index R@100 = 0.9200
+
+[search time: 6.222 s, pure query time: 6.197 s] ef=300
+Intersection-merged index R@100 = 0.9200
+
+[search time: 6.221 s, pure query time: 6.196 s] ef=300
+Intersection-merged index R@100 = 0.9200
+
+[search time: 6.280 s, pure query time: 6.255 s] ef=300
+Intersection-merged index R@100 = 0.9200
+
+set ef = 400
+[search time: 8.076 s, pure query time: 8.045 s] ef=400
+Intersection-merged index R@100 = 0.9415
+
+[search time: 8.085 s, pure query time: 8.054 s] ef=400
+Intersection-merged index R@100 = 0.9415
+
+[search time: 8.051 s, pure query time: 8.020 s] ef=400
+Intersection-merged index R@100 = 0.9415
+
+[search time: 8.079 s, pure query time: 8.048 s] ef=400
+Intersection-merged index R@100 = 0.9415
+
+[search time: 8.107 s, pure query time: 8.076 s] ef=400
+Intersection-merged index R@100 = 0.9415
+
+set ef = 500
+[search time: 9.880 s, pure query time: 9.845 s] ef=500
+Intersection-merged index R@100 = 0.9547
+
+[search time: 9.844 s, pure query time: 9.809 s] ef=500
+Intersection-merged index R@100 = 0.9547
+
+[search time: 9.914 s, pure query time: 9.879 s] ef=500
+Intersection-merged index R@100 = 0.9547
+
+[search time: 9.861 s, pure query time: 9.826 s] ef=500
+Intersection-merged index R@100 = 0.9547
+
+[search time: 9.857 s, pure query time: 9.822 s] ef=500
+Intersection-merged index R@100 = 0.9547
+
+set ef = 600
+[search time: 11.660 s, pure query time: 11.623 s] ef=600
+Intersection-merged index R@100 = 0.9634
+
+[search time: 11.647 s, pure query time: 11.611 s] ef=600
+Intersection-merged index R@100 = 0.9634
+
+[search time: 11.646 s, pure query time: 11.609 s] ef=600
+Intersection-merged index R@100 = 0.9634
+
+[search time: 11.667 s, pure query time: 11.630 s] ef=600
+Intersection-merged index R@100 = 0.9634
+
+[search time: 11.641 s, pure query time: 11.605 s] ef=600
+Intersection-merged index R@100 = 0.9634
+
+set ef = 700
+[search time: 13.360 s, pure query time: 13.323 s] ef=700
+Intersection-merged index R@100 = 0.9694
+
+[search time: 13.413 s, pure query time: 13.367 s] ef=700
+Intersection-merged index R@100 = 0.9694
+
+[search time: 13.373 s, pure query time: 13.336 s] ef=700
+Intersection-merged index R@100 = 0.9694
+
+[search time: 13.358 s, pure query time: 13.321 s] ef=700
+Intersection-merged index R@100 = 0.9694
+
+[search time: 13.389 s, pure query time: 13.352 s] ef=700
+Intersection-merged index R@100 = 0.9694
+
+set ef = 800
+[search time: 15.081 s, pure query time: 15.043 s] ef=800
+Intersection-merged index R@100 = 0.9738
+
+[search time: 15.126 s, pure query time: 15.088 s] ef=800
+Intersection-merged index R@100 = 0.9738
+
+[search time: 15.078 s, pure query time: 15.040 s] ef=800
+Intersection-merged index R@100 = 0.9738
+
+[search time: 15.127 s, pure query time: 15.089 s] ef=800
+Intersection-merged index R@100 = 0.9738
+
+[search time: 15.085 s, pure query time: 15.047 s] ef=800
+Intersection-merged index R@100 = 0.9738
+
+Configuration:
+  Workload Type: TURING10M
+  Merge Method: CGTM
+  Dimension: 100
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+fvecs_read: /ssd_root/dataset/turing10m/msturing-query.fvecs
+loaded query vectors: 10000 vectors of dimension 100
+fvecs_read: /ssd_root/dataset/turing10m/msturing10M_gt100.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: CGTM
+Iteration 1/3
+time for new layer: 5.298573
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 23.353639
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 61.433719
+[log] Index merge process 400000 / 10000000, time 71.942155
+[log] Index merge process 600000 / 10000000, time 83.180321
+[log] Index merge process 800000 / 10000000, time 94.970771
+[log] Index merge process 1000000 / 10000000, time 106.925248
+[log] Index merge process 1200000 / 10000000, time 119.594979
+[log] Index merge process 1400000 / 10000000, time 133.559925
+[log] Index merge process 1600000 / 10000000, time 148.368496
+[log] Index merge process 1800000 / 10000000, time 164.686012
+[log] Index merge process 2000000 / 10000000, time 180.459749
+[log] Index merge process 2200000 / 10000000, time 196.627925
+[log] Index merge process 2400000 / 10000000, time 213.392147
+[log] Index merge process 2600000 / 10000000, time 232.024086
+[log] Index merge process 2800000 / 10000000, time 253.191764
+[log] Index merge process 3000000 / 10000000, time 274.916719
+[log] Index merge process 3200000 / 10000000, time 301.509729
+[log] Index merge process 3400000 / 10000000, time 331.810562
+[log] Index merge process 3600000 / 10000000, time 357.257273
+[log] Index merge process 3800000 / 10000000, time 384.440254
+[log] Index merge process 4000000 / 10000000, time 414.880034
+[log] Index merge process 4200000 / 10000000, time 440.620940
+[log] Index merge process 4400000 / 10000000, time 472.647680
+[log] Index merge process 4600000 / 10000000, time 509.175418
+[log] Index merge process 4800000 / 10000000, time 538.425788
+[log] Index merge process 5000000 / 10000000, time 573.721125
+[log] Index merge process 5200000 / 10000000, time 607.683640
+[log] Index merge process 5400000 / 10000000, time 645.792575
+[log] Index merge process 5600000 / 10000000, time 680.659515
+[log] Index merge process 5800000 / 10000000, time 722.275862
+[log] Index merge process 6000000 / 10000000, time 770.152187
+[log] Index merge process 6200000 / 10000000, time 814.981724
+[log] Index merge process 6400000 / 10000000, time 869.422766
+[log] Index merge process 6600000 / 10000000, time 927.840275
+[log] Index merge process 6800000 / 10000000, time 980.437242
+[log] Index merge process 7000000 / 10000000, time 1030.251861
+[log] Index merge process 7200000 / 10000000, time 1083.045952
+[log] Index merge process 7400000 / 10000000, time 1135.322101
+[log] Index merge process 7600000 / 10000000, time 1190.611795
+[log] Index merge process 7800000 / 10000000, time 1249.633314
+[log] Index merge process 8000000 / 10000000, time 1313.847138
+[log] Index merge process 8200000 / 10000000, time 1390.011637
+[log] Index merge process 8400000 / 10000000, time 1464.366180
+[log] Index merge process 8600000 / 10000000, time 1528.593805
+[log] Index merge process 8800000 / 10000000, time 1599.725607
+[log] Index merge process 9000000 / 10000000, time 1676.890460
+[log] Index merge process 9200000 / 10000000, time 1752.206452
+[log] Index merge process 9400000 / 10000000, time 1821.552496
+[log] Index merge process 9600000 / 10000000, time 1907.476048
+[log] Index merge process 9800000 / 10000000, time 1998.625654
+[log] Index merge process 10000000 / 10000000, time 2102.683064
+Total time for insertion: 2102.702 s
+Iteration 2/3
+time for new layer: 5.288087
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 23.313763
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 61.373653
+[log] Index merge process 400000 / 10000000, time 71.821993
+[log] Index merge process 600000 / 10000000, time 83.127282
+[log] Index merge process 800000 / 10000000, time 94.849858
+[log] Index merge process 1000000 / 10000000, time 106.822938
+[log] Index merge process 1200000 / 10000000, time 119.486606
+[log] Index merge process 1400000 / 10000000, time 133.460895
+[log] Index merge process 1600000 / 10000000, time 148.244134
+[log] Index merge process 1800000 / 10000000, time 164.523705
+[log] Index merge process 2000000 / 10000000, time 180.297592
+[log] Index merge process 2200000 / 10000000, time 196.509669
+[log] Index merge process 2400000 / 10000000, time 213.235065
+[log] Index merge process 2600000 / 10000000, time 231.867635
+[log] Index merge process 2800000 / 10000000, time 253.011466
+[log] Index merge process 3000000 / 10000000, time 274.740310
+[log] Index merge process 3200000 / 10000000, time 301.351633
+[log] Index merge process 3400000 / 10000000, time 331.632685
+[log] Index merge process 3600000 / 10000000, time 357.020581
+[log] Index merge process 3800000 / 10000000, time 384.203235
+[log] Index merge process 4000000 / 10000000, time 414.632318
+[log] Index merge process 4200000 / 10000000, time 440.366655
+[log] Index merge process 4400000 / 10000000, time 472.317585
+[log] Index merge process 4600000 / 10000000, time 508.830398
+[log] Index merge process 4800000 / 10000000, time 538.011430
+[log] Index merge process 5000000 / 10000000, time 573.306891
+[log] Index merge process 5200000 / 10000000, time 607.239187
+[log] Index merge process 5400000 / 10000000, time 645.275558
+[log] Index merge process 5600000 / 10000000, time 680.646097
+[log] Index merge process 5800000 / 10000000, time 722.929335
+[log] Index merge process 6000000 / 10000000, time 771.538041
+[log] Index merge process 6200000 / 10000000, time 817.049970
+[log] Index merge process 6400000 / 10000000, time 872.331518
+[log] Index merge process 6600000 / 10000000, time 931.630589
+[log] Index merge process 6800000 / 10000000, time 985.062956
+[log] Index merge process 7000000 / 10000000, time 1035.685011
+[log] Index merge process 7200000 / 10000000, time 1089.277222
+[log] Index merge process 7400000 / 10000000, time 1142.384423
+[log] Index merge process 7600000 / 10000000, time 1198.551060
+[log] Index merge process 7800000 / 10000000, time 1258.481557
+[log] Index merge process 8000000 / 10000000, time 1323.717323
+[log] Index merge process 8200000 / 10000000, time 1401.041066
+[log] Index merge process 8400000 / 10000000, time 1476.518528
+[log] Index merge process 8600000 / 10000000, time 1541.714357
+[log] Index merge process 8800000 / 10000000, time 1613.953820
+[log] Index merge process 9000000 / 10000000, time 1692.227308
+[log] Index merge process 9200000 / 10000000, time 1768.782751
+[log] Index merge process 9400000 / 10000000, time 1839.143496
+[log] Index merge process 9600000 / 10000000, time 1926.303089
+[log] Index merge process 9800000 / 10000000, time 2018.790506
+[log] Index merge process 10000000 / 10000000, time 2124.387895
+Total time for insertion: 2124.399 s
+Iteration 3/3
+time for new layer: 5.379013
+[log] layer: 5
+[log] layer: 4
+[log] layer: 3
+[log] layer: 2
+[log] layer: 1
+[log] Index merge process 200000 / 313382, time 23.829435
+[log] layer: 0
+[log] Index merge process 200000 / 10000000, time 62.723778
+[log] Index merge process 400000 / 10000000, time 73.400832
+[log] Index merge process 600000 / 10000000, time 86.199129
+[log] Index merge process 800000 / 10000000, time 102.394832
+[log] Index merge process 1000000 / 10000000, time 118.639883
+[log] Index merge process 1200000 / 10000000, time 135.253071
+[log] Index merge process 1400000 / 10000000, time 153.804111
+[log] Index merge process 1600000 / 10000000, time 174.750132
+[log] Index merge process 1800000 / 10000000, time 193.646838
+[log] Index merge process 2000000 / 10000000, time 210.483742
+[log] Index merge process 2200000 / 10000000, time 227.621440
+[log] Index merge process 2400000 / 10000000, time 245.250570
+[log] Index merge process 2600000 / 10000000, time 264.774531
+[log] Index merge process 2800000 / 10000000, time 287.049684
+[log] Index merge process 3000000 / 10000000, time 309.777502
+[log] Index merge process 3200000 / 10000000, time 337.760800
+[log] Index merge process 3400000 / 10000000, time 369.601749
+[log] Index merge process 3600000 / 10000000, time 396.241531
+[log] Index merge process 3800000 / 10000000, time 424.856445
+[log] Index merge process 4000000 / 10000000, time 456.936037
+[log] Index merge process 4200000 / 10000000, time 483.816746
+[log] Index merge process 4400000 / 10000000, time 525.317293
+[log] Index merge process 4600000 / 10000000, time 573.837839
+[log] Index merge process 4800000 / 10000000, time 604.394156
+[log] Index merge process 5000000 / 10000000, time 641.040698
+[log] Index merge process 5200000 / 10000000, time 676.265096
+[log] Index merge process 5400000 / 10000000, time 715.672585
+[log] Index merge process 5600000 / 10000000, time 751.748592
+[log] Index merge process 5800000 / 10000000, time 794.718966
+[log] Index merge process 6000000 / 10000000, time 844.145564
+[log] Index merge process 6200000 / 10000000, time 890.350749
+[log] Index merge process 6400000 / 10000000, time 946.465436
+[log] Index merge process 6600000 / 10000000, time 1018.733325
+[log] Index merge process 6800000 / 10000000, time 1081.003243
+[log] Index merge process 7000000 / 10000000, time 1132.768911
+[log] Index merge process 7200000 / 10000000, time 1187.279868
+[log] Index merge process 7400000 / 10000000, time 1241.244644
+[log] Index merge process 7600000 / 10000000, time 1298.012203
+[log] Index merge process 7800000 / 10000000, time 1358.353516
+[log] Index merge process 8000000 / 10000000, time 1423.878952
+[log] Index merge process 8200000 / 10000000, time 1501.488142
+[log] Index merge process 8400000 / 10000000, time 1577.362409
+[log] Index merge process 8600000 / 10000000, time 1663.095947
+[log] Index merge process 8800000 / 10000000, time 1738.182711
+[log] Index merge process 9000000 / 10000000, time 1817.697014
+[log] Index merge process 9200000 / 10000000, time 1895.278600
+[log] Index merge process 9400000 / 10000000, time 1966.715296
+[log] Index merge process 9600000 / 10000000, time 2055.111179
+[log] Index merge process 9800000 / 10000000, time 2148.754115
+[log] Index merge process 10000000 / 10000000, time 2257.611500
+Total time for insertion: 2257.679 s
+Start searchingset ef = 100
+[search time: 6.824 s, pure query time: 6.794 s] ef=100
+Intersection-merged index R@100 = 0.6299
+
+[search time: 4.505 s, pure query time: 4.482 s] ef=100
+Intersection-merged index R@100 = 0.6299
+
+[search time: 4.483 s, pure query time: 4.461 s] ef=100
+Intersection-merged index R@100 = 0.6299
+
+[search time: 4.488 s, pure query time: 4.465 s] ef=100
+Intersection-merged index R@100 = 0.6299
+
+[search time: 4.479 s, pure query time: 4.456 s] ef=100
+Intersection-merged index R@100 = 0.6299
+
+set ef = 120
+[search time: 5.203 s, pure query time: 5.179 s] ef=120
+Intersection-merged index R@100 = 0.6568
+
+[search time: 5.201 s, pure query time: 5.177 s] ef=120
+Intersection-merged index R@100 = 0.6568
+
+[search time: 5.220 s, pure query time: 5.196 s] ef=120
+Intersection-merged index R@100 = 0.6568
+
+[search time: 5.241 s, pure query time: 5.217 s] ef=120
+Intersection-merged index R@100 = 0.6568
+
+[search time: 5.243 s, pure query time: 5.215 s] ef=120
+Intersection-merged index R@100 = 0.6568
+
+set ef = 140
+[search time: 5.615 s, pure query time: 5.591 s] ef=140
+Intersection-merged index R@100 = 0.6783
+
+[search time: 5.032 s, pure query time: 5.011 s] ef=140
+Intersection-merged index R@100 = 0.6783
+
+[search time: 5.095 s, pure query time: 5.075 s] ef=140
+Intersection-merged index R@100 = 0.6783
+
+[search time: 4.799 s, pure query time: 4.778 s] ef=140
+Intersection-merged index R@100 = 0.6783
+
+[search time: 4.795 s, pure query time: 4.774 s] ef=140
+Intersection-merged index R@100 = 0.6783
+
+set ef = 160
+[search time: 5.376 s, pure query time: 5.355 s] ef=160
+Intersection-merged index R@100 = 0.6961
+
+[search time: 5.375 s, pure query time: 5.354 s] ef=160
+Intersection-merged index R@100 = 0.6961
+
+[search time: 5.373 s, pure query time: 5.352 s] ef=160
+Intersection-merged index R@100 = 0.6961
+
+[search time: 5.374 s, pure query time: 5.352 s] ef=160
+Intersection-merged index R@100 = 0.6961
+
+[search time: 5.719 s, pure query time: 5.697 s] ef=160
+Intersection-merged index R@100 = 0.6961
+
+set ef = 180
+[search time: 5.982 s, pure query time: 5.960 s] ef=180
+Intersection-merged index R@100 = 0.7117
+
+[search time: 5.804 s, pure query time: 5.782 s] ef=180
+Intersection-merged index R@100 = 0.7117
+
+[search time: 5.808 s, pure query time: 5.786 s] ef=180
+Intersection-merged index R@100 = 0.7117
+
+[search time: 5.809 s, pure query time: 5.787 s] ef=180
+Intersection-merged index R@100 = 0.7117
+
+[search time: 5.802 s, pure query time: 5.780 s] ef=180
+Intersection-merged index R@100 = 0.7117
+
+set ef = 200
+[search time: 6.771 s, pure query time: 6.745 s] ef=200
+Intersection-merged index R@100 = 0.7244
+
+[search time: 8.255 s, pure query time: 8.229 s] ef=200
+Intersection-merged index R@100 = 0.7244
+
+[search time: 8.819 s, pure query time: 8.794 s] ef=200
+Intersection-merged index R@100 = 0.7244
+
+[search time: 8.054 s, pure query time: 8.029 s] ef=200
+Intersection-merged index R@100 = 0.7244
+
+[search time: 8.039 s, pure query time: 8.014 s] ef=200
+Intersection-merged index R@100 = 0.7244
+
+set ef = 300
+[search time: 11.323 s, pure query time: 11.291 s] ef=300
+Intersection-merged index R@100 = 0.7693
+
+[search time: 9.836 s, pure query time: 9.802 s] ef=300
+Intersection-merged index R@100 = 0.7693
+
+[search time: 9.162 s, pure query time: 9.129 s] ef=300
+Intersection-merged index R@100 = 0.7693
+
+[search time: 9.149 s, pure query time: 9.116 s] ef=300
+Intersection-merged index R@100 = 0.7693
+
+[search time: 9.150 s, pure query time: 9.117 s] ef=300
+Intersection-merged index R@100 = 0.7693
+
+set ef = 400
+[search time: 12.318 s, pure query time: 12.280 s] ef=400
+Intersection-merged index R@100 = 0.7968
+
+[search time: 11.920 s, pure query time: 11.883 s] ef=400
+Intersection-merged index R@100 = 0.7968
+
+[search time: 11.923 s, pure query time: 11.886 s] ef=400
+Intersection-merged index R@100 = 0.7968
+
+[search time: 14.011 s, pure query time: 13.975 s] ef=400
+Intersection-merged index R@100 = 0.7968
+
+[search time: 15.401 s, pure query time: 15.368 s] ef=400
+Intersection-merged index R@100 = 0.7968
+
+set ef = 500
+[search time: 18.324 s, pure query time: 18.287 s] ef=500
+Intersection-merged index R@100 = 0.8152
+
+[search time: 15.381 s, pure query time: 15.341 s] ef=500
+Intersection-merged index R@100 = 0.8152
+
+[search time: 14.685 s, pure query time: 14.646 s] ef=500
+Intersection-merged index R@100 = 0.8152
+
+[search time: 15.056 s, pure query time: 15.017 s] ef=500
+Intersection-merged index R@100 = 0.8152
+
+[search time: 14.722 s, pure query time: 14.684 s] ef=500
+Intersection-merged index R@100 = 0.8152
+
+set ef = 600
+[search time: 17.471 s, pure query time: 17.430 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 21.988 s, pure query time: 21.948 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 21.901 s, pure query time: 21.862 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 18.434 s, pure query time: 18.391 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+[search time: 17.485 s, pure query time: 17.445 s] ef=600
+Intersection-merged index R@100 = 0.8298
+
+set ef = 700
+[search time: 20.648 s, pure query time: 20.606 s] ef=700
+Intersection-merged index R@100 = 0.8411
+
+[search time: 20.262 s, pure query time: 20.221 s] ef=700
+Intersection-merged index R@100 = 0.8411
+
+[search time: 25.137 s, pure query time: 25.097 s] ef=700
+Intersection-merged index R@100 = 0.8411
+
+[search time: 25.138 s, pure query time: 25.097 s] ef=700
+Intersection-merged index R@100 = 0.8411
+
+[search time: 20.454 s, pure query time: 20.413 s] ef=700
+Intersection-merged index R@100 = 0.8411
+
+set ef = 800
+[search time: 23.458 s, pure query time: 23.416 s] ef=800
+Intersection-merged index R@100 = 0.8506
+
+[search time: 23.081 s, pure query time: 23.039 s] ef=800
+Intersection-merged index R@100 = 0.8506
+
+[search time: 27.464 s, pure query time: 27.422 s] ef=800
+Intersection-merged index R@100 = 0.8506
+
+[search time: 28.586 s, pure query time: 28.545 s] ef=800
+Intersection-merged index R@100 = 0.8506
+
+[search time: 23.128 s, pure query time: 23.087 s] ef=800
+Intersection-merged index R@100 = 0.8506
+
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./bashpkill -u jin467[6Pmake exp ./bash_merge[3Pmake exp ./bash_mergererun merge[C[3Pcd hnswlib

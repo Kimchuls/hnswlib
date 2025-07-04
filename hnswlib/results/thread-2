@@ -1,0 +1,553 @@
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+2 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 5.811991
+mergeIndex1BasedOnIndex2Connection sum0: 234.007217
+mergeIndex1BasedOnIndex2Connection sum1: 8.729041
+mergeIndex1BasedOnIndex2Connection sum2: 242.736264
+Total time for insertion: 249.234 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+2 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 5.735257
+mergeIndex1BasedOnIndex2Connection sum0: 121.988100
+mergeIndex1BasedOnIndex2Connection sum1: 8.744649
+mergeIndex1BasedOnIndex2Connection sum2: 130.732752
+Total time for insertion: 137.002 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+4 threads, dynamic = true
+4 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 5.771971
+mergeIndex1BasedOnIndex2Connection sum0: 66.577807
+mergeIndex1BasedOnIndex2Connection sum1: 6.598084
+mergeIndex1BasedOnIndex2Connection sum2: 73.175896
+Total time for insertion: 79.430 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+8 threads, dynamic = true
+8 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 5.751914
+mergeIndex1BasedOnIndex2Connection sum0: 37.425067
+mergeIndex1BasedOnIndex2Connection sum1: 4.118378
+mergeIndex1BasedOnIndex2Connection sum2: 41.543445
+Total time for insertion: 47.871 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+16 threads, dynamic = true
+32 threads, dynamic = true
+64 threads, dynamic = true
+64 threads, dynamic = true
+
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+2 threads, dynamic = true
+2 threads, dynamic = false
+4 threads, dynamic = true
+4 threads, dynamic = false
+8 threads, dynamic = true
+8 threads, dynamic = false
+16 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 5.971918
+mergeIndex1BasedOnIndex2Connection sum0: 26.214973
+mergeIndex1BasedOnIndex2Connection sum1: 2.745659
+mergeIndex1BasedOnIndex2Connection sum2: 28.960635
+Total time for insertion: 35.524 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+16 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 6.038874
+mergeIndex1BasedOnIndex2Connection sum0: 23.127621
+mergeIndex1BasedOnIndex2Connection sum1: 2.261191
+mergeIndex1BasedOnIndex2Connection sum2: 25.388817
+Total time for insertion: 32.006 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+32 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 6.068745
+mergeIndex1BasedOnIndex2Connection sum0: 17.009049
+mergeIndex1BasedOnIndex2Connection sum1: 1.324806
+mergeIndex1BasedOnIndex2Connection sum2: 18.333859
+Total time for insertion: 24.970 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+32 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 6.039242
+mergeIndex1BasedOnIndex2Connection sum0: 16.430076
+mergeIndex1BasedOnIndex2Connection sum1: 1.224189
+mergeIndex1BasedOnIndex2Connection sum2: 17.654269
+Total time for insertion: 24.263 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+64 threads, dynamic = true
+64 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 6.043558
+mergeIndex1BasedOnIndex2Connection sum0: 13.690843
+mergeIndex1BasedOnIndex2Connection sum1: 0.594534
+mergeIndex1BasedOnIndex2Connection sum2: 14.285378
+Total time for insertion: 20.858 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+64 threads, dynamic = true
+64 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 5.793761
+mergeIndex1BasedOnIndex2Connection sum0: 13.113038
+mergeIndex1BasedOnIndex2Connection sum1: 0.431122
+mergeIndex1BasedOnIndex2Connection sum2: 13.544166
+Total time for insertion: 19.888 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+1 threads, dynamic = true
+1 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 1
+  Rerun: true
+  Thread Count: 1
+  cnt: 4
+  Alpha: 1.05
+  Save Index: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/1
+time for new layer: 5.731695
+mergeIndex1BasedOnIndex2Connection sum0: 230.111138
+mergeIndex1BasedOnIndex2Connection sum1: 8.645604
+mergeIndex1BasedOnIndex2Connection sum2: 238.756731
+Total time for insertion: 245.162 s
+Saved merged index to: /ssd_root/jin467/merger/indexes/merged-index_SIFT10M.hnsw
+Start searching
+2 threads, dynamic = true
+2 threads, dynamic = false
+4 threads, dynamic = true
+4 threads, dynamic = false
+8 threads, dynamic = true
+8 threads, dynamic = false
+16 threads, dynamic = true
+16 threads, dynamic = false
+32 threads, dynamic = true
+32 threads, dynamic = false
+64 threads, dynamic = true
+64 threads, dynamic = false
+64 threads, dynamic = true
+64 threads, dynamic = false
+
+
+g++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+1 threads, dynamic = true
+1 threads, dynamic = false
+2 threads, dynamic = true
+2 threads, dynamic = false
+4 threads, dynamic = true
+4 threads, dynamic = false
+8 threads, dynamic = true
+8 threads, dynamic = false
+16 threads, dynamic = true
+16 threads, dynamic = false
+32 threads, dynamic = true
+32 threads, dynamic = false
+64 threads, dynamic = true
+64 threads, dynamic = false
+64 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 3
+  Rerun: true
+  Thread Count: 128
+  cnt: 4
+  Alpha: 1.05
+  Save Index: false
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 92.122 s
+Index not saved, rerun with save_index flag in config to save the index.
+Iteration 2/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 92.362 s
+Index not saved, rerun with save_index flag in config to save the index.
+Iteration 3/3
+Processed 0 items.
+Processed 200000 items.
+Processed 400000 items.
+Processed 600000 items.
+Processed 800000 items.
+Processed 1000000 items.
+Processed 1200000 items.
+Processed 1400000 items.
+Processed 1600000 items.
+Processed 1800000 items.
+Processed 2000000 items.
+Processed 2200000 items.
+Processed 2400000 items.
+Processed 2600000 items.
+Processed 2800000 items.
+Processed 3000000 items.
+Processed 3200000 items.
+Processed 3400000 items.
+Processed 3600000 items.
+Processed 3800000 items.
+Processed 4000000 items.
+Processed 4200000 items.
+Processed 4400000 items.
+Processed 4600000 items.
+Processed 4800000 items.
+Processed 5000000 items.
+Processed 5200000 items.
+Processed 5400000 items.
+Processed 5600000 items.
+Processed 5800000 items.
+Processed 6000000 items.
+Processed 6200000 items.
+Processed 6400000 items.
+Processed 6600000 items.
+Processed 6800000 items.
+Processed 7000000 items.
+Processed 7200000 items.
+Processed 7400000 items.
+Processed 7600000 items.
+Processed 7800000 items.
+Processed 8000000 items.
+Processed 8200000 items.
+Processed 8400000 items.
+Processed 8600000 items.
+Processed 8800000 items.
+Processed 9000000 items.
+Processed 9200000 items.
+Processed 9400000 items.
+Processed 9600000 items.
+Processed 9800000 items.
+Total time for insertion: 91.748 s
+Index not saved, rerun with save_index flag in config to save the index.
+Start searching
+64 threads, dynamic = false

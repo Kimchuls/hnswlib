@@ -1,0 +1,1168 @@
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 
+[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./bash4[K[3Ptop[K[K[Kmake exp 
+[?2004lg++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -fopenmp -lopenblas -llapack -ltbb
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./bash
+[?2004l2 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Total time for insertion: 2119.844 s
+Iteration 2/5
+Total time for insertion: 2375.235 s
+Iteration 3/5
+Total time for insertion: 2148.107 s
+Iteration 4/5
+Total time for insertion: 2131.241 s
+Iteration 5/5
+Total time for insertion: 2091.596 s
+Start searchingset ef = 100
+[search time: 5.882 s, pure query time: 5.855 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 5.000 s, pure query time: 4.977 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 4.996 s, pure query time: 4.972 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 5.018 s, pure query time: 4.995 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 4.994 s, pure query time: 4.972 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: INSERT
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: INSERT
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 1181.632 s
+Iteration 2/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 1211.863 s
+Iteration 3/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 1198.317 s
+Iteration 4/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 1217.782 s
+Iteration 5/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 1287.350 s
+Insert task don't re-test the performance.
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 8.410672
+mergeIndex1BasedOnIndex2Connection sum0: 435.597882
+mergeIndex1BasedOnIndex2Connection sum1: 42.588745
+mergeIndex1BasedOnIndex2Connection sum2: 478.186636
+Total time for insertion: 489.119 s
+Iteration 2/5
+time for new layer: 6.341171
+mergeIndex1BasedOnIndex2Connection sum0: 417.473294
+mergeIndex1BasedOnIndex2Connection sum1: 41.107960
+mergeIndex1BasedOnIndex2Connection sum2: 458.581259
+Total time for insertion: 467.418 s
+Iteration 3/5
+time for new layer: 5.859501
+mergeIndex1BasedOnIndex2Connection sum0: 416.782517
+mergeIndex1BasedOnIndex2Connection sum1: 40.967811
+mergeIndex1BasedOnIndex2Connection sum2: 457.750334
+Total time for insertion: 466.107 s
+Iteration 4/5
+time for new layer: 6.224148
+mergeIndex1BasedOnIndex2Connection sum0: 452.256804
+mergeIndex1BasedOnIndex2Connection sum1: 47.331040
+mergeIndex1BasedOnIndex2Connection sum2: 499.587831
+Total time for insertion: 509.160 s
+Iteration 5/5
+time for new layer: 7.629995
+mergeIndex1BasedOnIndex2Connection sum0: 470.557668
+mergeIndex1BasedOnIndex2Connection sum1: 44.096945
+mergeIndex1BasedOnIndex2Connection sum2: 514.654604
+Total time for insertion: 525.415 s
+Start searchingset ef = 100
+[search time: 6.543 s, pure query time: 6.518 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.375 s, pure query time: 5.355 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.373 s, pure query time: 5.352 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.381 s, pure query time: 5.360 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.383 s, pure query time: 5.362 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+2 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.728233
+mergeIndex1BasedOnIndex2Connection sum0: 198.026781
+mergeIndex1BasedOnIndex2Connection sum1: 22.692826
+mergeIndex1BasedOnIndex2Connection sum2: 220.719613
+Total time for insertion: 229.488 s
+Iteration 2/5
+time for new layer: 8.147448
+mergeIndex1BasedOnIndex2Connection sum0: 201.275779
+mergeIndex1BasedOnIndex2Connection sum1: 22.130716
+mergeIndex1BasedOnIndex2Connection sum2: 223.406494
+Total time for insertion: 234.585 s
+Iteration 3/5
+time for new layer: 10.219040
+mergeIndex1BasedOnIndex2Connection sum0: 205.154666
+mergeIndex1BasedOnIndex2Connection sum1: 24.773892
+mergeIndex1BasedOnIndex2Connection sum2: 229.928549
+Total time for insertion: 243.483 s
+Iteration 4/5
+time for new layer: 10.659247
+mergeIndex1BasedOnIndex2Connection sum0: 205.900077
+mergeIndex1BasedOnIndex2Connection sum1: 25.154396
+mergeIndex1BasedOnIndex2Connection sum2: 231.054464
+Total time for insertion: 244.986 s
+Iteration 5/5
+time for new layer: 9.867882
+mergeIndex1BasedOnIndex2Connection sum0: 223.922291
+mergeIndex1BasedOnIndex2Connection sum1: 26.974224
+mergeIndex1BasedOnIndex2Connection sum2: 250.896520
+Total time for insertion: 263.562 s
+Start searchingset ef = 100
+[search time: 8.151 s, pure query time: 8.128 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.801 s, pure query time: 7.780 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.842 s, pure query time: 7.821 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.189 s, pure query time: 7.164 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 6.884 s, pure query time: 6.856 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+4 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Total time for insertion: 1070.750 s
+Iteration 2/5
+Total time for insertion: 1251.312 s
+Iteration 3/5
+Total time for insertion: 1210.025 s
+Iteration 4/5
+Total time for insertion: 1220.067 s
+Iteration 5/5
+Total time for insertion: 1226.844 s
+Start searchingset ef = 100
+[search time: 8.011 s, pure query time: 7.988 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 5.797 s, pure query time: 5.776 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 6.473 s, pure query time: 6.450 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 5.646 s, pure query time: 5.624 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 5.488 s, pure query time: 5.466 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: INSERT
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: INSERT
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 705.841 s
+Iteration 2/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 690.283 s
+Iteration 3/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 608.592 s
+Iteration 4/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 653.071 s
+Iteration 5/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 664.507 s
+Insert task don't re-test the performance.
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 5.897671
+mergeIndex1BasedOnIndex2Connection sum0: 444.822855
+mergeIndex1BasedOnIndex2Connection sum1: 24.910512
+mergeIndex1BasedOnIndex2Connection sum2: 469.733377
+Total time for insertion: 478.190 s
+Iteration 2/5
+time for new layer: 7.059290
+mergeIndex1BasedOnIndex2Connection sum0: 215.853778
+mergeIndex1BasedOnIndex2Connection sum1: 21.475907
+mergeIndex1BasedOnIndex2Connection sum2: 237.329692
+Total time for insertion: 246.853 s
+Iteration 3/5
+time for new layer: 7.805847
+mergeIndex1BasedOnIndex2Connection sum0: 216.832239
+mergeIndex1BasedOnIndex2Connection sum1: 21.831612
+mergeIndex1BasedOnIndex2Connection sum2: 238.663854
+Total time for insertion: 249.093 s
+Iteration 4/5
+time for new layer: 7.704042
+mergeIndex1BasedOnIndex2Connection sum0: 219.204343
+mergeIndex1BasedOnIndex2Connection sum1: 22.017221
+mergeIndex1BasedOnIndex2Connection sum2: 241.221573
+Total time for insertion: 252.108 s
+Iteration 5/5
+time for new layer: 11.182424
+mergeIndex1BasedOnIndex2Connection sum0: 224.656035
+mergeIndex1BasedOnIndex2Connection sum1: 25.466467
+mergeIndex1BasedOnIndex2Connection sum2: 250.122501
+Total time for insertion: 264.620 s
+Start searchingset ef = 100
+[search time: 8.609 s, pure query time: 8.580 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.061 s, pure query time: 8.035 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.104 s, pure query time: 8.078 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.613 s, pure query time: 7.587 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.818 s, pure query time: 5.793 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+4 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.672038
+mergeIndex1BasedOnIndex2Connection sum0: 127.766588
+mergeIndex1BasedOnIndex2Connection sum1: 13.359736
+mergeIndex1BasedOnIndex2Connection sum2: 141.126331
+Total time for insertion: 150.527 s
+Iteration 2/5
+time for new layer: 10.360137
+mergeIndex1BasedOnIndex2Connection sum0: 122.664854
+mergeIndex1BasedOnIndex2Connection sum1: 12.449720
+mergeIndex1BasedOnIndex2Connection sum2: 135.114576
+Total time for insertion: 148.789 s
+Iteration 3/5
+time for new layer: 10.202407
+mergeIndex1BasedOnIndex2Connection sum0: 124.001734
+mergeIndex1BasedOnIndex2Connection sum1: 11.761648
+mergeIndex1BasedOnIndex2Connection sum2: 135.763392
+Total time for insertion: 149.234 s
+Iteration 4/5
+time for new layer: 11.793434
+mergeIndex1BasedOnIndex2Connection sum0: 131.781420
+mergeIndex1BasedOnIndex2Connection sum1: 11.688991
+mergeIndex1BasedOnIndex2Connection sum2: 143.470417
+Total time for insertion: 158.656 s
+Iteration 5/5
+time for new layer: 9.553797
+mergeIndex1BasedOnIndex2Connection sum0: 128.730550
+mergeIndex1BasedOnIndex2Connection sum1: 11.974570
+mergeIndex1BasedOnIndex2Connection sum2: 140.705129
+Total time for insertion: 153.722 s
+Start searchingset ef = 100
+[search time: 8.153 s, pure query time: 8.126 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.863 s, pure query time: 7.839 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.862 s, pure query time: 7.838 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.859 s, pure query time: 7.835 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.862 s, pure query time: 7.837 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+8 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Total time for insertion: 642.959 s
+Iteration 2/5
+Total time for insertion: 646.336 s
+Iteration 3/5
+Total time for insertion: 639.228 s
+Iteration 4/5
+Total time for insertion: 642.461 s
+Iteration 5/5
+Total time for insertion: 642.041 s
+Start searchingset ef = 100
+[search time: 6.940 s, pure query time: 6.912 s] ef=100
+Intersection-merged index R@100 = 0.9181
+
+[search time: 6.700 s, pure query time: 6.678 s] ef=100
+Intersection-merged index R@100 = 0.9181
+
+[search time: 7.154 s, pure query time: 7.132 s] ef=100
+Intersection-merged index R@100 = 0.9181
+
+[search time: 6.896 s, pure query time: 6.874 s] ef=100
+Intersection-merged index R@100 = 0.9181
+
+[search time: 5.811 s, pure query time: 5.790 s] ef=100
+Intersection-merged index R@100 = 0.9181
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: INSERT
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: INSERT
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 358.370 s
+Iteration 2/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 360.999 s
+Iteration 3/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 357.507 s
+Iteration 4/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 353.445 s
+Iteration 5/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 341.020 s
+Insert task don't re-test the performance.
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.865775
+mergeIndex1BasedOnIndex2Connection sum0: 444.367676
+mergeIndex1BasedOnIndex2Connection sum1: 17.269381
+mergeIndex1BasedOnIndex2Connection sum2: 461.637077
+Total time for insertion: 470.792 s
+Iteration 2/5
+time for new layer: 7.310279
+mergeIndex1BasedOnIndex2Connection sum0: 147.140399
+mergeIndex1BasedOnIndex2Connection sum1: 11.199985
+mergeIndex1BasedOnIndex2Connection sum2: 158.340385
+Total time for insertion: 167.861 s
+Iteration 3/5
+time for new layer: 7.257640
+mergeIndex1BasedOnIndex2Connection sum0: 112.263292
+mergeIndex1BasedOnIndex2Connection sum1: 10.789737
+mergeIndex1BasedOnIndex2Connection sum2: 123.053033
+Total time for insertion: 132.842 s
+Iteration 4/5
+time for new layer: 7.796345
+mergeIndex1BasedOnIndex2Connection sum0: 112.588505
+mergeIndex1BasedOnIndex2Connection sum1: 10.997977
+mergeIndex1BasedOnIndex2Connection sum2: 123.586486
+Total time for insertion: 134.035 s
+Iteration 5/5
+time for new layer: 10.043688
+mergeIndex1BasedOnIndex2Connection sum0: 114.830505
+mergeIndex1BasedOnIndex2Connection sum1: 12.405460
+mergeIndex1BasedOnIndex2Connection sum2: 127.235970
+Total time for insertion: 140.394 s
+Start searchingset ef = 100
+[search time: 8.721 s, pure query time: 8.693 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 9.814 s, pure query time: 9.783 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.980 s, pure query time: 8.953 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.449 s, pure query time: 8.423 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.442 s, pure query time: 8.415 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+8 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.284400
+mergeIndex1BasedOnIndex2Connection sum0: 69.089146
+mergeIndex1BasedOnIndex2Connection sum1: 6.985279
+mergeIndex1BasedOnIndex2Connection sum2: 76.074428
+Total time for insertion: 85.604 s
+Iteration 2/5
+time for new layer: 12.653108
+mergeIndex1BasedOnIndex2Connection sum0: 70.038500
+mergeIndex1BasedOnIndex2Connection sum1: 6.440617
+mergeIndex1BasedOnIndex2Connection sum2: 76.479113
+Total time for insertion: 92.172 s
+Iteration 3/5
+time for new layer: 6.787123
+mergeIndex1BasedOnIndex2Connection sum0: 68.316071
+mergeIndex1BasedOnIndex2Connection sum1: 6.348692
+mergeIndex1BasedOnIndex2Connection sum2: 74.664764
+Total time for insertion: 84.875 s
+Iteration 4/5
+time for new layer: 6.753433
+mergeIndex1BasedOnIndex2Connection sum0: 68.531482
+mergeIndex1BasedOnIndex2Connection sum1: 6.184812
+mergeIndex1BasedOnIndex2Connection sum2: 74.716297
+Total time for insertion: 84.651 s
+Iteration 5/5
+time for new layer: 6.473177
+mergeIndex1BasedOnIndex2Connection sum0: 68.136669
+mergeIndex1BasedOnIndex2Connection sum1: 6.349780
+mergeIndex1BasedOnIndex2Connection sum2: 74.486454
+Total time for insertion: 84.150 s
+Start searchingset ef = 100
+[search time: 7.661 s, pure query time: 7.633 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.756 s, pure query time: 5.733 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.741 s, pure query time: 5.718 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.744 s, pure query time: 5.721 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.759 s, pure query time: 5.736 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+16 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Total time for insertion: 348.429 s
+Iteration 2/5
+Total time for insertion: 347.781 s
+Iteration 3/5
+Total time for insertion: 349.097 s
+Iteration 4/5
+Total time for insertion: 347.145 s
+Iteration 5/5
+Total time for insertion: 347.303 s
+Start searchingset ef = 100
+[search time: 7.743 s, pure query time: 7.717 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 7.691 s, pure query time: 7.669 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 6.198 s, pure query time: 6.177 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 6.253 s, pure query time: 6.232 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+[search time: 5.921 s, pure query time: 5.899 s] ef=100
+Intersection-merged index R@100 = 0.9183
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: INSERT
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: INSERT
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 194.460 s
+Iteration 2/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 196.301 s
+Iteration 3/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 196.106 s
+Iteration 4/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 196.702 s
+Iteration 5/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 192.026 s
+Insert task don't re-test the performance.
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.211269
+mergeIndex1BasedOnIndex2Connection sum0: 203.231840
+mergeIndex1BasedOnIndex2Connection sum1: 11.274192
+mergeIndex1BasedOnIndex2Connection sum2: 214.506049
+Total time for insertion: 223.028 s
+Iteration 2/5
+time for new layer: 10.831062
+mergeIndex1BasedOnIndex2Connection sum0: 109.532734
+mergeIndex1BasedOnIndex2Connection sum1: 10.144802
+mergeIndex1BasedOnIndex2Connection sum2: 119.677540
+Total time for insertion: 133.371 s
+Iteration 3/5
+time for new layer: 10.567142
+mergeIndex1BasedOnIndex2Connection sum0: 81.663320
+mergeIndex1BasedOnIndex2Connection sum1: 8.495421
+mergeIndex1BasedOnIndex2Connection sum2: 90.158744
+Total time for insertion: 104.323 s
+Iteration 4/5
+time for new layer: 10.064166
+mergeIndex1BasedOnIndex2Connection sum0: 87.618724
+mergeIndex1BasedOnIndex2Connection sum1: 8.151020
+mergeIndex1BasedOnIndex2Connection sum2: 95.769753
+Total time for insertion: 109.530 s
+Iteration 5/5
+time for new layer: 9.852776
+mergeIndex1BasedOnIndex2Connection sum0: 74.336909
+mergeIndex1BasedOnIndex2Connection sum1: 6.966685
+mergeIndex1BasedOnIndex2Connection sum2: 81.303602
+Total time for insertion: 94.501 s
+Start searchingset ef = 100
+[search time: 8.191 s, pure query time: 8.167 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.043 s, pure query time: 8.021 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.017 s, pure query time: 7.995 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.055 s, pure query time: 8.033 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.063 s, pure query time: 8.041 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+16 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.028052
+mergeIndex1BasedOnIndex2Connection sum0: 41.194462
+mergeIndex1BasedOnIndex2Connection sum1: 4.038462
+mergeIndex1BasedOnIndex2Connection sum2: 45.232930
+Total time for insertion: 54.454 s
+Iteration 2/5
+time for new layer: 13.004109
+mergeIndex1BasedOnIndex2Connection sum0: 41.711787
+mergeIndex1BasedOnIndex2Connection sum1: 3.718631
+mergeIndex1BasedOnIndex2Connection sum2: 45.430422
+Total time for insertion: 61.503 s
+Iteration 3/5
+time for new layer: 7.415329
+mergeIndex1BasedOnIndex2Connection sum0: 40.640195
+mergeIndex1BasedOnIndex2Connection sum1: 3.556272
+mergeIndex1BasedOnIndex2Connection sum2: 44.196471
+Total time for insertion: 54.584 s
+Iteration 4/5
+time for new layer: 7.139670
+mergeIndex1BasedOnIndex2Connection sum0: 40.675070
+mergeIndex1BasedOnIndex2Connection sum1: 2.899908
+mergeIndex1BasedOnIndex2Connection sum2: 43.574981
+Total time for insertion: 53.659 s
+Iteration 5/5
+time for new layer: 6.341714
+mergeIndex1BasedOnIndex2Connection sum0: 39.925372
+mergeIndex1BasedOnIndex2Connection sum1: 3.655716
+mergeIndex1BasedOnIndex2Connection sum2: 43.581093
+Total time for insertion: 52.704 s
+Start searchingset ef = 100
+[search time: 7.363 s, pure query time: 7.335 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.932 s, pure query time: 5.909 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.918 s, pure query time: 5.895 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.923 s, pure query time: 5.900 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.922 s, pure query time: 5.899 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+32 threads, dynamic = true
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: REBUILD
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: REBUILD
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Total time for insertion: 205.015 s
+Iteration 2/5
+Total time for insertion: 204.082 s
+Iteration 3/5
+Total time for insertion: 205.027 s
+Iteration 4/5
+Total time for insertion: 205.710 s
+Iteration 5/5
+Total time for insertion: 205.620 s
+Start searchingset ef = 100
+[search time: 6.996 s, pure query time: 6.972 s] ef=100
+Intersection-merged index R@100 = 0.9179
+
+[search time: 7.182 s, pure query time: 7.161 s] ef=100
+Intersection-merged index R@100 = 0.9179
+
+[search time: 7.258 s, pure query time: 7.237 s] ef=100
+Intersection-merged index R@100 = 0.9179
+
+[search time: 7.040 s, pure query time: 7.019 s] ef=100
+Intersection-merged index R@100 = 0.9179
+
+[search time: 6.095 s, pure query time: 6.074 s] ef=100
+Intersection-merged index R@100 = 0.9179
+
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: INSERT
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: INSERT
+loaded base vectors: 10000000 vectors of dimension 128
+Iteration 1/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 116.543 s
+Iteration 2/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 116.379 s
+Iteration 3/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 118.853 s
+Iteration 4/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 115.769 s
+Iteration 5/5
+Loading index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Loaded index from: /ssd_root/jin467/merger/indexes/bigann-index_5M.hnsw
+Total time for insertion: 114.960 s
+Insert task don't re-test the performance.
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.071765
+mergeIndex1BasedOnIndex2Connection sum0: 89.051016
+mergeIndex1BasedOnIndex2Connection sum1: 7.614762
+mergeIndex1BasedOnIndex2Connection sum2: 96.665782
+Total time for insertion: 105.933 s
+Iteration 2/5
+time for new layer: 9.960042
+mergeIndex1BasedOnIndex2Connection sum0: 63.513600
+mergeIndex1BasedOnIndex2Connection sum1: 5.229014
+mergeIndex1BasedOnIndex2Connection sum2: 68.742617
+Total time for insertion: 82.000 s
+Iteration 3/5
+time for new layer: 6.617956
+mergeIndex1BasedOnIndex2Connection sum0: 56.211181
+mergeIndex1BasedOnIndex2Connection sum1: 4.691052
+mergeIndex1BasedOnIndex2Connection sum2: 60.902236
+Total time for insertion: 70.510 s
+Iteration 4/5
+time for new layer: 6.944062
+mergeIndex1BasedOnIndex2Connection sum0: 51.247988
+mergeIndex1BasedOnIndex2Connection sum1: 4.042224
+mergeIndex1BasedOnIndex2Connection sum2: 55.290220
+Total time for insertion: 65.170 s
+Iteration 5/5
+time for new layer: 6.281530
+mergeIndex1BasedOnIndex2Connection sum0: 47.861888
+mergeIndex1BasedOnIndex2Connection sum1: 3.814430
+mergeIndex1BasedOnIndex2Connection sum2: 51.676323
+Total time for insertion: 60.875 s
+Start searchingset ef = 100
+[search time: 6.002 s, pure query time: 5.977 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.560 s, pure query time: 5.538 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.614 s, pure query time: 5.592 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.640 s, pure query time: 5.619 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.682 s, pure query time: 5.660 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+32 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.244509
+mergeIndex1BasedOnIndex2Connection sum0: 29.113698
+mergeIndex1BasedOnIndex2Connection sum1: 2.702359
+mergeIndex1BasedOnIndex2Connection sum2: 31.816063
+Total time for insertion: 40.599 s
+Iteration 2/5
+time for new layer: 6.859617
+mergeIndex1BasedOnIndex2Connection sum0: 27.710535
+mergeIndex1BasedOnIndex2Connection sum1: 4.611946
+mergeIndex1BasedOnIndex2Connection sum2: 32.322485
+Total time for insertion: 41.952 s
+Iteration 3/5
+time for new layer: 7.321198
+mergeIndex1BasedOnIndex2Connection sum0: 26.068978
+mergeIndex1BasedOnIndex2Connection sum1: 1.595735
+mergeIndex1BasedOnIndex2Connection sum2: 27.664716
+Total time for insertion: 37.885 s
+Iteration 4/5
+time for new layer: 6.787190
+mergeIndex1BasedOnIndex2Connection sum0: 25.395340
+mergeIndex1BasedOnIndex2Connection sum1: 1.553214
+mergeIndex1BasedOnIndex2Connection sum2: 26.948559
+Total time for insertion: 36.552 s
+Iteration 5/5
+time for new layer: 6.505646
+mergeIndex1BasedOnIndex2Connection sum0: 25.582189
+mergeIndex1BasedOnIndex2Connection sum1: 1.552999
+mergeIndex1BasedOnIndex2Connection sum2: 27.135191
+Total time for insertion: 36.447 s
+Start searchingset ef = 100
+[search time: 5.685 s, pure query time: 5.662 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.214 s, pure query time: 5.193 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.214 s, pure query time: 5.192 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.241 s, pure query time: 5.220 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 5.279 s, pure query time: 5.257 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+64 threads, dynamic = true
+Failed to open config file: ./config/thread/sift10m_t64
+Failed to open config file: ./config/thread/sift10m_insert_t64
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 6.394352
+mergeIndex1BasedOnIndex2Connection sum0: 27.608960
+mergeIndex1BasedOnIndex2Connection sum1: 1.334788
+mergeIndex1BasedOnIndex2Connection sum2: 28.943752
+Total time for insertion: 37.866 s
+Iteration 2/5
+time for new layer: 9.141398
+mergeIndex1BasedOnIndex2Connection sum0: 25.670365
+mergeIndex1BasedOnIndex2Connection sum1: 1.178813
+mergeIndex1BasedOnIndex2Connection sum2: 26.849183
+Total time for insertion: 38.518 s
+Iteration 3/5
+time for new layer: 7.210900
+mergeIndex1BasedOnIndex2Connection sum0: 23.931695
+mergeIndex1BasedOnIndex2Connection sum1: 3.028299
+mergeIndex1BasedOnIndex2Connection sum2: 26.959997
+Total time for insertion: 36.824 s
+Iteration 4/5
+time for new layer: 9.031668
+mergeIndex1BasedOnIndex2Connection sum0: 21.886107
+mergeIndex1BasedOnIndex2Connection sum1: 1.243267
+mergeIndex1BasedOnIndex2Connection sum2: 23.129376
+Total time for insertion: 34.839 s
+Iteration 5/5
+time for new layer: 9.712831
+mergeIndex1BasedOnIndex2Connection sum0: 21.922423
+mergeIndex1BasedOnIndex2Connection sum1: 1.603492
+mergeIndex1BasedOnIndex2Connection sum2: 23.525921
+Total time for insertion: 36.044 s
+Start searchingset ef = 100
+[search time: 9.179 s, pure query time: 9.155 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.036 s, pure query time: 8.012 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.037 s, pure query time: 8.014 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.047 s, pure query time: 8.023 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 8.043 s, pure query time: 8.021 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+64 threads, dynamic = false
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 9.094365
+mergeIndex1BasedOnIndex2Connection sum0: 29.784221
+mergeIndex1BasedOnIndex2Connection sum1: 1.091607
+mergeIndex1BasedOnIndex2Connection sum2: 30.875833
+Total time for insertion: 42.284 s
+Iteration 2/5
+time for new layer: 8.917269
+mergeIndex1BasedOnIndex2Connection sum0: 21.718382
+mergeIndex1BasedOnIndex2Connection sum1: 0.925294
+mergeIndex1BasedOnIndex2Connection sum2: 22.643680
+Total time for insertion: 33.925 s
+Iteration 3/5
+time for new layer: 10.041903
+mergeIndex1BasedOnIndex2Connection sum0: 21.412529
+mergeIndex1BasedOnIndex2Connection sum1: 1.007195
+mergeIndex1BasedOnIndex2Connection sum2: 22.419729
+Total time for insertion: 34.890 s
+Iteration 4/5
+time for new layer: 9.275660
+mergeIndex1BasedOnIndex2Connection sum0: 21.297009
+mergeIndex1BasedOnIndex2Connection sum1: 2.814545
+mergeIndex1BasedOnIndex2Connection sum2: 24.111555
+Total time for insertion: 35.907 s
+Iteration 5/5
+time for new layer: 10.204418
+mergeIndex1BasedOnIndex2Connection sum0: 20.812614
+mergeIndex1BasedOnIndex2Connection sum1: 1.064796
+mergeIndex1BasedOnIndex2Connection sum2: 21.877411
+Total time for insertion: 34.650 s
+Start searchingset ef = 100
+[search time: 8.201 s, pure query time: 8.177 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.906 s, pure query time: 7.885 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.904 s, pure query time: 7.883 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.896 s, pure query time: 7.875 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[search time: 7.872 s, pure query time: 7.851 s] ef=100
+Intersection-merged index R@100 = 0.9140
+
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 

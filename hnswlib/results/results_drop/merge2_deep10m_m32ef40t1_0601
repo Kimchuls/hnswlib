@@ -1,0 +1,23 @@
+./exps ./config/deep10m_merge_2 
+[?2004lfvecs_read: /ssd_root/dataset/deep10M/deep10M_base.fvecs
+loaded base vectors: 10000000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_query.fvecs
+loaded query vectors: 10000 vectors of dimension 96
+fvecs_read: /ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+mergeIndex1BasedOnIndex2Connection sum0: 169.943292
+mergeIndex1BasedOnIndex2Connection sum1: 7.599942
+mergeIndex1BasedOnIndex2Connection sum2: 177.543240
+Total time for insertion: 186.274 s
+Iteration 2/5
+mergeIndex1BasedOnIndex2Connection sum0: 144.852691
+mergeIndex1BasedOnIndex2Connection sum1: 9.751101
+mergeIndex1BasedOnIndex2Connection sum2: 154.603790
+Total time for insertion: 161.909 s
+Iteration 3/5
+Killed
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 
+[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ^C[?2004l[?2004h[?2004l
+[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./exps ./config/deep10m_merge_2 [8Pexport OMP_NUM_THREADS=1./exps ./config/deep10m_merge_2 [K

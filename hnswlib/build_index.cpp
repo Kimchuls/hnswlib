@@ -17,6 +17,66 @@
 #include <thread>
 using namespace std;
 
+template <class Function>
+inline void ParallelFor(size_t start, size_t end, size_t numThreads, Function fn) {
+    if (numThreads <= 0) {
+        numThreads = std::thread::hardware_concurrency();
+    }
+
+    if (numThreads == 1) {
+        for (size_t id = start; id < end; id++) {
+            fn(id, 0);
+            if (id % 200000 == 0) {
+                std::cout << "Processed " << id << " items." << std::endl;
+            }
+        }
+    } else {
+        std::vector<std::thread> threads;
+        std::atomic<size_t> current(start);
+
+        // keep track of exceptions in threads
+        // https://stackoverflow.com/a/32428427/1713196
+        std::exception_ptr lastException = nullptr;
+        std::mutex lastExceptMutex;
+
+        for (size_t threadId = 0; threadId < numThreads; ++threadId) {
+            threads.push_back(std::thread([&, threadId] {
+                while (true) {
+                    size_t id = current.fetch_add(1);
+
+                    if (id >= end) {
+                        break;
+                    }
+
+                    try {
+                        fn(id, threadId);
+                        if (id % 200000 == 0) {
+                            std::cout << "Processed " << id << " items." << std::endl;
+                        }
+                    } catch (...) {
+                        std::unique_lock<std::mutex> lastExcepLock(lastExceptMutex);
+                        lastException = std::current_exception();
+                        /*
+                         * This will work even when current is the largest value that
+                         * size_t can fit, because fetch_add returns the previous value
+                         * before the increment (what will result in overflow
+                         * and produce 0 instead of current + 1).
+                         */
+                        current = end;
+                        break;
+                    }
+                }
+            }));
+        }
+        for (auto &thread : threads) {
+            thread.join();
+        }
+        if (lastException) {
+            std::rethrow_exception(lastException);
+        }
+    }
+}
+
 struct Config {
     int dim;
     long max_elements;
@@ -80,27 +140,14 @@ Config loadConfig(const std::string &filename) {
     return cfg;
 }
 
-float *read_vectors(const std::string &filepath, int num, size_t *d_out, size_t *n_out) {
-    if (filepath.size() >= 6) {
-        std::string suffix2 = filepath.substr(filepath.size() - 6); // ".fvecs" 或 ".bvecs"
-        if (suffix2 == ".fvecs") {
-            return fvecs_read(filepath.c_str(), d_out, n_out);
-        }
-        if (suffix2 == ".bvecs") {
-            return bvecs_read(filepath.c_str(), num, d_out, n_out);
-        }
-    }
-    std::cerr << "Unsupported vector file format: " << filepath << std::endl;
-    std::exit(1);
-}
 // 修改后的 workload 函数：从配置文件读取所有参数
 void workload(const std::string &config_path) {
     // 读取配置
     Config cfg = loadConfig(config_path);
     // 直接使用 cfg 中的字段代替原来硬编码的值
     int dim = cfg.dim;
-    long max_elements = cfg.max_elements;
-    int nb = cfg.nb;
+    size_t max_elements = cfg.max_elements;
+    size_t nb = cfg.nb;
     int M = cfg.M;
     int ef_construction = cfg.ef_construction;
     int lrange = cfg.lrange;
@@ -124,13 +171,15 @@ void workload(const std::string &config_path) {
 
     alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
     double t0 = elapsed();
-    for (int i = lrange; i < rrange; i++) {
-        alg_hnsw0->addPoint(xb + i * dim, i);
-        if((i+1)%200000 == 0) {
-            printf("checkpoint: %d, [%.3f s] \n", i + 1, elapsed() - t0);
-        }
-    }
-    printf("[%.3f s] build index (dataset size = %ld - %ld)\n", elapsed() - t0, lrange, rrange);
+    // for (int i = lrange; i < rrange; i++) {
+    //     alg_hnsw0->addPoint(xb + i * dim, i);
+    //     if((i+1)%200000 == 0) {
+    //         printf("checkpoint: %d, [%.3f s] \n", i + 1, elapsed() - t0);
+    //     }
+    // }
+    int thread = omp_get_max_threads();
+    ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
+    printf("[%.3f s] build index (dataset size = %d - %d)\n", elapsed() - t0, lrange, rrange);
 
     // 保存索引到文件（路径同样可以在配置文件中指定，示例这里硬编码）
     alg_hnsw0->saveIndex(const_cast<char *>(cfg.index_path.c_str()));

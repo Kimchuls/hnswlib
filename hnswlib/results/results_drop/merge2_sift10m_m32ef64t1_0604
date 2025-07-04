@@ -1,0 +1,23 @@
+Configuration:
+  Workload Type: SIFT10M
+  Merge Method: TWO_MERGE
+  Dimension: 128
+  Max Elements: 10000000
+  Base Vectors: 10000000
+  M: 32
+  ef_construction: 64
+  k: 100
+  Query Vectors: 10000
+  Iterations: 5
+  Rerun: true
+loaded query vectors: 10000 vectors of dimension 128
+fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
+loaded ground-truth for 10000 queries, top 100
+Merge method: TWO_MERGE
+Iteration 1/5
+time for new layer: 5.829677
+mergeIndex1BasedOnIndex2Connection sum0: 373.317273
+mergeIndex1BasedOnIndex2Connection sum1: 40.387663
+mergeIndex1BasedOnIndex2Connection sum2: 413.704939
+Total time for insertion: 421.980 s
+Start searchingset ef = 100

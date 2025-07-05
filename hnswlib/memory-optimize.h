@@ -103,33 +103,21 @@ int write_to_disk(const std::string &location,
 template <typename dist_t>
 class HierarchicalNSW_ME : public AlgorithmInterface<dist_t> {
 public:
-    // static const tableint MAX_LABEL_OPERATION_LOCKS = 65536;
-    // static const unsigned char DELETE_MARK = 0x01;
-
     size_t max_elements_{0};
-    mutable std::atomic<size_t> cur_element_count{0}; // current number of elements
+    mutable std::atomic<size_t> cur_element_count{0};
     size_t size_data_per_element_{0};
     size_t size_dist_per_element_{0};
     size_t size_links_per_element_{0};
     size_t size_dist_links_per_element_{0};
-    // mutable std::atomic<size_t> num_deleted_{0}; // number of deleted elements
     size_t M_{0};
     size_t maxM_{0};
     size_t maxM0_{0};
     size_t ef_construction_{0};
-    // size_t ef_{0};
-    // double time_counter_{0.0};
 
     double mult_{0.0}, revSize_{0.0};
     int maxlevel_{0};
 
     std::unique_ptr<VisitedListPool> visited_list_pool_{nullptr};
-
-    // Locks operations with element by label value
-    // mutable std::vector<std::mutex> label_op_locks_;
-
-    // std::mutex global;
-    // std::vector<std::mutex> link_list_locks_;
 
     tableint enterpoint_node_{0};
 
@@ -140,8 +128,8 @@ public:
     char **linkLists_{nullptr};
     char *dist_level0_memory_{nullptr};
     char **dist_linkLists_{nullptr};
-    std::vector<int> element_levels_; // keeps level of each element
-    std::vector<int> id_data_map_;    // keeps level of each element
+    std::vector<int> element_levels_; 
+    std::vector<int> id_data_map_; 
     VarArray data_;
 
     size_t data_size_{0};
@@ -149,19 +137,7 @@ public:
     DISTFUNC<dist_t> fstdistfunc_;
     void *dist_func_param_{nullptr};
 
-    // mutable std::mutex label_lookup_lock; // lock for label_lookup_
     std::unordered_map<labeltype, tableint> label_lookup_;
-
-    // std::default_random_engine level_generator_;
-    // std::default_random_engine update_probability_generator_;
-
-    // mutable std::atomic<long> metric_distance_computations{0};
-    // mutable std::atomic<long> metric_hops{0};
-
-    // bool allow_replace_deleted_ = false; // flag to replace deleted elements (marked as deleted) during insertions
-
-    // std::mutex deleted_elements_lock;              // lock for deleted_elements
-    // std::unordered_set<tableint> deleted_elements; // contains internal ids of deleted elements
 
     size_t index_offset_list0{0};
     size_t index_offset_dist0{0};
@@ -176,20 +152,13 @@ public:
         size_t max_elements,
         size_t M = 16,
         size_t ef_construction = 200
-        /*,
-        size_t random_seed = 100,
-        bool allow_replace_deleted = false*/
         ) :
-        // label_op_locks_(MAX_LABEL_OPERATION_LOCKS),
-        // link_list_locks_(max_elements),
         element_levels_(max_elements),
         id_data_map_(max_elements, -1),
         index_linklist_offset(max_elements + 1),
-        index_distlist_offset(max_elements + 1) /*,
-           allow_replace_deleted_(allow_replace_deleted) */
+        index_distlist_offset(max_elements + 1)
     {
         max_elements_ = max_elements;
-        // num_deleted_ = 0;
         data_size_ = s->get_data_size();
         fstdistfunc_ = s->get_dist_func();
         dist_func_param_ = s->get_dist_func_param();
@@ -203,10 +172,6 @@ public:
         maxM_ = M_;
         maxM0_ = M_ * 2;
         ef_construction_ = std::max(ef_construction, M_);
-        // ef_ = 10;
-
-        // level_generator_.seed(random_seed);
-        // update_probability_generator_.seed(random_seed + 1);
 
         size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint);
         size_data_per_element_ = size_links_level0_ + data_size_ + sizeof(labeltype);
@@ -216,18 +181,10 @@ public:
         offsetLevel0_ = 0;
         data_ = VarArray(data_size_);
 
-        // data_level0_memory_ = (char *)malloc(max_elements_ * size_data_per_element_);
-        // if (data_level0_memory_ == nullptr)
-        //     throw std::runtime_error("Not enough memory");
-        // dist_level0_memory_ = (char *)malloc(max_elements_ * size_dist_per_element_);
-        // if (dist_level0_memory_ == nullptr)
-        //     throw std::runtime_error("Not enough memory");
-
         cur_element_count = 0;
 
         visited_list_pool_ = std::unique_ptr<VisitedListPool>(new VisitedListPool(1, max_elements));
 
-        // initializations for special treatment of the first node
         enterpoint_node_ = -1;
         maxlevel_ = -1;
         linkLists_ = (char **)malloc(sizeof(void *) * max_elements_);
@@ -239,8 +196,6 @@ public:
 
         size_links_per_element_ = maxM_ * sizeof(tableint) + sizeof(linklistsizeint);
         size_dist_links_per_element_ = maxM_ * sizeof(dist_t);
-        // mult_ = 1 / log(1.0 * M_);
-        // revSize_ = 1.0 / mult_;
     }
 
     void allocate_level0() {
@@ -259,22 +214,6 @@ public:
         dist_level0_memory_ = nullptr;
     }
 
-    void allocate_linklist(int level) {
-        int offset = data_.size();
-        for (size_t i = 0; i < cur_element_count; i++) {
-            if (element_levels_[i] >= level) {
-                linkLists_[i] = (char *)malloc(size_links_per_element_); // TODO: check +1 or not
-                if (linkLists_[i] == nullptr)
-                    throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
-                dist_linkLists_[i] = (char *)malloc(size_dist_links_per_element_);
-            }
-            if (element_levels_[i] == level) {
-                id_data_map_[i] = offset;
-                // TODO: load data into data_, and maintain the map
-            }
-        }
-    }
-
     void clear_linklist() {
         for (tableint i = 0; i < cur_element_count; i++) {
             if (linkLists_[i] != nullptr) {
@@ -284,9 +223,6 @@ public:
                 dist_linkLists_[i] = nullptr;
             }
         }
-        // free(linkLists_);
-        // free(dist_linkLists_);
-        // linkLists_ = nullptr;
     }
 
     void clear() {
@@ -334,8 +270,6 @@ public:
         if (!input.is_open())
             throw std::runtime_error("Cannot open file");
         file_path = location;
-        // clear();
-        // get file size:
         input.seekg(0, input.end);
         std::streampos total_filesize = input.tellg();
         input.seekg(0, input.beg);
@@ -382,7 +316,6 @@ public:
 
         auto pos = input.tellg();
 
-        /// Optional - check if index is ok:
         input.seekg(cur_element_count * size_data_per_element_, input.cur);
         input.seekg(cur_element_count * size_dist_per_element_, input.cur);
         for (size_t i = 0; i < cur_element_count; i++) {
@@ -403,23 +336,12 @@ public:
             }
         }
 
-        // throw exception if it either corrupted or old index
         if (input.tellg() != total_filesize)
             throw std::runtime_error("Index seems to be corrupted or unsupported");
 
         input.clear();
-        /// Optional check end
 
         input.seekg(pos, input.beg);
-
-        // data_level0_memory_ = (char *)malloc(max_elements * size_data_per_element_);
-        // if (data_level0_memory_ == nullptr)
-        //     throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
-        // input.read(data_level0_memory_, cur_element_count * size_data_per_element_);
-        // dist_level0_memory_ = (char *)malloc(max_elements * size_dist_per_element_);
-        // if (dist_level0_memory_ == nullptr)
-        //     throw std::runtime_error("Not enough memory: loadIndex failed to allocate level0");
-        // input.read(dist_level0_memory_, cur_element_count * size_dist_per_element_);
         input.seekg(cur_element_count * size_data_per_element_, input.cur);
         input.seekg(cur_element_count * size_dist_per_element_, input.cur);
 
@@ -428,20 +350,7 @@ public:
 
         size_links_level0_ = maxM0_ * sizeof(tableint) + sizeof(linklistsizeint);
 
-        // std::vector<std::mutex>(max_elements).swap(link_list_locks_);
-        // std::vector<std::mutex>(MAX_LABEL_OPERATION_LOCKS).swap(label_op_locks_);
-
-        // visited_list_pool_.reset(new VisitedListPool(1, max_elements));
-
-        // linkLists_ = (char **)malloc(sizeof(void *) * max_elements);
-        // if (linkLists_ == nullptr)
-        //     throw std::runtime_error("Not enough memory: loadIndex failed to allocate linklists");
-        // dist_linkLists_ = (char **)malloc(sizeof(void *) * max_elements_);
-        // if (dist_linkLists_ == nullptr)
-        //     throw std::runtime_error("Not enough memory: HierarchicalNSW failed to allocate dist_linkLists_");
         element_levels_ = std::vector<int>(max_elements);
-        // revSize_ = 1.0 / mult_;
-        // ef_ = 10;
         size_t offset = 0;
         for (size_t i = 0; i < cur_element_count; i++) {
             unsigned int linkListSize;
@@ -528,7 +437,6 @@ public:
             throw std::runtime_error("Not enough memory");
         read_from_disk(file_path, index_offset_list0, data_level0_memory_, cur_element_count * size_data_per_element_);
         read_from_disk(file_path, index_offset_dist0, dist_level0_memory_, cur_element_count * size_dist_per_element_);
-        // Here I limit the size of list/dist to curr_element count rather than maximun number, in order to save memory
     }
 
     void load_graph(int level, bool with_data = true) {
@@ -584,11 +492,9 @@ public:
 
     void get_dist_at_level_from_disk(tableint internal_id, int level, char *dest, size_t size) const {
         size_t offset = get_dist_position(internal_id, level);
-        // size_t size = (level == 0) ? size_dist_per_element_ : size_dist_links_per_element_;
         read_from_disk(file_path, offset, dest, size);
     }
 
-    // Every time we load link from disk/memory, then read list count from that
     unsigned short int getListCount(linklistsizeint *ptr) const {
         return *((unsigned short int *)ptr);
     }
@@ -716,6 +622,8 @@ void deepCopyOneLayerOnIndex(HierarchicalNSW_ME<dist_t> *index,
     index->clear_linklist();
 }
 /*
+ * This is the specific function for ME version of algorithm.
+ * 
  * This function, which is used in search2Layer, searching the graph from the
  * top layer to the level_low layer. If the enterpoint_node is -1, it will be
  * set to enterpoint_node_. Otherwise, the enterpoint_node will be used as the
@@ -762,32 +670,21 @@ void HierarchicalNSW_ME<dist_t>::search2Layer(const void *query_data,
         enterpoint_node = currObj;
         return;
     }
-    // printf("method1, level %d, enterpoint_node: %d, currObj: %d\n",
-    // level_lower, enterpoint_node, currObj);
 
     VisitedList *vl = visited_list_pool_->getFreeVisitedList();
     vl_type *visited_array = vl->mass;
     vl_type visited_array_tag = vl->curV;
 
-    // std::priority_queue<std::pair<dist_t, tableint>,
-    // std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> candidateSet;
 
     dist_t lowerBound;
     dist_t entry_dist;
-    // TODO: We ignore deleted condition, which has little relation with our context (merging two index), but it is very easy to fix
-    // if (!isMarkedDeleted(currObj)) {
     dist_t dist = fstdistfunc_(query_data, getDataByInternalId_from_memory(currObj, level_higher), dist_func_param_);
     top_candidates->emplace(dist, currObj + offset);
     enterpoint_node = currObj;
     entry_dist = dist;
     lowerBound = dist;
     candidateSet.emplace(-dist, currObj);
-    // } else {
-    //     entry_dist = std::numeric_limits<dist_t>::max();
-    //     lowerBound = std::numeric_limits<dist_t>::max();
-    //     candidateSet.emplace(-lowerBound, currObj);
-    // }
     visited_array[currObj] = visited_array_tag;
 
     while (!candidateSet.empty()) {
@@ -799,13 +696,10 @@ void HierarchicalNSW_ME<dist_t>::search2Layer(const void *query_data,
 
         tableint curNodeNum = curr_el_pair.second;
 
-        // std::unique_lock<std::mutex> lock(link_list_locks_[curNodeNum]);
 
         int *data = (int *)get_linklist_at_level_from_memory(curNodeNum, level_higher);
         size_t size = getListCount((linklistsizeint *)data);
         tableint *datal = (tableint *)(data + 1);
-        // TODO: fix getDataByInternalId, for loaded graph, we can directly return pointer
-        // TODO: important here
 #ifdef USE_SSE
         _mm_prefetch((char *)(visited_array + *(data + 1)), _MM_HINT_T0);
         _mm_prefetch((char *)(visited_array + *(data + 1) + 64), _MM_HINT_T0);
@@ -832,13 +726,11 @@ void HierarchicalNSW_ME<dist_t>::search2Layer(const void *query_data,
                 _mm_prefetch(getDataByInternalId_from_memory(candidateSet.top().second, level_higher), _MM_HINT_T0);
 #endif
 
-                // if (!isMarkedDeleted(candidate_id)) {
                 top_candidates->emplace(dist1, candidate_id + offset);
                 if (entry_dist > dist1) {
                     enterpoint_node = candidate_id;
                     entry_dist = dist1;
                 }
-                // }
 
                 while (top_candidates->size() > cnt)
                     top_candidates->pop();
@@ -883,11 +775,8 @@ void HNSWMerger_ME(
     size_t new_max_elements = index1->max_elements_ + index2->max_elements_;
 
     tableint *entry_point_collect_index1_on_index2 = new tableint[element_count_for_index1];
-    // tableint *entry_point_collect_index2_on_index1 = new tableint[element_count_for_index2];
     memset(entry_point_collect_index1_on_index2, -1, element_count_for_index1 * sizeof(int));
-    // memset(entry_point_collect_index2_on_index1, -1, element_count_for_index2 * sizeof(int));
     int entry_point_index1 = index2->enterpoint_node_;
-    // int entry_point_index2 = index1->enterpoint_node_;
 
     size_t maxLevel = std::max(index1->maxlevel_, index2->maxlevel_);
     std::vector<std::vector<int>> layer_node_for_index1(maxLevel + 2);
@@ -923,7 +812,6 @@ void HNSWMerger_ME(
         if (ret)
             throw std::runtime_error("Failed to load index1 data level0");
 
-        /* create new lighter layer */
         int layer_max_min = std::min(index1->maxlevel_, index2->maxlevel_);
         int bound = layer_node_for_index1[layer_max_min + 1].size() + layer_node_for_index2[layer_max_min + 1].size();
         if (bound == 0) {
@@ -960,7 +848,7 @@ void HNSWMerger_ME(
                         ++it;
                     }
                 }
-                if (newLayer.size() > 0) { /* construct graph for new layer */
+                if (newLayer.size() > 0) { 
                     if (newLayer.size() > M) {
                         throw std::logic_error("too many points on new-top here, debug for less neighbors");
                     }
@@ -991,7 +879,7 @@ void HNSWMerger_ME(
                 index2->maxlevel_++;
                 index2->enterpoint_node_ = layer_node_for_index2[layer_max_min + 1][0];
             }
-        } /* end of new code */
+        } 
         if (index2->maxlevel_ < index1->maxlevel_) {
             throw std::logic_error("index1 is higher than index2, wrong case");
         }
@@ -1006,7 +894,6 @@ void HNSWMerger_ME(
             alg_hnsw->label_lookup_[alg_hnsw->getExternalLabel(id)] = id;
         }
 
-        // TODO: fix increased-layer nodes
         auto allocateMemory = [&](hnswlib::HierarchicalNSW_ME<dist_t> *index, int element_count_offset) {
             for (int id = 0; id < index->cur_element_count; id++) {
                 tableint new_c = id + element_count_offset;
@@ -1030,9 +917,9 @@ void HNSWMerger_ME(
         allocateMemory(index1, index1_offset);
         allocateMemory(index2, index2_offset);
 
-        printf("time for new layer: %f\n", elapsed() - s0);
+        // printf("time for new layer: %f\n", elapsed() - s0);
         alg_hnsw->saveIndex(location_merged);
-        printf("total time for meta data and index setting: %f\n", elapsed() - s0);
+        // printf("total time for meta data and index setting: %f\n", elapsed() - s0);
         delete alg_hnsw;
     }
 
@@ -1055,7 +942,7 @@ void HNSWMerger_ME(
         }
         if (layer_node_for_index1[level].size() == 0 && layer_node_for_index2[level].size() > 0) {
             deepCopyOneLayerOnIndex(index2, alg_hnsw, level, index2_offset, layer_node_for_index2);
-            // continue;
+            continue;
         }
 
         sw2.reset();
@@ -1159,9 +1046,6 @@ void HNSWMerger_ME(
 #pragma omp parallel for
         for (int b = 0; b < layer_node_for_index2[level].size(); b += batch_size) {
             for (int i = b; i < b + batch_size && i < layer_node_for_index2[level].size(); ++i) {
-                // if(level == 2){
-                //     printf("xxx\n");
-                // }
                 tableint cur_c = layer_node_for_index2[level][i];
                 tableint new_c = cur_c + index2_offset;
                 std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW_ME<dist_t>::CompareByFirst> top_candidates;
@@ -1237,20 +1121,10 @@ void HNSWMerger_ME(
     delete index1;
     delete index2;
 
-    // int level = 0;
-    // size_t ll_cur_size = (level == 0) ? alg_hnsw->size_links_level0_ : alg_hnsw->size_links_per_element_;
-    // int *ll_cur = (int *)malloc(ll_cur_size);
-
-    // size_t dist_size = (level == 0) ? alg_hnsw->size_dist_per_element_ : alg_hnsw->size_dist_links_per_element_;
-    // dist_t *dist = (dist_t *)malloc(dist_size);
-    // alg_hnsw->get_linklist_at_level_from_disk(2694445, level, reinterpret_cast<char *>(ll_cur), ll_cur_size);
-    // // int linklistCount = alg_hnsw->getListCount(ll_cur);
-    // size_t size = alg_hnsw->getListCount((linklistsizeint *)ll_cur);
-    // printf("%d\n",size);
-    printf("mergeIndex1BasedOnIndex2Connection sum0: %f\n", sum0 / 1000000);
-    printf("mergeIndex1BasedOnIndex2Connection sum1: %f\n", sum1 / 1000000);
-    printf("mergeIndex1BasedOnIndex2Connection sum2: %f\n", sum2 / 1000000);
-    global_counter += sum2 / 1000000;
+    // printf("mergeIndex1BasedOnIndex2Connection sum0: %f\n", sum0 / 1000000);
+    // printf("mergeIndex1BasedOnIndex2Connection sum1: %f\n", sum1 / 1000000);
+    // printf("mergeIndex1BasedOnIndex2Connection sum2: %f\n", sum2 / 1000000);
+    // global_counter += sum2 / 1000000;
 }
 
 } // namespace hnswlib

@@ -1,7 +1,4 @@
-// #include "hnswlib.h"
 #include "extension.h"
-// #include "scripts/cluster_based_method.h"
-// #include "./scripts/test_config.h"
 #include "test_readfile.h"
 #include <cstdint> // For int64_t
 #include <cstdio>
@@ -92,7 +89,6 @@ struct Config {
     std::vector<int> efs_array;
 };
 
-// 简单的 key=value 配置文件解析函数
 Config loadConfig(const std::string &filename) {
     Config cfg;
     std::map<std::string, std::string> kv;
@@ -103,14 +99,12 @@ Config loadConfig(const std::string &filename) {
     }
     std::string line;
     while (std::getline(infile, line)) {
-        // 去掉首尾空白
         std::istringstream linestream(line);
         std::string key;
         if (line.empty() || line[0] == '#') continue;
         if (line.find('=') == std::string::npos) continue;
         key = line.substr(0, line.find('='));
         std::string value = line.substr(line.find('=') + 1);
-        // 去掉可能的空格
         auto trim = [](std::string &s) {
             size_t start = s.find_first_not_of(" \t\r\n");
             size_t end = s.find_last_not_of(" \t\r\n");
@@ -126,7 +120,6 @@ Config loadConfig(const std::string &filename) {
     }
     infile.close();
 
-    // 将字符串转换为对应类型
     cfg.dim = std::stoi(kv["dim"]);
     cfg.max_elements = std::stol(kv["max_elements"]);
     cfg.nb = std::stoi(kv["nb"]);
@@ -140,11 +133,8 @@ Config loadConfig(const std::string &filename) {
     return cfg;
 }
 
-// 修改后的 workload 函数：从配置文件读取所有参数
 void workload(const std::string &config_path) {
-    // 读取配置
     Config cfg = loadConfig(config_path);
-    // 直接使用 cfg 中的字段代替原来硬编码的值
     int dim = cfg.dim;
     size_t max_elements = cfg.max_elements;
     size_t nb = cfg.nb;
@@ -158,11 +148,9 @@ void workload(const std::string &config_path) {
         std::exit(1);
     }
 
-    // 创建 L2 空间与 HNSW 索引
     hnswlib::L2Space space(dim);
     hnswlib::HierarchicalNSW<float> *alg_hnsw0 = nullptr;
 
-    // 读取 base 数据集
     float *xb = new float[dim * nb];
     size_t dd2 = dim;
     size_t nt2 = nb;
@@ -171,39 +159,19 @@ void workload(const std::string &config_path) {
 
     alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
     double t0 = elapsed();
-    // for (int i = lrange; i < rrange; i++) {
-    //     alg_hnsw0->addPoint(xb + i * dim, i);
-    //     if((i+1)%200000 == 0) {
-    //         printf("checkpoint: %d, [%.3f s] \n", i + 1, elapsed() - t0);
-    //     }
-    // }
     int thread = omp_get_max_threads();
     ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
     printf("[%.3f s] build index (dataset size = %d - %d)\n", elapsed() - t0, lrange, rrange);
 
-    // 保存索引到文件（路径同样可以在配置文件中指定，示例这里硬编码）
     alg_hnsw0->saveIndex(const_cast<char *>(cfg.index_path.c_str()));
 }
 
 int main(int argc, char *argv[]) {
-    // const char *value = "1";
-    // if (argc >= 2) {
-    //   value = argv[1];
-    // }
-
-    // setenv("OPENBLAS_NUM_THREADS", value, 1);
-    // setenv("GOTO_NUM_THREADS", value, 1);
-    // setenv("OMP_DYNAMIC", "false", 1);
-    // setenv("OMP_NUM_THREADS", value, 1);
-
-    // create_index();
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <config_file_path>" << std::endl;
         return 1;
     }
     std::string config_path = argv[1];
     workload(config_path);
-    // workload();
-
     return 0;
 }

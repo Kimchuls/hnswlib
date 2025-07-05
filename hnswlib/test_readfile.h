@@ -88,53 +88,45 @@ float* load_and_convert_to_float(const char* fname, int num_vectors_to_read, siz
       abort();
   }
 
-  // 读取向量维度
   int d;
   fread(&d, sizeof(int), 1, f);
   assert((d > 0 && d < 1000000) || !"Unreasonable dimension");
   fseek(f, 0, SEEK_SET);
-  // 检查文件大小是否符合预期
   struct stat st;
   fstat(fileno(f), &st);
   size_t sz = st.st_size;
 
-  // 每个向量包含：1个int (维度指示符) + d个uint8数据
   size_t per_vector_size = sizeof(int) + d * sizeof(uint8_t);
   assert(sz % per_vector_size == 0 || !"Weird file size");
 
-  size_t n = sz / per_vector_size; // 向量数量
-  n = num_vectors_to_read > 0 ? std::min(num_vectors_to_read, (int)n) : n; // 如果指定了读取数量，则取最小值
+  size_t n = sz / per_vector_size; 
+  n = num_vectors_to_read > 0 ? std::min(num_vectors_to_read, (int)n) : n; 
   *d_out = d;
   *n_out = n;
 
   std::cout << "d: " << d << "  n:" << n << std::endl;
-  // 分配最终存储的float数组
   float* result = new float[n * d];
 
   size_t vectors_left = n;
-  size_t offset = 0; // 用于在 result 中定位当前写入位置
+  size_t offset = 0;
 
   while (vectors_left > 0) {
       size_t current_batch_size = std::min(batch_size, vectors_left);
 
-      // 临时缓冲区：每个向量前有1个int头，后接d个uint8数据
       std::vector<uint8_t> temp(per_vector_size * current_batch_size);
       size_t nr = fread(temp.data(), sizeof(uint8_t), temp.size(), f);
       std::cout << "vector size:"<<  current_batch_size <<" nr:" << nr << "  temp size:" << temp.size() << std::endl;
       assert(nr == temp.size() || !"Could not read batch");
 
-      // 转换并存入 result
       for (size_t i = 0; i < current_batch_size; i++) {
-          // 跳过维度指示符 (1个int)
           const uint8_t* data_ptr = temp.data() + i * per_vector_size + sizeof(int);
 
-          // 将 uint8 转换为 float
           for (size_t j = 0; j < d; j++) {
               result[offset + i * d + j] = static_cast<float>(data_ptr[j]);
           }
       }
 
-      offset += current_batch_size * d; // 更新写入偏移
+      offset += current_batch_size * d;
       vectors_left -= current_batch_size;
   }
 
@@ -169,7 +161,6 @@ float* load_and_convert_to_float_range(const char* fname, size_t start_index, si
 
   float* result = new float[n * d];
 
-  // 跳过前面的向量
   fseek(f, start_index * per_vector_size, SEEK_SET);
 
   size_t vectors_left = n;
@@ -199,7 +190,7 @@ float* load_and_convert_to_float_range(const char* fname, size_t start_index, si
 
 float *read_vectors(const std::string &filepath, int num, size_t *d_out, size_t *n_out) {
     if (filepath.size() >= 6) {
-        std::string suffix2 = filepath.substr(filepath.size() - 6); // ".fvecs" 或 ".bvecs"
+        std::string suffix2 = filepath.substr(filepath.size() - 6); 
         if (suffix2 == ".fvecs") {
             return fvecs_read(filepath.c_str(), d_out, n_out);
         }

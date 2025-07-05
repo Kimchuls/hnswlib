@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# save as run_and_log_mem.sh，并 chmod +x
 
 export OPENBLAS_NUM_THREADS=1
 export GOTO_NUM_THREADS=1
@@ -12,22 +11,18 @@ if [ $# -lt 1 ]; then
 fi
 
 LOG_FILE=mem.log
-INTERVAL=1   # 采样间隔，单位秒
+INTERVAL=1  
 
-# 记录脚本启动时刻（秒级时间戳）
 START=$(date +%s)
 
-# 启动你的程序（放后台），并捕获它的 PID
 "$@" &
 PID=$!
 
-# 捕捉 SIGINT/SIGTERM 信号，终止子进程并退出
 trap 'echo "Caught SIGINT, killing child $PID…"; kill -TERM $PID 2>/dev/null; exit 1' INT TERM
 
 echo "Started $* with PID=$PID"
 echo "# t_elapsed_s RSS_MB" > "$LOG_FILE"
 
-# 轮询记录内存
 while kill -0 "$PID" 2>/dev/null; do
   now=$(date +%s)
   t_elapsed=$(( now - START ))

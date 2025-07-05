@@ -4,9 +4,7 @@
  * For fair comparing with our algorithm, we only convert key function from python code,
  * and use the original HNSWlib code as much as possible.
  */
-// #include "hnswalg.h"
 #include "extension.h"
-// #include "baseline.h"
 #include <mutex>
 #include <omp.h>
 
@@ -44,13 +42,7 @@ HierarchicalNSW<dist_t> *BasicMerge(HierarchicalNSW<dist_t> *index1, Hierarchica
     std::vector<std::vector<int>> layer_node_for_index2(maxLevel + 2);
     index2->searchNodeOnEachLayer(layer_node_for_index2);
 
-    /* create new ligher layer */
-
     alg_hnsw->enterpoint_node_ = layer_node_for_index2[maxLevel][0] + index2_offset;
-
-    // element_levels_ cannot use memcpy because of the order of element compared with external label.
-    // memcpy(alg_hnsw->element_levels_.data(), index1->element_levels_.data(), sizeof(int) * element_count_for_index1);
-    // memcpy(alg_hnsw->element_levels_.data() + sizeof(int) * element_count_for_index1, index2->element_levels_.data(), sizeof(int) * element_count_for_index2);
 
     alg_hnsw->label_lookup_.clear();
     alg_hnsw->label_lookup_.reserve(alg_hnsw->max_elements_);
@@ -62,9 +54,7 @@ HierarchicalNSW<dist_t> *BasicMerge(HierarchicalNSW<dist_t> *index1, Hierarchica
         alg_hnsw->label_lookup_[index2->getExternalLabel(id)] = id + index2_offset;
     }
 
-    // TODO: fix increased-layer nodes
     auto allocateMemory = [&](hnswlib::HierarchicalNSW<dist_t> *index, int element_count_offset) {
-        // #pragma omp parallel for schedule(dynamic)
         for (int id = 0; id < index->cur_element_count; id++) {
             if (index->element_levels_[id] < 1)
                 continue;
@@ -241,7 +231,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_IGTM(HierarchicalNSW<dist_t> *index1, Hierar
 
 
     for (int level = maxLevel; level >= 0; level -= 1) {
-        printf("[log] layer: %d\n", level);
         if (layer_node_for_index1[level].size() > 0 && layer_node_for_index2[level].size() == 0) // copy all data for index 1 on this layer to new index
         {
             alg_hnsw->deepCopyOneLayerOnIndex(index1, level, index1_offset, layer_node_for_index1);
@@ -381,156 +370,8 @@ HierarchicalNSW<dist_t> *HNSWMerger_IGTM(HierarchicalNSW<dist_t> *index1, Hierar
                 }
             }
         };
-
         merge_all(index1, index2, layer_node_for_index1, index1_offset, index2_offset);
         merge_all(index2, index1, layer_node_for_index2, index2_offset, index1_offset);
-        // search index1's nodes on index2
-        // std::unordered_set<tableint> not_done1(layer_node_for_index1[level].begin(), layer_node_for_index1[level].end());
-        // int global_count = 0;
-        // while (!not_done1.empty()) {
-        //     tableint cur_c = *not_done1.begin();
-        //     not_done1.erase(not_done1.begin());
-        //     char *data_point = index1->getDataByInternalId(cur_c);
-
-        //     tableint entry_point = -1;
-
-        //     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> starting_points;
-        //     std::unordered_set<tableint> starting_eps;
-        //     index2->search2Layer(data_point, entry_point, maxLevel, level, jump_ef, &starting_points, 0);
-        //     while (starting_points.size() > search_M)
-        //         starting_points.pop();
-        //     while (starting_points.size() > 0) {
-        //         starting_eps.emplace(starting_points.top().second);
-        //         starting_points.pop();
-        //     }
-
-        //     while (true) {
-        //         global_count++;
-        //         if ((global_count + 1) % 200000 == 0) {
-        //             printf("[log] Index 1 merge process %d / %d\n", global_count + 1, layer_node_for_index1[level].size());
-        //         }
-        //         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> origin;
-        //         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> top_candidates;
-        //         origin = index2->ExtendSearchBaseLayer(data_point, level, &starting_eps, local_ef);
-        //         starting_eps.clear();
-        //         while (!origin.empty()) {
-        //             top_candidates.emplace(origin.top().first, origin.top().second + index2_offset);
-        //             if (origin.size() <= search_M) {
-        //                 starting_eps.emplace(origin.top().second);
-        //             }
-        //             origin.pop();
-        //         }
-
-        //         ll_cur = index1->get_linklist_at_level(cur_c, level);
-        //         linklistCount = index1->getListCount(ll_cur);
-        //         data = (tableint *)(ll_cur + 1);
-        //         dist = index1->get_dist_at_level(cur_c, level);
-        //         for (size_t iter = 0; iter < linklistCount; iter++) {
-        //             top_candidates.emplace(dist[iter], data[iter] + index1_offset);
-        //         }
-        //         alg_hnsw->getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
-
-        //         ll_cur = alg_hnsw->get_linklist_at_level(cur_c + index1_offset, level);
-        //         alg_hnsw->setListCount(ll_cur, top_candidates.size());
-        //         data = (tableint *)(ll_cur + 1);
-        //         dist = (dist_t *)alg_hnsw->get_dist_at_level(cur_c + index1_offset, level);
-        //         for (size_t idx = 0; top_candidates.size() > 0; idx++) {
-        //             data[idx] = top_candidates.top().second;
-        //             dist[idx] = top_candidates.top().first;
-        //             top_candidates.pop();
-        //         }
-
-        //         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> next_candidate;
-
-        //         index1->search2Layer(data_point, cur_c, level, level, next_step_ef, &next_candidate, 0);
-        //         int new_c = -1;
-        //         while (!next_candidate.empty()) {
-        //             if (not_done1.find(next_candidate.top().second) != not_done1.end()) {
-        //                 new_c = next_candidate.top().second;
-        //             }
-        //             next_candidate.pop();
-        //         }
-        //         if (new_c == -1) {
-        //             break;
-        //         }
-        //         cur_c = new_c;
-        //         not_done1.erase(cur_c);
-        //     }
-        // }
-
-        // search index2's nodes on index1
-        // std::unordered_set<tableint> not_done2(layer_node_for_index2[level].begin(), layer_node_for_index2[level].end());
-        // int global_count = 0;
-        // while (!not_done2.empty()) {
-        //     tableint cur_c = *not_done2.begin();
-        //     not_done2.erase(not_done2.begin());
-        //     char *data_point = index2->getDataByInternalId(cur_c);
-
-        //     tableint entry_point = -1;
-
-        //     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> starting_points;
-        //     std::unordered_set<tableint> starting_eps;
-        //     index1->search2Layer(data_point, entry_point, maxLevel, level, jump_ef, &starting_points, 0);
-        //     while (starting_points.size() > search_M)
-        //         starting_points.pop();
-        //     while (starting_points.size() > 0) {
-        //         starting_eps.emplace(starting_points.top().second);
-        //         starting_points.pop();
-        //     }
-
-        //     while (true) {
-        //         global_count++;
-        //         if ((global_count + 1) % 200000 == 0) {
-        //             printf("[log] Index 2 merge process %d / %d\n", global_count + 1, layer_node_for_index2[level].size());
-        //         }
-        //         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> origin;
-        //         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> top_candidates;
-        //         origin = index1->ExtendSearchBaseLayer(data_point, level, &starting_eps, local_ef);
-        //         starting_eps.clear();
-        //         while (!origin.empty()) {
-        //             top_candidates.emplace(origin.top().first, origin.top().second + index1_offset);
-        //             if (origin.size() <= search_M) {
-        //                 starting_eps.emplace(origin.top().second);
-        //             }
-        //             origin.pop();
-        //         }
-
-        //         ll_cur = index2->get_linklist_at_level(cur_c, level);
-        //         linklistCount = index2->getListCount(ll_cur);
-        //         data = (tableint *)(ll_cur + 1);
-        //         dist = index2->get_dist_at_level(cur_c, level);
-        //         for (size_t iter = 0; iter < linklistCount; iter++) {
-        //             top_candidates.emplace(dist[iter], data[iter] + index2_offset);
-        //         }
-        //         alg_hnsw->getNeighborsByHeuristic2(top_candidates, Mcurmax, false);
-
-        //         ll_cur = alg_hnsw->get_linklist_at_level(cur_c + index2_offset, level);
-        //         alg_hnsw->setListCount(ll_cur, top_candidates.size());
-        //         data = (tableint *)(ll_cur + 1);
-        //         dist = (dist_t *)alg_hnsw->get_dist_at_level(cur_c + index2_offset, level);
-        //         for (size_t idx = 0; top_candidates.size() > 0; idx++) {
-        //             data[idx] = top_candidates.top().second;
-        //             dist[idx] = top_candidates.top().first;
-        //             top_candidates.pop();
-        //         }
-
-        //         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> next_candidate;
-
-        //         index2->search2Layer(data_point, cur_c, level, level, next_step_ef, &next_candidate, 0);
-        //         int new_c = -1;
-        //         while (!next_candidate.empty()) {
-        //             if (not_done2.find(next_candidate.top().second) != not_done2.end()) {
-        //                 new_c = next_candidate.top().second;
-        //             }
-        //             next_candidate.pop();
-        //         }
-        //         if (new_c == -1) {
-        //             break;
-        //         }
-        //         cur_c = new_c;
-        //         not_done2.erase(cur_c);
-        //     }
-        // }
     }
     return alg_hnsw;
 }
@@ -565,7 +406,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_CGTM(HierarchicalNSW<dist_t> *index1, Hierar
     index2->searchNodeOnEachLayer(layer_node_for_index2, true);
 
     for (int level = maxLevel; level >= 0; level -= 1) {
-        printf("[log] layer: %d\n", level);
+        // printf("[log] layer: %d\n", level);
         if (layer_node_for_index1[level].size() > 0 && layer_node_for_index2[level].size() == 0) // copy all data for index 1 on this layer to new index
         {
             alg_hnsw->deepCopyOneLayerOnIndex(index1, level, index1_offset, layer_node_for_index1);

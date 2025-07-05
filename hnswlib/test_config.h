@@ -13,7 +13,6 @@ enum WorkloadType {
     SIFT10M,
     DEEP10M,
     TURING10M,
-    COHERE10M,
     SIFT100M,
     DEEP100M
 };
@@ -64,6 +63,7 @@ struct Config {
     std::string query_filepath;
     std::string groundtruth_filepath;
     std::vector<std::string> index_path;
+    std::string save_path = "./";
     std::vector<int> efs_array;
 };
 
@@ -73,7 +73,6 @@ WorkloadType parseWorkloadType(const std::string &s) {
     if (s == "SIFT10M") return SIFT10M;
     if (s == "DEEP10M") return DEEP10M;
     if (s == "TURING10M") return TURING10M;
-    if (s == "COHERE10M") return COHERE10M;
     if (s == "SIFT100M") return SIFT100M;
     if (s == "DEEP100M") return DEEP100M;
     std::cerr << "Unknown WorkloadType: " << s << std::endl;
@@ -86,7 +85,6 @@ std::string workloadTypeToString(WorkloadType type) {
     case SIFT10M: return "SIFT10M";
     case DEEP10M: return "DEEP10M";
     case TURING10M: return "TURING10M";
-    case COHERE10M: return "COHERE10M";
     case SIFT100M: return "SIFT100M";
     case DEEP100M: return "DEEP100M";
     default: return "UNKNOWN";
@@ -187,9 +185,6 @@ void setDefaultsByWorkload(Config &cfg) {
         cfg.k = 100;
         cfg.kk = 1000;
         cfg.nq = 10000;
-        cfg.base_filepath = "/ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs";
-        cfg.query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
-        cfg.groundtruth_filepath = "/ssd_root/dataset/ann_sift1b/gnd/idx_1M.ivecs";
         break;
     case SIFT10M:
         cfg.dim = 128;
@@ -198,9 +193,6 @@ void setDefaultsByWorkload(Config &cfg) {
         cfg.k = 100;
         cfg.kk = 1000;
         cfg.nq = 10000;
-        cfg.base_filepath = "/ssd_root/dataset/ann_sift1b/bigann_10m_base.bvecs";
-        cfg.query_filepath = "/ssd_root/dataset/ann_sift1b/bigann_query.bvecs";
-        cfg.groundtruth_filepath = "/ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs";
         break;
     case DEEP10M:
         cfg.dim = 96;
@@ -209,9 +201,6 @@ void setDefaultsByWorkload(Config &cfg) {
         cfg.k = 100;
         cfg.kk = 100;
         cfg.nq = 10000;
-        cfg.base_filepath = "/ssd_root/dataset/deep10M/deep10m_base.fvecs";
-        cfg.query_filepath = "/ssd_root/dataset/deep10M/deep10M_query.fvecs";
-        cfg.groundtruth_filepath = "/ssd_root/dataset/deep10M/deep10M_groundtruth.ivecs";
         break;
     case TURING10M:
         cfg.dim = 100;
@@ -220,17 +209,6 @@ void setDefaultsByWorkload(Config &cfg) {
         cfg.k = 100;
         cfg.kk = 100;
         cfg.nq = 10000;
-        cfg.base_filepath = "/ssd_root/dataset/turing10m/msturing-10M.fvecs";
-        cfg.query_filepath = "/ssd_root/dataset/turing10m/msturing-query.fvecs";
-        cfg.groundtruth_filepath = "/ssd_root/dataset/turing10m/msturing10M_gt100.ivecs";
-        break;
-    case COHERE10M:
-        // cfg.dim = 768;
-        // cfg.max_elements = 10e6;
-        // cfg.nb = 10e6;
-        // cfg.k = 100;
-        // cfg.kk = 100;
-        // cfg.nq = 1000;
         break;
     case SIFT100M:
         cfg.dim = 128;
@@ -324,6 +302,7 @@ Config loadConfig(const std::string &filename) {
     cfg.base_filepath = kv.at("base_filepath");
     cfg.query_filepath = kv.at("query_filepath");
     cfg.groundtruth_filepath = kv.at("groundtruth_filepath");
+    cfg.save_path = kv.at("save_path");
 
     // Parse list fields
     cfg.index_path = parseStringList(kv.at("index_path"));

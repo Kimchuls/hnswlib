@@ -4,7 +4,6 @@
  * For fair comparing with our algorithm, we only convert key function from java code,
  * and use the original HNSWlib code as much as possible.
  */
-// #include "hnswalg.h"
 #include "extension.h"
 #include <mutex>
 #include <omp.h>
@@ -156,7 +155,6 @@ tableint HierarchicalNSW<dist_t>::addPoint(labeltype label,
     memset(data_level0_memory_ + cur_c * size_data_per_element_ + offsetLevel0_, 0, size_data_per_element_);
     memset(dist_level0_memory_ + cur_c * size_dist_per_element_ + offsetLevel0_, 0, size_dist_per_element_);
 
-    // Initialisation of the data and label
     memcpy(getExternalLabeLp(cur_c), &label, sizeof(labeltype));
     memcpy(getDataByInternalId(cur_c), data_point, data_size_);
 
@@ -209,15 +207,6 @@ tableint HierarchicalNSW<dist_t>::addPoint(labeltype label,
             size_t Mcurmax = level ? maxM_ : maxM0_;
             if (level == 0 && eps0 != nullptr && eps0->size() > 0) eps = *eps0;
 
-            // fprintf(f, "[%d, %d](flag = %d)", level, eps.size(), level == 0 && eps0 != nullptr && eps0->size()>0);
-            // if(level == 0){
-            //     fprintf(f, "{");
-            //     for(tableint xx : eps){
-            //         fprintf(f, "%d, ", xx);
-            //     }
-            //     fprintf(f, "}");
-            // }
-
             std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
             top_candidates = ExtendSearchBaseLayer(data_point,
                                                    level,
@@ -235,16 +224,12 @@ tableint HierarchicalNSW<dist_t>::addPoint(labeltype label,
                     top_candidates.pop();
             }
             currObj = mutuallyConnectNewElement(data_point, cur_c, top_candidates, level, false);
-            // eps.insert(currObj);
         }
-        // fprintf(f, "\n");
     } else {
-        // Do nothing for the first element
         enterpoint_node_ = 0;
         maxlevel_ = curlevel;
     }
 
-    // Releasing lock for the maximum level
     if (curlevel > maxlevelcopy) {
         enterpoint_node_ = cur_c;
         maxlevel_ = curlevel;
@@ -254,16 +239,12 @@ tableint HierarchicalNSW<dist_t>::addPoint(labeltype label,
 
 template <typename dist_t>
 HierarchicalNSW<dist_t> *HNSWMerger_ES(HierarchicalNSW<dist_t> *index1, HierarchicalNSW<dist_t> *index2, L2Space *space, size_t M = -1, size_t ef_construction = -1) {
-    // TODO: implement logic with deleted node in an index, by re-organize the
-    // internal label of nodes in an index
 
     double s0 = elapsed();
-    // make sure the larger index is index1
     if (index1->cur_element_count < index2->cur_element_count || index1->maxlevel_ < index2->maxlevel_) {
         std::swap(index1, index2);
         printf("Swap index with more current element count to index1.\n");
     }
-    // f = fopen("visited_list_pool", "w+");
     size_t element_count_for_index1 = index1->getCurrentElementCount();
     M = M == -1 ? std::max(index1->M_, index2->M_) : M;
     ef_construction = ef_construction == -1 ? std::max(index1->ef_construction_, index2->ef_construction_) : ef_construction;
@@ -299,7 +280,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_ES(HierarchicalNSW<dist_t> *index1, Hierarch
         if (alg_hnsw->linkLists_[new_c] == nullptr) {
             throw std::runtime_error("Not enough memory: addPoint failed to allocate linklist");
         }
-        // memset(alg_hnsw->linkLists_[new_c], 0, alg_hnsw->size_links_per_element_ * level + 1);
         memcpy(alg_hnsw->linkLists_[new_c],
                index1->linkLists_[id],
                alg_hnsw->size_links_per_element_ * level + 1);
@@ -307,7 +287,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_ES(HierarchicalNSW<dist_t> *index1, Hierarch
         if (alg_hnsw->dist_linkLists_[new_c] == nullptr) {
             throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linklist");
         }
-        // memset(alg_hnsw->dist_linkLists_[new_c], 0, alg_hnsw->size_dist_links_per_element_ * level + 1);
         memcpy(alg_hnsw->dist_linkLists_[new_c],
                index1->dist_linkLists_[id],
                alg_hnsw->size_dist_links_per_element_ * level + 1);
@@ -321,7 +300,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_ES(HierarchicalNSW<dist_t> *index1, Hierarch
 
     printf("time for new layer: %f\n", elapsed() - s0);
 
-    // ElasticSearch merging algorithm
     s0 = elapsed();
     int size = index2->cur_element_count;
     std::unordered_set<int> j = computeJoinSet(index2);
@@ -334,7 +312,6 @@ HierarchicalNSW<dist_t> *HNSWMerger_ES(HierarchicalNSW<dist_t> *index1, Hierarch
     s0 = elapsed();
     for (int node : j) {
         tableint newId = alg_hnsw->addPoint(index2->getExternalLabel(node), index2->getDataByInternalId(node), nullptr);
-        // tableint newId = alg_hnsw->addPoint(index2->getDataByInternalId(node), index2->getExternalLabel(node), -1);
         ordMapS[node] = newId;
         if ((++count) % 200000 == 0) {
             printf("Processing node %d, time: %f\n", count, elapsed() - s0);
@@ -371,13 +348,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_ES(HierarchicalNSW<dist_t> *index1, Hierarch
                 }
             }
         }
-        // fprintf(f, "u = %d, eps size = %d[", u, eps.size());
-        // for (tableint xx : eps) {
-        //     fprintf(f, "%d, ", xx);
-        // }
-        // fprintf(f, "]\n");
         tableint newId = alg_hnsw->addPoint(index2->getExternalLabel(u), index2->getDataByInternalId(u), &eps);
-        // tableint newId = alg_hnsw->addPoint(index2->getDataByInternalId(u), index2->getExternalLabel(u), -1);
         ordMapS[u] = newId;
     }
     printf("time for addPoint in non-join set: %f\n", elapsed() - s0);

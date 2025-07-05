@@ -1,149 +1,0 @@
-[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib[00m$ 
-[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib[00m$ cd hnswlib
-[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ make exp 
-[?2004lg++ -Wno-write-strings -Wno-unused-result -Wno-format  -O3 experiment.cpp -o exps -I/usr/local/include -L/usr/local/lib -lfaiss -fopenmp -lopenblas -llapack -ltbb
-[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./exps si[K[K./scripts/[K[K[K[K[K[K[K[Kconfig/sift10m_[K
-[?2004lloaded base vectors: 10000000 vectors of dimension 128
-loaded query vectors: 10000 vectors of dimension 128
-fvecs_read: /ssd_root/dataset/ann_sift1b/gnd/idx_10M.ivecs
-loaded ground-truth for 10000 queries, top 100
-Merge method: REBUILD
-Iteration 1/5
-Total time for insertion: 4743.905 s
-Iteration 2/5
-Total time for insertion: 4253.999 s
-Iteration 3/5
-Total time for insertion: 4329.690 s
-Iteration 4/5
-Total time for insertion: 4252.440 s
-Iteration 5/5
-Total time for insertion: 4332.315 s
-Start searchingset ef = 100
-[search time: 5.457 s, pure query time: 5.433 s] ef=100
-Intersection-merged index R@100 = 0.9186
-
-[search time: 4.993 s, pure query time: 4.969 s] ef=100
-Intersection-merged index R@100 = 0.9186
-
-[search time: 4.992 s, pure query time: 4.969 s] ef=100
-Intersection-merged index R@100 = 0.9186
-
-[search time: 7.426 s, pure query time: 7.401 s] ef=100
-Intersection-merged index R@100 = 0.9186
-
-[search time: 7.776 s, pure query time: 7.756 s] ef=100
-Intersection-merged index R@100 = 0.9186
-
-set ef = 200
-[search time: 14.952 s, pure query time: 14.927 s] ef=200
-Intersection-merged index R@100 = 0.9681
-
-[search time: 15.245 s, pure query time: 15.218 s] ef=200
-Intersection-merged index R@100 = 0.9681
-
-[search time: 10.929 s, pure query time: 10.905 s] ef=200
-Intersection-merged index R@100 = 0.9681
-
-[search time: 9.141 s, pure query time: 9.119 s] ef=200
-Intersection-merged index R@100 = 0.9681
-
-[search time: 9.121 s, pure query time: 9.098 s] ef=200
-Intersection-merged index R@100 = 0.9681
-
-set ef = 300
-[search time: 12.992 s, pure query time: 12.964 s] ef=300
-Intersection-merged index R@100 = 0.9828
-
-[search time: 12.960 s, pure query time: 12.932 s] ef=300
-Intersection-merged index R@100 = 0.9828
-
-[search time: 12.965 s, pure query time: 12.938 s] ef=300
-Intersection-merged index R@100 = 0.9828
-
-[search time: 13.387 s, pure query time: 13.359 s] ef=300
-Intersection-merged index R@100 = 0.9828
-
-[search time: 21.315 s, pure query time: 21.279 s] ef=300
-Intersection-merged index R@100 = 0.9828
-
-set ef = 400
-[search time: 24.890 s, pure query time: 24.850 s] ef=400
-Intersection-merged index R@100 = 0.9892
-
-[search time: 24.835 s, pure query time: 24.796 s] ef=400
-Intersection-merged index R@100 = 0.9892
-
-[search time: 17.901 s, pure query time: 17.868 s] ef=400
-Intersection-merged index R@100 = 0.9892
-
-[search time: 16.796 s, pure query time: 16.764 s] ef=400
-Intersection-merged index R@100 = 0.9892
-
-[search time: 16.702 s, pure query time: 16.670 s] ef=400
-Intersection-merged index R@100 = 0.9892
-
-set ef = 500
-[search time: 20.332 s, pure query time: 20.297 s] ef=500
-Intersection-merged index R@100 = 0.9926
-
-[search time: 20.340 s, pure query time: 20.305 s] ef=500
-Intersection-merged index R@100 = 0.9926
-
-[search time: 20.311 s, pure query time: 20.275 s] ef=500
-Intersection-merged index R@100 = 0.9926
-
-[search time: 20.296 s, pure query time: 20.261 s] ef=500
-Intersection-merged index R@100 = 0.9926
-
-[search time: 22.710 s, pure query time: 22.674 s] ef=500
-Intersection-merged index R@100 = 0.9926
-
-set ef = 600
-[search time: 36.708 s, pure query time: 36.668 s] ef=600
-Intersection-merged index R@100 = 0.9946
-
-[search time: 23.992 s, pure query time: 23.951 s] ef=600
-Intersection-merged index R@100 = 0.9946
-
-[search time: 23.933 s, pure query time: 23.890 s] ef=600
-Intersection-merged index R@100 = 0.9946
-
-[search time: 23.943 s, pure query time: 23.901 s] ef=600
-Intersection-merged index R@100 = 0.9946
-
-[search time: 23.932 s, pure query time: 23.890 s] ef=600
-Intersection-merged index R@100 = 0.9946
-
-set ef = 700
-[search time: 27.370 s, pure query time: 27.327 s] ef=700
-Intersection-merged index R@100 = 0.9958
-
-[search time: 40.854 s, pure query time: 40.812 s] ef=700
-Intersection-merged index R@100 = 0.9958
-
-[search time: 29.339 s, pure query time: 29.295 s] ef=700
-Intersection-merged index R@100 = 0.9958
-
-[search time: 27.420 s, pure query time: 27.377 s] ef=700
-Intersection-merged index R@100 = 0.9958
-
-[search time: 27.399 s, pure query time: 27.354 s] ef=700
-Intersection-merged index R@100 = 0.9958
-
-set ef = 800
-[search time: 30.814 s, pure query time: 30.770 s] ef=800
-Intersection-merged index R@100 = 0.9967
-
-[search time: 37.249 s, pure query time: 37.205 s] ef=800
-Intersection-merged index R@100 = 0.9967
-
-[search time: 31.055 s, pure query time: 31.011 s] ef=800
-Intersection-merged index R@100 = 0.9967
-
-[search time: 30.907 s, pure query time: 30.863 s] ef=800
-Intersection-merged index R@100 = 0.9967
-
-[search time: 33.527 s, pure query time: 33.483 s] ef=800
-Intersection-merged index R@100 = 0.9967
-
-[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./exps ./config/sift10m[14Pmake exp ./exps ./config/sift10m[K[K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 

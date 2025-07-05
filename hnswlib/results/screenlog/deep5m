@@ -1,33 +1,0 @@
-
-[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib[00m$ 
-[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib[00m$ cd hnswlib
-[?2004l[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ ./builds ./config/build/deep10m_build_5
-[?2004lfvecs_read: /ssd_root/dataset/deep10M/deep10M_base.fvecs
-loaded base vectors: 10000000 vectors of dimension 96
-checkpoint: 200000, [27.513 s] 
-checkpoint: 400000, [69.496 s] 
-checkpoint: 600000, [117.930 s] 
-checkpoint: 800000, [172.764 s] 
-checkpoint: 1000000, [230.855 s] 
-checkpoint: 1200000, [292.289 s] 
-checkpoint: 1400000, [356.310 s] 
-checkpoint: 1600000, [422.838 s] 
-checkpoint: 1800000, [490.903 s] 
-checkpoint: 2000000, [560.455 s] 
-checkpoint: 2200000, [631.356 s] 
-checkpoint: 2400000, [703.465 s] 
-checkpoint: 2600000, [776.755 s] 
-checkpoint: 2800000, [850.918 s] 
-checkpoint: 3000000, [925.911 s] 
-checkpoint: 3200000, [1001.711 s] 
-checkpoint: 3400000, [1078.242 s] 
-checkpoint: 3600000, [1155.411 s] 
-checkpoint: 3800000, [1233.192 s] 
-checkpoint: 4000000, [1324.832 s] 
-checkpoint: 4200000, [1406.281 s] 
-checkpoint: 4400000, [1495.418 s] 
-checkpoint: 4600000, [1572.710 s] 
-checkpoint: 4800000, [1650.552 s] 
-checkpoint: 5000000, [1728.638 s] 
-[1728.638 s] build index (dataset size = 0 - 5000000)
-[?2004h[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ [K[01;32mjin467@db4[00m:[01;34m~/github_download/hnswlib/hnswlib[00m$ 

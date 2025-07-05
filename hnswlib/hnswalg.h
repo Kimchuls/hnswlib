@@ -16,10 +16,6 @@
 #include <set>
 #include <utility> // for std::pair
 
-// #include <faiss/IndexFlat.h>
-// #include <faiss/IndexHNSW.h>
-// #include <faiss/IndexIVFFlat.h>
-// #include <faiss/index_io.h>
 #include <omp.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -849,18 +845,10 @@ public:
         /// Optional - check if index is ok:
         input.seekg(cur_element_count * size_data_per_element_, input.cur);
         input.seekg(cur_element_count * size_dist_per_element_, input.cur);
-        // std::streampos posCur = input.tellg();
-        // std::streamoff diff = posCur - posBeg;
-        // std::cout << "从 beg 到 cur 的字节差 = " << diff << std::endl;
         for (size_t i = 0; i < cur_element_count; i++) {
             if (input.tellg() < 0 || input.tellg() >= total_filesize) {
                 throw std::runtime_error("Index seems to be corrupted or unsupported");
             }
-            // if (i == 1718508) {
-            //     posCur = input.tellg();
-            //     diff = posCur - posBeg;
-            //     std::cout << "从 beg 到 cur 的字节差 = " << diff << std::endl;
-            // }
             unsigned int linkListSize;
             readBinaryPOD(input, linkListSize);
             if (linkListSize != 0) {
@@ -1396,12 +1384,10 @@ public:
         tableint currObj = enterpoint_node_;
         dist_t curdist = fstdistfunc_(query_data, getDataByInternalId(enterpoint_node_), dist_func_param_);
         for (int level = maxlevel_; level > 0; level--) {
-            // printf("layer: %d\n", level);
             bool changed = true;
             while (changed) {
                 changed = false;
                 unsigned int *data;
-                // printf("cur %d\n",currObj);
                 data = (unsigned int *)get_linklist(currObj, level);
                 int size = getListCount(data);
                 metric_hops++;
@@ -1552,7 +1538,6 @@ public:
 
     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst>
     ExtendSearchBaseLayer(const void *query_data,
-                          //   tableint &entry_point,
                           int level,
                           std::unordered_set<tableint> *eps,
                           size_t local_ef = -1);

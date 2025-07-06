@@ -42,6 +42,7 @@ enum MultiTestMethod {
 struct Config {
     WorkloadType workload_type;
     MergeMethod merge_method;
+    MultiTestMethod multi_test_method = LARGE_FIRST;
     int dim;
     long max_elements;
     int nb;
@@ -55,10 +56,9 @@ struct Config {
     int rrange;
     bool rerun = false;
     int thread = 1;
-    int cnt = 4;
+    int lambda = 4;
     float alpha = 1.05;
     bool save_index = true;
-    MultiTestMethod multi_test_method = LARGE_FIRST;
     std::string base_filepath;
     std::string query_filepath;
     std::string groundtruth_filepath;
@@ -285,7 +285,7 @@ Config loadConfig(const std::string &filename) {
     if (kv.count("nq")) cfg.nq = std::stoi(kv.at("nq"));
     if (kv.count("rerun")) cfg.rerun = (kv.at("rerun") == "true");
     if (kv.count("thread")) cfg.thread = std::stoi(kv.at("thread"));
-    if (kv.count("cnt")) cfg.cnt = std::stoi(kv.at("cnt"));
+    if (kv.count("lambda")) cfg.lambda = std::stoi(kv.at("lambda"));
     if (kv.count("alpha")) cfg.alpha = std::stof(kv.at("alpha"));
     if (kv.count("save_index")) cfg.save_index = (kv.at("save_index") == "true");
 

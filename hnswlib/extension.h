@@ -33,14 +33,14 @@ void HierarchicalNSW<dist_t>::searchNodeOnEachLayer(
  * set to enterpoint_node_. Otherwise, the enterpoint_node will be used as the
  * starting point, as it's the closest point to the query on layer level_low
  * + 1. The function will also return the `top_candidates` which contains the
- * `cnt`-closest points to the query on layer level_low.
+ * `lambda`-closest points to the query on layer level_low.
  */
 template <typename dist_t>
 void HierarchicalNSW<dist_t>::search2Layer(const void *query_data,
                                            tableint &enterpoint_node,
                                            int level_higher,
                                            int level_lower,
-                                           int cnt,
+                                           int lambda,
                                            std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> *top_candidates,
                                            int offset) {
     tableint currObj = enterpoint_node == -1 ? enterpoint_node_ : enterpoint_node;
@@ -97,7 +97,7 @@ void HierarchicalNSW<dist_t>::search2Layer(const void *query_data,
 
     while (!candidateSet.empty()) {
         std::pair<dist_t, tableint> curr_el_pair = candidateSet.top();
-        if ((-curr_el_pair.first) > lowerBound && top_candidates->size() == cnt) {
+        if ((-curr_el_pair.first) > lowerBound && top_candidates->size() == lambda) {
             break;
         }
         candidateSet.pop();
@@ -126,7 +126,7 @@ void HierarchicalNSW<dist_t>::search2Layer(const void *query_data,
             char *currObj1 = (getDataByInternalId(candidate_id));
 
             dist_t dist1 = fstdistfunc_(query_data, currObj1, dist_func_param_);
-            if (top_candidates->size() < cnt || lowerBound > dist1) {
+            if (top_candidates->size() < lambda || lowerBound > dist1) {
                 candidateSet.emplace(-dist1, candidate_id);
 #ifdef USE_SSE
                 _mm_prefetch(getDataByInternalId(candidateSet.top().second), _MM_HINT_T0);
@@ -140,7 +140,7 @@ void HierarchicalNSW<dist_t>::search2Layer(const void *query_data,
                     }
                 }
 
-                while (top_candidates->size() > cnt)
+                while (top_candidates->size() > lambda)
                     top_candidates->pop();
 
                 if (!top_candidates->empty())
@@ -349,18 +349,18 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
     std::unordered_set<int> newLayerSet;
     if (layer_node_for_index1[layer_max_min].size() + layer_node_for_index2[layer_max_min].size() > M * bound) {
         std::uniform_real_distribution<double> distribution(0.0, 1.0);
-        int cnt = 0;
+        int lambda = 0;
         auto filter_and_remove = [&](std::vector<int> &layer_nodes, std::vector<int> &upper_layer_nodes, int offset) {
             std::vector<int> newLayer;
             auto it = layer_nodes.begin();
             while (it != layer_nodes.end()) {
-                if (distribution(alg_hnsw->level_generator_) < 1.0 / M || cnt == M) {
+                if (distribution(alg_hnsw->level_generator_) < 1.0 / M || lambda == M) {
                     tableint old_c = *it;
                     tableint new_c = old_c + offset;
                     newLayer.push_back(new_c);
                     upper_layer_nodes.push_back(old_c);
                     newLayerSet.insert(new_c);
-                    cnt = 0;
+                    lambda = 0;
 
                     alg_hnsw->linkLists_[new_c] = (char *)malloc(alg_hnsw->size_links_per_element_ * (layer_max_min + 1) + 1);
                     if (alg_hnsw->linkLists_[new_c] == nullptr)
@@ -373,7 +373,7 @@ HierarchicalNSW<dist_t> *HNSWMerger(HierarchicalNSW<dist_t> *index1, Hierarchica
                         throw std::runtime_error("Not enough memory: addPoint failed to allocate dist_linkLists");
                     memset(alg_hnsw->dist_linkLists_[new_c], 0, alg_hnsw->size_dist_links_per_element_ * (layer_max_min + 1) + 1);
                 } else {
-                    cnt++;
+                    lambda++;
                     ++it;
                 }
             }
@@ -722,14 +722,14 @@ HierarchicalNSW<dist_t> *HNSWMerger_BS(HierarchicalNSW<dist_t> *index1, Hierarch
     std::vector<int> newLayer;
     if (layer_node_for_index1[maxLevel].size() + layer_node_for_index2[maxLevel].size() > M) {
         std::uniform_real_distribution<double> distribution(0.0, 1.0);
-        int cnt = 0;
+        int lambda = 0;
         auto filter_and_remove = [&](std::vector<int> &layer_nodes, HierarchicalNSW<dist_t> *index,
                                      int offset) {
             auto it = layer_nodes.begin();
             while (it != layer_nodes.end()) {
-                if (distribution(alg_hnsw->level_generator_) < 1.0 / M || cnt == M) {
+                if (distribution(alg_hnsw->level_generator_) < 1.0 / M || lambda == M) {
                     newLayer.push_back((*it) + offset);
-                    cnt = 0;
+                    lambda = 0;
                     tableint new_c = *it;
                     alg_hnsw->linkLists_[new_c + offset] = (char *)malloc(alg_hnsw->size_links_per_element_ * (maxLevel + 1) + 1);
                     if (alg_hnsw->linkLists_[new_c + offset] == nullptr)
@@ -748,7 +748,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_BS(HierarchicalNSW<dist_t> *index1, Hierarch
 
                     it = layer_nodes.erase(it);
                 } else {
-                    cnt++;
+                    lambda++;
                     ++it;
                 }
             }

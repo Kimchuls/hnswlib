@@ -104,7 +104,7 @@ void workload(const std::string &config_path) {
     int lrange = cfg.lrange;
     int rrange = cfg.rrange;
     int thread = cfg.thread;
-    int cnt = cfg.cnt;
+    int lambda = cfg.lambda;
     float alpha = cfg.alpha;
     bool save_index = cfg.save_index;
 
@@ -121,7 +121,7 @@ void workload(const std::string &config_path) {
     printf("  Iterations: %d\n", iterations);
     printf("  Rerun: %s\n", cfg.rerun ? "true" : "false");
     printf("  Thread Count: %d\n", thread);
-    printf("  cnt: %d\n", cnt);
+    printf("  lambda: %d\n", lambda);
     printf("  Alpha: %.2f\n", alpha);
     printf("  Save Index: %s\n", save_index ? "true" : "false");
 
@@ -376,10 +376,10 @@ void workload(const std::string &config_path) {
                 printf("Iteration %d/%d\n", i + 1, iterations);
 
                 double t0 = elapsed();
-                alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw0, alg_hnsw1, &space, cnt, alpha);
+                alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw0, alg_hnsw1, &space, lambda, alpha);
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
                 if (save_index) {
-                    std::string merged_index_path = save_base + "/ablation_c_" + std::to_string(cnt) + "_" + workloadTypeToString(workload_type) + ".hnsw";
+                    std::string merged_index_path = save_base + "/ablation_c_" + std::to_string(lambda) + "_" + workloadTypeToString(workload_type) + ".hnsw";
                     alg_hnsw2->saveIndex(merged_index_path);
                     printf("Saved merged index to: %s\n", merged_index_path.c_str());
                 } else {
@@ -388,7 +388,7 @@ void workload(const std::string &config_path) {
             }
             alg_hnsw0 = alg_hnsw2;
         } else {
-            std::string merged_index_path = save_base + "/ablation_c_" + std::to_string(cnt) + "_" + workloadTypeToString(workload_type) + ".hnsw";
+            std::string merged_index_path = save_base + "/ablation_c_" + std::to_string(lambda) + "_" + workloadTypeToString(workload_type) + ".hnsw";
             alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
             alg_hnsw0->loadIndex(merged_index_path, &space);
             printf("Loaded merged index from: %s\n", merged_index_path.c_str());
@@ -516,7 +516,7 @@ void workload(const std::string &config_path) {
     for (int ef_val : cfg.efs_array) {
         alg_hnsw0->setEf(ef_val);
         printf("set ef = %d\n", ef_val);
-        for (int iter = 0; iter < 3; iter++) {
+        for (int iter = 0; iter < 5; iter++) {
             double t_search = 0.0;
             double t0 = elapsed();
             int *I = new int[nq * k];

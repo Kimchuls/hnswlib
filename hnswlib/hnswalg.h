@@ -1532,7 +1532,7 @@ public:
         tableint &enterpoint_node,
         int level_higher,
         int level_lower,
-        int cnt,
+        int lambda,
         std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> *top_candidates = nullptr,
         int offset = 0);
 

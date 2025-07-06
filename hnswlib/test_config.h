@@ -21,7 +21,6 @@ enum MergeMethod {
     REBUILD,
     INSERT,
     TWO_MERGE,
-    MULTI_MERGE,
     MULTI_TWO_MERGE,
     ES,
     NGM,
@@ -40,20 +39,20 @@ enum MultiTestMethod {
 
 // Config struct
 struct Config {
-    WorkloadType workload_type;
-    MergeMethod merge_method;
+    WorkloadType workload_type = SIFT10M;
+    MergeMethod merge_method = TWO_MERGE;
     MultiTestMethod multi_test_method = LARGE_FIRST;
-    int dim;
-    long max_elements;
-    int nb;
-    int M;
-    int ef_construction;
-    int k;
-    int kk;
-    int nq;
-    int iterations;
-    int lrange;
-    int rrange;
+    int dim=128;
+    long max_elements=1e7;
+    int nb=1e7;
+    int M=32;
+    int ef_construction=64;
+    int k=100;
+    int kk=100;
+    int nq=10000;
+    int iterations=1;
+    int lrange=0;
+    int rrange=0;
     bool rerun = false;
     int thread = 1;
     int lambda = 4;
@@ -96,7 +95,6 @@ MergeMethod parseMergeMethod(const std::string &s) {
     if (s == "REBUILD") return REBUILD;
     if (s == "INSERT") return INSERT;
     if (s == "TWO_MERGE") return TWO_MERGE;
-    if (s == "MULTI_MERGE") return MULTI_MERGE;
     if (s == "MULTI_TWO_MERGE") return MULTI_TWO_MERGE;
     if (s == "ES") return ES;
     if (s == "NGM") return NGM;
@@ -104,7 +102,7 @@ MergeMethod parseMergeMethod(const std::string &s) {
     if (s == "CGTM") return CGTM;
     if (s == "ABLATION_C") return ABLATION_C;
     if (s == "BACKWARD_SEARCH") return BACKWARD_SEARCH;
-    if (s=="MEMORY_EFFICIENCY") return MEMORY_EFFICIENCY;
+    if (s == "MEMORY_EFFICIENCY") return MEMORY_EFFICIENCY;
     std::cerr << "Unknown MergeMethod: " << s << std::endl;
     std::exit(1);
 }
@@ -114,7 +112,6 @@ std::string mergeMethodToString(MergeMethod method) {
     case REBUILD: return "REBUILD";
     case INSERT: return "INSERT";
     case TWO_MERGE: return "TWO_MERGE";
-    case MULTI_MERGE: return "MULTI_MERGE";
     case MULTI_TWO_MERGE: return "MULTI_TWO_MERGE";
     case ES: return "ES";
     case NGM: return "NGM";
@@ -292,17 +289,17 @@ Config loadConfig(const std::string &filename) {
     if (kv.count("multi_test_method")) cfg.multi_test_method = parseMultiTestMethod(kv.at("multi_test_method"));
 
     // Parse remaining numeric fields
-    cfg.M = std::stoi(kv.at("M"));
-    cfg.ef_construction = std::stoi(kv.at("ef_construction"));
-    cfg.iterations = std::stoi(kv.at("iterations"));
-    cfg.lrange = std::stoi(kv.at("lrange"));
-    cfg.rrange = std::stoi(kv.at("rrange"));
+    if (kv.count("M")) cfg.M = std::stoi(kv.at("M"));
+    if (kv.count("ef_construction")) cfg.ef_construction = std::stoi(kv.at("ef_construction"));
+    if (kv.count("iterations")) cfg.iterations = std::stoi(kv.at("iterations"));
+    if (kv.count("lrange")) cfg.lrange = std::stoi(kv.at("lrange"));
+    if (kv.count("rrange")) cfg.rrange = std::stoi(kv.at("rrange"));
 
     // Parse file paths
-    cfg.base_filepath = kv.at("base_filepath");
-    cfg.query_filepath = kv.at("query_filepath");
-    cfg.groundtruth_filepath = kv.at("groundtruth_filepath");
-    cfg.save_path = kv.at("save_path");
+    if (kv.count("base_filepath")) cfg.base_filepath = kv.at("base_filepath");
+    if (kv.count("query_filepath")) cfg.query_filepath = kv.at("query_filepath");
+    if (kv.count("groundtruth_filepath")) cfg.groundtruth_filepath = kv.at("groundtruth_filepath");
+    if (kv.count("save_path")) cfg.save_path = kv.at("save_path");
 
     // Parse list fields
     cfg.index_path = parseStringList(kv.at("index_path"));

@@ -8,7 +8,7 @@ SRC_AVAIL = availability_test.cpp
 TARGET = merge
 AVAIL = avail
 
-all: release
+all: exp
 
 build:
 	g++ $(CFLAGS_IGNORE) -O3 build_index.cpp -o builds $(CFLAG_FAISS)
@@ -19,10 +19,6 @@ exp:
 debug:
 	g++ $(CFLAGS_IGNORE) -g experiment.cpp -o exps $(CFLAG_FAISS)
 	gdb ./exps
-
-release:
-	g++ $(CFLAGS_IGNORE) -O3 test_merge.cpp -o merge $(CFLAG_FAISS)
-	./merge 
 
 clean:
 	rm -f $(TARGET)

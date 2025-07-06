@@ -8,17 +8,12 @@ This codebase is modified based on the [hnswlib](https://github.com/nmslib/hnswl
 
 ### 0.1 Baselines
 
-  · rebuild approach
-
-  · insert-based approach
-
-  · ElasticSearch approach: reimplemented from [JLucene](/lucene/lucene/core/src/java/org/apache/lucene/util/hnsw) and ElasticSearch [post](https://www.elastic.co/search-labs/blog/hnsw-graphs-speed-up-merging)
-
-  · NGM: reimplemented from [codebase](https://github.com/aponom84/merging-navigable-graphs) and [paper](https://arxiv.org/abs/2505.16064)
-
-  · IGTM: same with NGM
-
-  · CGTM: same with NGM
+- rebuild approach
+- insert-based approach
+- ElasticSearch approach: reimplemented from [JLucene](/lucene/lucene/core/src/java/org/apache/lucene/util/hnsw) and ElasticSearch [post](https://www.elastic.co/search-labs/blog/hnsw-graphs-speed-up-merging)
+- NGM: reimplemented from [codebase](https://github.com/aponom84/merging-navigable-graphs) and [paper](https://arxiv.org/abs/2505.16064)
+- IGTM: same with NGM
+- CGTM: same with NGM
 
 ### 0.2 repository structure
 
@@ -55,7 +50,7 @@ cd hnswlib
 
 ### 1.1 Download datasets
 
-We support running any dataset with a readable file type by `test_readfile.h`, and the dataset configuration should be added into `test_config.h ` before any dataset except `SIFT`, `DEEP` and `TURING` are waiting for experiments.
+We support running any dataset with a readable file type by `test_readfile.h`, and the dataset configuration should be added into `test_config.h` before any dataset except `SIFT`, `DEEP` and `TURING` are waiting for experiments.
 
 You can download dataset from the following link: [SIFT](http://corpus-texmex.irisa.fr/), [DEEP](https://github.com/matsui528/deep1b_gt/tree/master), [TURING](https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23)
 

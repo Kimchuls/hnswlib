@@ -129,11 +129,12 @@ make exp
 
 #### SIFT10M
 
-<img src="./figures/SIFT10M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center />
+<!-- <img src="./figures/SIFT10M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center /> -->
+![SIFT10M Merge](./figures/SIFT10M_Merge_Methods.png)
 
 #### DEEP10M
 
-<img src="./figures/DEEP10M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center />
+<!-- <img src="./figures/DEEP10M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center /> -->
 
 #### TURING10M
 

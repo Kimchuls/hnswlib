@@ -129,39 +129,38 @@ make exp
 
 #### SIFT10M
 
-<!-- <img src="./figures/SIFT10M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center /> -->
 ![SIFT10M Merge](./figures/SIFT10M_Merge_Methods.png)
 
 #### DEEP10M
 
-<!-- <img src="./figures/DEEP10M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center /> -->
+![DEEP10M Merge](./figures/DEEP10M_Merge_Methods.png)
 
 #### TURING10M
 
-<img src="./figures/Turing10M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center />
+![TURING10M Merge](./figures/Turing10M_Merge_Methods.png)
 
 #### SIFT100M
 
-<img src="./figures/SIFT100M_Merge_Methods.png" width = 70% height = 70% alt="search" align=center />
+![SIFT100M Merge](./figures/SIFT100M_Merge_Methods.png)
 
 ### 2.2 Different design choice comparison
 
 #### Parallelism Design
 
-<img src="./figures/SIFT10M_Parallelism_threads.png" width = 40% height = 40% alt="search" align=center />
+![Parallelism](./figures/SIFT10M_Parallelism_threads.png)
 
 #### Memory-Efficient Design
 
-<img src="./figures/memory-efficiency-comparison.png" width = 50% height = 50% alt="search" align=center />
+![Memory Efficient](./figures/memory-efficiency-comparison.png)
 
 #### Multiple Index Merge Srategies
 
-<img src="./figures/multi-index-strategy.png" width = 70% height = 70% alt="search" align=center />
+![Multiple Index Merge](./figures/multi-index-strategy.png)
 
 #### Backward Direct Connect vs Backward Search
 
-<img src="./figures/SIFT10M_backward_search_comparison.png" width = 70% height = 70% alt="search" align=center />
+![Backward Search](./figures/SIFT10M_backward_search_comparison.png)
 
 #### Different $\lambda$
 
-<img src="./figures/Ablation_C.png" width = 70% height = 70% alt="search" align=center />
+![lambda](./figures/Ablation_C.png)

@@ -17,7 +17,7 @@ This codebase is modified based on the [hnswlib](https://github.com/nmslib/hnswl
 
 ### 0.2 repository structure
 
-Our change compared to the original [hnswlib](https://github.com/nmslib/hnswlib) library is mainly in the folder `./hnswlib`. Now we explain every updates in that function
+Our change compared to the original [hnswlib](https://github.com/nmslib/hnswlib) library is mainly in the folder `./HNSW-Merger`. Now we explain every updates in that folder:
 
 ```
 ./
@@ -42,10 +42,10 @@ Our change compared to the original [hnswlib](https://github.com/nmslib/hnswlib)
 
 ## 1. Experiment Setup
 
-All of the following steps should be processed in the folder `./hnswlib`. In other word, after entering the repository folder, you need to first:
+All of the following steps should be processed in the folder `./HNSW-Merger`. In other word, after entering the repository folder, you need to first:
 
 ```
-cd hnswlib
+cd HNSW-Merger
 ```
 
 ### 1.1 Download datasets

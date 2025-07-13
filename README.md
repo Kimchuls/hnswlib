@@ -10,7 +10,7 @@ This codebase is modified based on the [hnswlib](https://github.com/nmslib/hnswl
 
 - rebuild approach
 - insert-based approach
-- ElasticSearch approach: reimplemented from [JLucene](/lucene/lucene/core/src/java/org/apache/lucene/util/hnsw) and ElasticSearch [post](https://www.elastic.co/search-labs/blog/hnsw-graphs-speed-up-merging)
+- Elasticsearch approach: reimplemented from [JLucene](/lucene/lucene/core/src/java/org/apache/lucene/util/hnsw) and Elasticsearch [post](https://www.elastic.co/search-labs/blog/hnsw-graphs-speed-up-merging)
 - NGM: reimplemented from [codebase](https://github.com/aponom84/merging-navigable-graphs) and [paper](https://arxiv.org/abs/2505.16064)
 - IGTM: same with NGM
 - CGTM: same with NGM
@@ -22,7 +22,7 @@ Our change compared to the original [hnswlib](https://github.com/nmslib/hnswlib)
 ```
 ./
 ├── baseline2.h               // reimplementation of NGM, IGTM and CGTM
-├── baseline.h                // reimplementation of ElasticSearch approach
+├── baseline.h                // reimplementation of Elasticsearch approach
 ├── bruteforce.h  
 ├── build_index.cpp           // script for index construction
 ├── experiment.cpp            // script for index merge experiments
@@ -39,6 +39,17 @@ Our change compared to the original [hnswlib](https://github.com/nmslib/hnswlib)
 ├── test_readfile.h           // fvecs/ivecs/bvecs file read
 └── visited_list_pool.h
 ```
+
+To be noticed, our beam search function in `extension.h` is used for Elasticsearch, IGTM and CGTM. 
+
+### 0.3 Specific in Beam Search
+
+As we know, beam search can get a better index quality (on the same query per second level, index built by beam search can return more accurate results than the index built by the point search, which the original hnswlib implements), but a bad search cost because of too many candidates during search. 
+
+Our design as well as To make a fair comparison under the hnswlib framework, we limit the performance of beam search used in the merge algorithms. 
+We first choose the `lowerBound` to be the bandWidth-th nearest distance of the top distance, but still choose  `efc` neighbors during search operation in insert operation. This achieves a great balance between the lots of candidates during beam search and its high beam search latency. We validate our design to match the feature of Elasticsearch's [post](https://www.elastic.co/search-labs/blog/hnsw-graphs-speed-up-merging#experiment-1:-int8-quantization).
+
+The Elasticsearch approach with our beam search compared with the original hnswlib insert approach can match the experiment in the Elasticsearch's post. Their results are: compared to the insert-based approach (baseline), merge has a 1.72x speed up but has a compariable index quality. Our experiment in SIFT10M and DEEP10M fit this result. (Turing is a specific case and all the merge algorithms have a better index quality than rebuild/insert approach.)
 
 ## 1. Experiment Setup
 
@@ -126,6 +137,8 @@ make exp
 ## 2. Experiment Overview
 
 ### 2.1 Comparison between different merge algorithms on different datasets
+
+Summary: As for all the experiments, our HNSW-Merger algorithm outperforms all the baselines in terms of merge speed, and achieve compariable index quality with the best baseline in each experiment. 
 
 #### SIFT10M
 

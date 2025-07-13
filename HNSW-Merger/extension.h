@@ -162,12 +162,20 @@ HierarchicalNSW<dist_t>::ExtendSearchBaseLayer(const void *query_data,
                                                int level,
                                                std::unordered_set<tableint> *eps,
                                                size_t local_ef) {
-    if (local_ef == -1) local_ef = ef_construction_;
+    size_t beamWidth;
+    if (local_ef == -1) { 
+        local_ef = ef_construction_;
+        beamWidth = level == 0 ? (size_t)(maxM_ * 2 / 3) : (size_t)(maxM_); 
+    }
+    else{
+        beamWidth = level == 0 ? (size_t)(local_ef / 3) : (size_t)(local_ef/2); 
+    }
     VisitedList *vl = visited_list_pool_->getFreeVisitedList();
     vl_type *visited_array = vl->mass;
     vl_type visited_array_tag = vl->curV;
 
     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates;
+    std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> top_candidates2;
     std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> candidateSet;
 
     dist_t lowerBound = std::numeric_limits<dist_t>::max();
@@ -175,16 +183,29 @@ HierarchicalNSW<dist_t>::ExtendSearchBaseLayer(const void *query_data,
     for (const tableint &val : *eps) {
         dist_t dist = fstdistfunc_(query_data, getDataByInternalId(val), dist_func_param_);
         top_candidates.emplace(dist, val);
-        lowerBound = std::min(dist, lowerBound);
         candidateSet.emplace(-dist, val);
         visited_array[val] = visited_array_tag;
-        if (top_candidates.size() > local_ef)
+        if (top_candidates.size() > beamWidth) {
+            top_candidates2.emplace(top_candidates.top());
             top_candidates.pop();
+            if (top_candidates2.size() > local_ef) {
+                top_candidates2.pop();
+            }
+        }
+    }
+    if (top_candidates.empty()) {
+        lowerBound = std::numeric_limits<dist_t>::max();
+    } else {
+        if (top_candidates.size() + top_candidates2.size() >= local_ef || top_candidates2.size() == 0) {
+            lowerBound = top_candidates.top().first;
+        } else {
+            lowerBound = top_candidates2.top().first;
+        }
     }
 
     while (!candidateSet.empty()) {
         std::pair<dist_t, tableint> curr_el_pair = candidateSet.top();
-        if ((-curr_el_pair.first) > lowerBound && top_candidates.size() == local_ef) {
+        if ((-curr_el_pair.first) > lowerBound && (top_candidates.size() + top_candidates2.size() >= local_ef)) {
             break;
         }
         candidateSet.pop();
@@ -215,25 +236,39 @@ HierarchicalNSW<dist_t>::ExtendSearchBaseLayer(const void *query_data,
             char *currObj1 = (getDataByInternalId(candidate_id));
 
             dist_t dist1 = fstdistfunc_(query_data, currObj1, dist_func_param_);
-            if (top_candidates.size() < local_ef || lowerBound > dist1) {
+            if ((top_candidates.size() + top_candidates2.size() < local_ef) || lowerBound > dist1) {
                 candidateSet.emplace(-dist1, candidate_id);
 #ifdef USE_SSE
                 _mm_prefetch(getDataByInternalId(candidateSet.top().second), _MM_HINT_T0);
 #endif
 
-                if (!isMarkedDeleted(candidate_id))
+                if (!isMarkedDeleted(candidate_id)) {
                     top_candidates.emplace(dist1, candidate_id);
+                }
 
-                while (top_candidates.size() > local_ef)
+                while (top_candidates.size() > beamWidth) {
+                    top_candidates2.emplace(top_candidates.top());
                     top_candidates.pop();
+                    if (top_candidates2.size() > local_ef - beamWidth) {
+                        top_candidates2.pop();
+                    }
+                }
 
-                if (!top_candidates.empty())
-                    lowerBound = top_candidates.top().first;
+                if (!top_candidates.empty()) {
+                    if (top_candidates.size() + top_candidates2.size() >= local_ef || top_candidates2.size() == 0) {
+                        lowerBound = top_candidates.top().first;
+                    } else {
+                        lowerBound = top_candidates2.top().first;
+                    }
+                }
             }
         }
     }
     visited_list_pool_->releaseVisitedList(vl);
-
+    while (!top_candidates2.empty()) {
+        top_candidates.emplace(top_candidates2.top());
+        top_candidates2.pop();
+    }
     return top_candidates;
 }
 

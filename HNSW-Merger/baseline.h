@@ -213,8 +213,10 @@ tableint HierarchicalNSW<dist_t>::addPoint(labeltype label,
                                                    &eps);
             std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst> cand(top_candidates);
             eps.clear();
-            while (!cand.empty()&&eps.size()<Mcurmax) {
-                eps.insert(cand.top().second);
+            while (!cand.empty()) {
+                if (cand.size() <= Mcurmax) {
+                    eps.insert(cand.top().second);
+                }
                 cand.pop();
             }
 

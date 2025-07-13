@@ -147,6 +147,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_Naive(HierarchicalNSW<dist_t> *index1, Hiera
 
             tableint entry_point = -1;
 
+            // We follow the idea in their paper, using HNSW search in index construction phase, not limiting the search to M neighbors
             index2->search2Layer(data_point, entry_point, maxLevel, level, search_ef, &top_candidates, index2_offset);
             ll_cur = index1->get_linklist_at_level(cur_c, level);
             linklistCount = index1->getListCount(ll_cur);
@@ -176,6 +177,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_Naive(HierarchicalNSW<dist_t> *index1, Hiera
 
             tableint entry_point = -1;
 
+            // We follow the idea in their paper, using HNSW search in index construction phase, not limiting the search to M neighbors
             index1->search2Layer(data_point, entry_point, maxLevel, level, search_ef, &top_candidates, index1_offset);
             ll_cur = index2->get_linklist_at_level(cur_c, level);
             linklistCount = index2->getListCount(ll_cur);
@@ -300,11 +302,15 @@ HierarchicalNSW<dist_t> *HNSWMerger_IGTM(HierarchicalNSW<dist_t> *index1, Hierar
                         std::vector<std::pair<dist_t, tableint>>,
                         typename HierarchicalNSW<dist_t>::CompareByFirst>
                         origin = index2->ExtendSearchBaseLayer(
-                            data_point, 
-                            level, 
-                            &starting_eps, 
+                            data_point,
+                            level,
+                            &starting_eps,
                             local_ef);
                     starting_eps.clear();
+
+                    while (origin.size() > (size_t)Mcurmax) {
+                        origin.pop();
+                    }
 
                     std::priority_queue<
                         std::pair<dist_t, tableint>,
@@ -367,6 +373,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_IGTM(HierarchicalNSW<dist_t> *index1, Hierar
                     if (new_c == -1) break;
                     cur_c = new_c;
                     not_done1.erase(cur_c);
+                    data_point = index1->getDataByInternalId(cur_c);
                 }
             }
         };
@@ -457,7 +464,7 @@ HierarchicalNSW<dist_t> *HNSWMerger_CGTM(HierarchicalNSW<dist_t> *index1, Hierar
             while (true) {
                 not_done.erase(cur_c);
                 data_point = alg_hnsw->getDataByInternalId(cur_c);
-                
+
                 if ((++global_count) % 200000 == 0) {
                     printf("[log] Index merge process %d / %d, time %f\n", global_count, layer_node_for_index1[level].size() + layer_node_for_index2[level].size(), elapsed() - s0);
                 }
@@ -469,11 +476,12 @@ HierarchicalNSW<dist_t> *HNSWMerger_CGTM(HierarchicalNSW<dist_t> *index1, Hierar
                 std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> top_candidates1;
                 origin1 = index1->ExtendSearchBaseLayer(data_point, level, &starting_eps1, local_ef);
                 starting_eps1.clear();
+                while (origin1.size() > (size_t)Mcurmax) {
+                    origin1.pop();
+                }
                 while (!origin1.empty()) {
                     top_candidates1.emplace(origin1.top().first, origin1.top().second + index1_offset);
-                    if (origin1.size() <= search_M) {
-                        starting_eps1.emplace(origin1.top().second);
-                    }
+                    starting_eps1.emplace(origin1.top().second);
                     if (origin1.size() <= next_step_k && not_done.find(origin1.top().second + index1_offset) != not_done.end() && origin1.top().first < distBound) {
                         distBound = origin1.top().first;
                         new_c = origin1.top().second + index1_offset;
@@ -485,11 +493,12 @@ HierarchicalNSW<dist_t> *HNSWMerger_CGTM(HierarchicalNSW<dist_t> *index1, Hierar
                 std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, typename HierarchicalNSW<dist_t>::CompareByFirst> top_candidates2;
                 origin2 = index2->ExtendSearchBaseLayer(data_point, level, &starting_eps2, local_ef);
                 starting_eps2.clear();
+                while (origin2.size() > (size_t)Mcurmax) {
+                    origin2.pop();
+                }
                 while (!origin2.empty()) {
                     top_candidates2.emplace(origin2.top().first, origin2.top().second + index2_offset);
-                    if (origin2.size() <= search_M) {
-                        starting_eps2.emplace(origin2.top().second);
-                    }
+                    starting_eps2.emplace(origin2.top().second);
                     if (origin2.size() <= next_step_k && not_done.find(origin2.top().second + index2_offset) != not_done.end() && origin2.top().first < distBound) {
                         distBound = origin2.top().first;
                         new_c = origin2.top().second + index2_offset;

@@ -202,7 +202,7 @@ void workload(const std::string &config_path) {
             }
         }
         printf("Insert task do not re-test the performance.\n");
-        return;
+        // return;
     } else if (merge_method == TWO_MERGE) {
         std::string save_base = cfg.save_path;
         if (cfg.rerun == true) {
@@ -225,7 +225,6 @@ void workload(const std::string &config_path) {
                     printf("Merged index not saved, rerun with save_index flag in config to save the index.\n");
                 }
             }
-            exit(0);
             alg_hnsw0 = alg_hnsw2;
         } else {
             std::string merged_index_path = save_base + "/merged-index_" + workloadTypeToString(workload_type) + ".hnsw";
@@ -516,7 +515,7 @@ void workload(const std::string &config_path) {
     for (int ef_val : cfg.efs_array) {
         alg_hnsw0->setEf(ef_val);
         printf("set ef = %d\n", ef_val);
-        for (int iter = 0; iter < 5; iter++) {
+        for (int iter = 0; iter < 2; iter++) {
             double t_search = 0.0;
             double t0 = elapsed();
             int *I = new int[nq * k];

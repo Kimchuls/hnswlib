@@ -1,6 +1,6 @@
 # HNSW-Merger: An Efficient HNSW Index Merging in Vector Databases
 
-Vector databases have become a cornerstone of modern data science and AI applications, powering recommendation systems, semantic search, retrieval-augmented generation, and more. This paper focuses on vector index merging (particularly HNSW merging), which merges two (or more) vector indexes. This is a key operation in vector databases with many use cases in vector index construction and vector index updates. While there are a few early approaches to solve the problem, the index merging performance remains slow. In this work, we propose HNSW-Merger, a new algorithm for merging two (or more) HNSW indexes that fully exploits the proximity information in existing indexes. It is a novel two-stage, search-based algorithm that relies on forward HNSW search and lazy backward direct-connect to efficiently connect potential edges. HNSW-Merger is optimized for multi-core parallelism and memory efficiency. It also supports efficient merging of multiple indexes. Extensive experiments show that HNSW-Merger achieves significantly faster merging performance (up to \textbf{11.6$\times$}) than prior approaches while maintaining similar or even higher index quality.
+Vector databases have become a cornerstone of modern data science and AI applications, powering recommendation systems, semantic search, retrieval-augmented generation, and more. This paper focuses on vector index merging (particularly HNSW merging), which merges two (or more) vector indexes. This is a key operation in vector databases with many use cases in vector index construction and vector index updates. While there are a few early approaches to solve the problem, the index merging performance remains slow. In this work, we propose HNSW-Merger, a new algorithm for merging two (or more) HNSW indexes that fully exploits the proximity information in existing indexes. It is a novel two-stage, search-based algorithm that relies on forward HNSW search and lazy backward direct-connect to efficiently connect potential edges. HNSW-Merger is optimized for multi-core parallelism and memory efficiency. It also supports efficient merging of multiple indexes. Extensive experiments show that HNSW-Merger achieves significantly faster merging performance (up to 11.6x) than prior approaches while maintaining similar or even higher index quality.
 
 <!-- TOC -->
 
@@ -97,7 +97,7 @@ base_filepath   = [dataset file path]
 index_path      = [index save file path]
 ```
 
-We give an sample in `scripts/config_build_test`, which is used for building index on SIFT10M dataset. 
+We give an sample in `./scripts/config_build_test`, which is used for building index on SIFT10M dataset. 
 
 Run the following command to build index based on the dataset and script:
 
@@ -146,7 +146,7 @@ efs_array             = [for query test, all tested efs during search, separated
 
 Note that not all the configuration parameters are required for every type of experiments. For example, for all experiments except `MULTI_TWO_MERGE`, it is no need to set the `multi_test_method`.
 
-We give an sample in `scripts/config_merge_test`, which is used for merging indexes on two 5M-indexes. 
+We give an sample in `./scripts/config_merge_test`, which is used for merging indexes on two 5M-indexes. 
 
 Run the following command to merge indexes based on the script you prepared:
 
@@ -161,7 +161,7 @@ make exp
 
 ## 4. Experiment Overview
 
-### 4.1 Comparison between different merge algorithms on different datasets
+<!-- ### 4.1 Comparison between different merge algorithms on different datasets -->
 
 <!-- Summary: As for all the experiments, our HNSW-Merger algorithm outperforms all the baselines in terms of merge speed, and achieve compariable index quality with the best baseline in each experiment.  -->
 
@@ -181,7 +181,7 @@ make exp
 
 <!-- ![SIFT100M Merge](./figures/SIFT100M_Merge_Methods_small.png) -->
 
-### 4.2 Different design choice comparison
+<!-- ### 4.2 Different design choice comparison -->
 
 #### Parallelism Design
 
@@ -202,3 +202,9 @@ make exp
 <!-- #### Different $\lambda$ -->
 
 <!-- ![lambda](./figures/Ablation_C_small.png) -->
+
+## 5. Conclusion
+
+In this work, we introduced HNSW-Merger, an out-of-place, two-stage algorithm for merging HNSW indexes that combines a lightweight forward search with a lazy backward direct connect mechanism, achieving significant speedup over prior approaches while maintaining comparable or higher index quality. 
+
+In the future, we plan to extend our approach to support the merging of other graph-based vector indexes, such as Vamana and NSG. We also plan to explore merging IVF-based vector indexes (e.g., IVF-PQ and ScaNN) by leveraging the core design principle of HNSW-Merger, which is to reuse existing index information as much as possible. 

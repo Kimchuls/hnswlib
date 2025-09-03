@@ -97,7 +97,7 @@ base_filepath   = [dataset file path]
 index_path      = [index save file path]
 ```
 
-We give an sample in `./scripts/config_build_test`, which is used for building index on SIFT10M dataset. 
+We give an example in `./scripts/config_build_test`, which is used for building index on SIFT10M dataset. 
 
 Run the following command to build index based on the dataset and script:
 
@@ -146,7 +146,7 @@ efs_array             = [for query test, all tested efs during search, separated
 
 Note that not all the configuration parameters are required for every type of experiments. For example, for all experiments except `MULTI_TWO_MERGE`, it is no need to set the `multi_test_method`.
 
-We give an sample in `./scripts/config_merge_test`, which is used for merging indexes on two 5M-indexes. 
+We give an example in `./scripts/config_merge_test`, which is used for merging indexes on two 5M-indexes. 
 
 Run the following command to merge indexes based on the script you prepared:
 

@@ -170,9 +170,9 @@ make exp
 
 <!-- Summary: As for all the experiments, our HNSW-Merger algorithm outperforms all the baselines in terms of merge speed, and achieve compariable index quality with the best baseline in each experiment.  -->
 
-#### SIFT10M
+#### Comparing on Different Dataset
 
-![SIFT10M Merge](./figures/SIFT10M_Merge_Methods_small.png)
+![SIFT10M Merge](./figures/REVISION_10M_combination.png)
 
 <!-- #### DEEP10M -->
 
@@ -188,17 +188,21 @@ make exp
 
 <!-- ### 4.2 Different design choice comparison -->
 
-#### Parallelism Design
+#### Parallelism and Memory-Efficiency Design
 
-![Parallelism](./figures/SIFT10M_Parallelism_threads_small.png)
+![Parallelism](./figures/REVISION_parallel_and_memory.png)
 
-#### Memory-Efficient Design
+<!-- #### Memory-Efficient Design
 
-![Memory Efficient](./figures/memory-efficiency-comparison_small.png)
+![Memory Efficient](./figures/REVISION_memory-efficiency-comparison_small.png) -->
 
 #### Multiple Index Merge Srategies
 
 ![Multiple Index Merge](./figures/multi-index-strategy_small.png)
+
+#### Extending to Vamana Graph
+
+![Vamana](./figures/REVISION_Ablation_Vamana.png)
 
 <!-- #### Backward Direct Connect vs Backward Search -->
 

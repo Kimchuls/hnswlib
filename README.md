@@ -172,7 +172,7 @@ make exp
 
 #### Comparing on Different Dataset
 
-![SIFT10M Merge](./figures/REVISION_10M_combination.png)
+![Merge on Different Datasets](./figures/REVISION_10M_combination_small.png)
 
 <!-- #### DEEP10M -->
 
@@ -190,7 +190,7 @@ make exp
 
 #### Parallelism and Memory-Efficiency Design
 
-![Parallelism](./figures/REVISION_parallel_and_memory.png)
+![Parallelism and Memory Efficienccy](./figures/REVISION_parallel_and_memory_small.png)
 
 <!-- #### Memory-Efficient Design
 
@@ -216,4 +216,4 @@ make exp
 
 In this work, we introduce HNSW-Merger, an out-of-place, two-stage algorithm for merging HNSW indexes that combines a lightweight forward search with a lazy backward direct connect mechanism, achieving significant speedup over prior approaches while maintaining comparable or higher index quality. 
 
-In the future, we plan to extend our approach to support the merging of other graph-based vector indexes, such as NSG. We also plan to explore merging IVF-based vector indexes (e.g., IVF-PQ and ScaNN) by leveraging the core design principle of HNSW-Merger, which is to reuse existing index information as much as possible. 
+In the future, we plan to explore merging IVF-based vector indexes (e.g., IVF-PQ and ScaNN) by leveraging the core design principle of HNSW-Merger, which is to reuse existing index information as much as possible. 

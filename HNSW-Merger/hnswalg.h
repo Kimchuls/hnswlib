@@ -47,6 +47,7 @@ auto MEASURE_FUNCTION_TIME(Func func, Args &&...args) -> decltype(func(std::forw
 namespace hnswlib {
 typedef unsigned int tableint;
 typedef unsigned int linklistsizeint;
+static constexpr uint64_t HNSW_DIST_MAGIC = 0xC0FFEE5A5AULL;
 
 template <typename dist_t>
 class HierarchicalNSW : public AlgorithmInterface<dist_t> {
@@ -109,6 +110,59 @@ public:
     std::mutex deleted_elements_lock;              // lock for deleted_elements
     std::unordered_set<tableint> deleted_elements; // contains internal ids of deleted elements
 
+    inline static std::atomic<uint64_t> s_fstdist_calls{0};
+    using DistFn = DISTFUNC<dist_t>;
+    inline static DistFn s_real_fn_fallback = nullptr;
+    DistFn real_fstdistfunc_{nullptr};
+    void *real_param_{nullptr};
+
+    struct CountParam {
+        uint64_t magic;
+        void *inner;
+        HierarchicalNSW<dist_t> *self;
+    } count_param_{};
+
+    static float fstdistfunc_wrapper(const void *a, const void *b, const void *param) {
+        s_fstdist_calls.fetch_add(1, std::memory_order_relaxed);
+        const auto *p = static_cast<const CountParam *>(param);
+        const bool wrapped = (p != nullptr) && (p->magic == HNSW_DIST_MAGIC);
+
+        if (wrapped) {
+            return p->self->real_fstdistfunc_(a, b, p->inner);
+        } else {
+            return s_real_fn_fallback ? s_real_fn_fallback(a, b, param) : 0.0f;
+        }
+    }
+    static void reset_dist_call_counter() {
+        s_fstdist_calls.store(0, std::memory_order_relaxed);
+    }
+    static uint64_t get_dist_call_counter() {
+        return s_fstdist_calls.load(std::memory_order_relaxed);
+    }
+    inline void install_dist_wrapper_() {
+        // Save originals (current fstdistfunc_/dist_func_param_ come from SpaceInterface)
+        real_fstdistfunc_ = fstdistfunc_;
+        real_param_ = dist_func_param_;
+
+        // Prepare wrapper param (lives on this object; not a stack addr)
+        count_param_.magic = HNSW_DIST_MAGIC;
+        count_param_.inner = real_param_;
+        count_param_.self = this;
+
+        // Replace fn + param
+        fstdistfunc_ = static_cast<DistFn>(&HierarchicalNSW<dist_t>::fstdistfunc_wrapper);
+        dist_func_param_ = static_cast<void *>(&count_param_);
+
+        // Set global fallback (covers callers that still pass the original param directly)
+        s_real_fn_fallback = real_fstdistfunc_;
+    }
+    inline void restore_original_dist_() {
+        if (real_fstdistfunc_) {
+            fstdistfunc_ = real_fstdistfunc_;
+            dist_func_param_ = real_param_;
+        }
+    }
+
     HierarchicalNSW(SpaceInterface<dist_t> *s) {
     }
 
@@ -138,6 +192,7 @@ public:
         data_size_ = s->get_data_size();
         fstdistfunc_ = s->get_dist_func();
         dist_func_param_ = s->get_dist_func_param();
+        install_dist_wrapper_();
         if (M <= 10000) {
             M_ = M;
         } else {
@@ -839,6 +894,7 @@ public:
         data_size_ = s->get_data_size();
         fstdistfunc_ = s->get_dist_func();
         dist_func_param_ = s->get_dist_func_param();
+        install_dist_wrapper_();
 
         auto pos = input.tellg();
 
@@ -1541,6 +1597,12 @@ public:
                           int level,
                           std::unordered_set<tableint> *eps,
                           size_t local_ef = -1);
+
+    std::priority_queue<std::pair<dist_t, tableint>, std::vector<std::pair<dist_t, tableint>>, CompareByFirst>
+    ExtendSearchBaseLayer2(const void *query_data,
+                           int level,
+                           std::unordered_set<tableint> *eps,
+                           size_t local_ef = -1);
 
     tableint addPoint(
         labeltype label,

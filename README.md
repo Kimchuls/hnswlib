@@ -33,7 +33,9 @@ Now we explain every updates in our HNSW-Merger:
 ├── extension.h               // implementation of our algorithm
 ├── hnswalg.h
 ├── hnswlib.h                 // simple modification for merge strategy
+├── io_stats.hpp              // tool to calculate read/write volumn
 ├── Makefile                  // script of compiling execution program
+├── memory-optimize-2G.h      // implementation of our memory-efficient design (2GB limit version)
 ├── memory-optimize.h         // implementation of our memory-efficient design
 ├── run_and_log_mem.sh        // script of memory comsumption monitor
 ├── space_ip.h
@@ -41,6 +43,7 @@ Now we explain every updates in our HNSW-Merger:
 ├── stop_condition.h
 ├── test_config.h             // experiment shell design and decode
 ├── test_readfile.h           // fvecs/ivecs/bvecs file read
+├── VarArray.h                // vector data storage structure in memory-efficient design
 └── visited_list_pool.h
 ```
 
@@ -207,4 +210,4 @@ make exp
 
 In this work, we introduced HNSW-Merger, an out-of-place, two-stage algorithm for merging HNSW indexes that combines a lightweight forward search with a lazy backward direct connect mechanism, achieving significant speedup over prior approaches while maintaining comparable or higher index quality. 
 
-In the future, we plan to extend our approach to support the merging of other graph-based vector indexes, such as Vamana and NSG. We also plan to explore merging IVF-based vector indexes (e.g., IVF-PQ and ScaNN) by leveraging the core design principle of HNSW-Merger, which is to reuse existing index information as much as possible. 
+In the future, we plan to extend our approach to support the merging of other graph-based vector indexes, such as NSG. We also plan to explore merging IVF-based vector indexes (e.g., IVF-PQ and ScaNN) by leveraging the core design principle of HNSW-Merger, which is to reuse existing index information as much as possible. 

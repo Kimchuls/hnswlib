@@ -4,6 +4,7 @@
 #include "baseline.h"
 #include "baseline2.h"
 #include "memory-optimize.h"
+// #include "memory-optimize-limit2G.h"
 #include <cstdint> // For int64_t
 #include <cstdio>
 #include <cmath>
@@ -202,7 +203,7 @@ void workload(const std::string &config_path) {
             }
         }
         printf("Insert task do not re-test the performance.\n");
-        // return;
+        return;
     } else if (merge_method == TWO_MERGE) {
         std::string save_base = cfg.save_path;
         if (cfg.rerun == true) {
@@ -215,7 +216,7 @@ void workload(const std::string &config_path) {
                 printf("Iteration %d/%d\n", i + 1, iterations);
 
                 double t0 = elapsed();
-                alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw0, alg_hnsw1, &space);
+                alg_hnsw2 = hnswlib::HNSWMerger<float>(alg_hnsw0, alg_hnsw1, &space, lambda);
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
                 if (save_index) {
                     std::string merged_index_path = save_base + "/merged-index_" + workloadTypeToString(workload_type) + ".hnsw";
@@ -233,6 +234,7 @@ void workload(const std::string &config_path) {
             printf("Loaded merged index from: %s\n", merged_index_path.c_str());
         }
     } else if (merge_method == MEMORY_EFFICIENCY) {
+        // throw std::runtime_error("Memory efficiency mode is deprecated, please use MEMORY_EFFICIENCY_LIMIT instead.");
         if (save_index == false) {
             std::runtime_error("Memory efficiency mode test always need to write index to disk");
         }
@@ -253,6 +255,29 @@ void workload(const std::string &config_path) {
         alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
         alg_hnsw0->loadIndex(merged_index_path, &space);
         printf("Loaded merged index from: %s\n", merged_index_path.c_str());
+    } else if (merge_method == MEMORY_EFFICIENCY_LIMIT) {
+        throw std::runtime_error("Memory efficiency limit mode is deprecated, please use MEMORY_EFFICIENCY_LIMIT2G instead.");
+        // // NOTE: The deleting mark design in this function has bugs. This will not affect the performance of the merging under limit, but only need to ignore the delete detection when loading merged index.
+        // if (save_index == false) {
+        //     std::runtime_error("Memory efficiency mode test always need to write index to disk");
+        // }
+        // std::string save_base = cfg.save_path;
+        // std::string merged_index_path = save_base + "/lessmem-index_" + workloadTypeToString(workload_type) + ".hnsw";
+        // if (cfg.rerun == true) {
+        //     std::vector<std::string> index_path = cfg.index_path;
+        //     for (int i = 0; i < iterations; i++) {
+        //         printf("Iteration %d/%d\n", i + 1, iterations);
+
+        //         double t0 = elapsed();
+        //         hnswlib::HNSWMerger_ME<float>(index_path[0], index_path[1], merged_index_path, &space, max_elements, M, ef_construction);
+        //         printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+        //         printf("Saved merged index to: %s\n", merged_index_path.c_str());
+        //         exit(0);
+        //     }
+        // }
+        // alg_hnsw0 = new hnswlib::HierarchicalNSW<float>(&space, max_elements, M, ef_construction);
+        // alg_hnsw0->loadIndex(merged_index_path, &space);
+        // printf("Loaded merged index from: %s\n", merged_index_path.c_str());
     } else if (merge_method == BACKWARD_SEARCH) {
         std::string save_base = cfg.save_path;
         if (cfg.rerun == true) {
@@ -265,7 +290,7 @@ void workload(const std::string &config_path) {
                 printf("Iteration %d/%d\n", i + 1, iterations);
 
                 double t0 = elapsed();
-                alg_hnsw2 = hnswlib::HNSWMerger_BS<float>(alg_hnsw0, alg_hnsw1, &space);
+                alg_hnsw2 = hnswlib::HNSWMerger_BS<float>(alg_hnsw0, alg_hnsw1, &space, lambda);
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
                 if (save_index) {
                     std::string merged_index_path = save_base + "/backward-search_" + workloadTypeToString(workload_type) + ".hnsw";
@@ -406,6 +431,7 @@ void workload(const std::string &config_path) {
                 double t0 = elapsed();
                 alg_hnsw2 = hnswlib::HNSWMerger_ES<float>(alg_hnsw0, alg_hnsw1, &space);
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+                printf("distance calls = %llu\n", (unsigned long long)alg_hnsw2->get_dist_call_counter());
 
                 if (save_index) {
                     std::string merged_index_path = save_base + "/es_" + workloadTypeToString(workload_type) + ".hnsw";

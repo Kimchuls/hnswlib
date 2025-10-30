@@ -14,7 +14,10 @@ enum WorkloadType {
     DEEP10M,
     TURING10M,
     SIFT100M,
-    DEEP100M
+    DEEP100M,
+    SIFT1B,
+    GLOVE25,
+    COHERE10M
 };
 
 enum MergeMethod {
@@ -28,7 +31,8 @@ enum MergeMethod {
     CGTM,
     ABLATION_C,
     BACKWARD_SEARCH,
-    MEMORY_EFFICIENCY
+    MEMORY_EFFICIENCY,
+    MEMORY_EFFICIENCY_LIMIT,
 };
 
 enum MultiTestMethod {
@@ -74,6 +78,9 @@ WorkloadType parseWorkloadType(const std::string &s) {
     if (s == "TURING10M") return TURING10M;
     if (s == "SIFT100M") return SIFT100M;
     if (s == "DEEP100M") return DEEP100M;
+    if (s == "SIFT1B") return SIFT1B;
+    if (s == "GLOVE25") return GLOVE25;
+    if (s == "COHERE10M") return COHERE10M;
     std::cerr << "Unknown WorkloadType: " << s << std::endl;
     std::exit(1);
 }
@@ -86,6 +93,9 @@ std::string workloadTypeToString(WorkloadType type) {
     case TURING10M: return "TURING10M";
     case SIFT100M: return "SIFT100M";
     case DEEP100M: return "DEEP100M";
+    case SIFT1B: return "SIFT1B";
+    case GLOVE25: return "GLOVE25";
+    case COHERE10M: return "COHERE10M";
     default: return "UNKNOWN";
     }
 }
@@ -103,6 +113,7 @@ MergeMethod parseMergeMethod(const std::string &s) {
     if (s == "ABLATION_C") return ABLATION_C;
     if (s == "BACKWARD_SEARCH") return BACKWARD_SEARCH;
     if (s == "MEMORY_EFFICIENCY") return MEMORY_EFFICIENCY;
+    if (s == "MEMORY_EFFICIENCY_LIMIT") return MEMORY_EFFICIENCY_LIMIT;
     std::cerr << "Unknown MergeMethod: " << s << std::endl;
     std::exit(1);
 }
@@ -120,6 +131,7 @@ std::string mergeMethodToString(MergeMethod method) {
     case ABLATION_C: return "ABLATION_C";
     case BACKWARD_SEARCH: return "BACKWARD_SEARCH";
     case MEMORY_EFFICIENCY: return "MEMORY_EFFICIENCY";
+    case MEMORY_EFFICIENCY_LIMIT: return "MEMORY_EFFICIENCY_LIMIT";
     default: return "UNKNOWN";
     }
 }

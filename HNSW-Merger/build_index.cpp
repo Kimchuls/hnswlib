@@ -162,6 +162,7 @@ void workload(const std::string &config_path) {
     int thread = omp_get_max_threads();
     ParallelFor(lrange, rrange, thread, [&](size_t row, size_t threadId) { alg_hnsw0->addPoint((void *)(xb + dim * row), row); });
     printf("[%.3f s] build index (dataset size = %d - %d)\n", elapsed() - t0, lrange, rrange);
+    printf("distance calls = %llu\n", (unsigned long long)alg_hnsw0->get_dist_call_counter());
 
     alg_hnsw0->saveIndex(const_cast<char *>(cfg.index_path.c_str()));
 }

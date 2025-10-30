@@ -1,4 +1,4 @@
-CC = g++
+CC = g++ 
 CFLAGS_DEBUG = -g
 CFLAGS_RELEASE = -O3
 CFLAGS_IGNORE = -Wno-write-strings -Wno-unused-result -Wno-format 
@@ -11,6 +11,7 @@ AVAIL = avail
 all: exp
 
 build:
+# 	g++ $(CFLAGS_IGNORE) -O3 build_index_on_idx.cpp -o builds $(CFLAG_FAISS)
 	g++ $(CFLAGS_IGNORE) -O3 build_index.cpp -o builds $(CFLAG_FAISS)
 
 exp:

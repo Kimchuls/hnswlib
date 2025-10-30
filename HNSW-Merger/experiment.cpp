@@ -340,21 +340,24 @@ void workload(const std::string &config_path) {
                 indexVec.insert(indexVec.begin(), indexVec2.begin(), indexVec2.end());
                 double t0 = elapsed();
                 printf("Iteration %d/%d\n", i + 1, iterations);
-                int delta = 4, lambda = 8;
+                // int delta = 4, lambda = 8;
                 size_t baseline = indexVec[0].count;
                 for (int it = 1; it < indexVec.size(); it++) {
                     baseline = std::min(baseline, indexVec[it].count);
                 }
-                int upper_bound = 16;
+                // int upper_bound = 16;
                 while (indexVec.size() > 1) {
                     mergedIndex first = indexVec[0];
                     mergedIndex second = indexVec[1];
                     indexVec.erase(indexVec.begin(), indexVec.begin() + 2);
                     printf("Merging indexes with counts: %zu and %zu\n", first.count, second.count);
-                    lambda = static_cast<int>(4 * std::log(std::max(first.count, second.count) / 693000.0) / std::log(1000000.0 / 693000.0));
+                    // lambda = static_cast<int>(4 * std::log(std::max(first.count, second.count) / 693000.0) / std::log(1000000.0 / 693000.0));
+                    // lambda = 4;
 
                     printf("lambda: %d\n", lambda);
                     alg_hnsw2 = hnswlib::HNSWMerger<float>(first.index, second.index, &space, lambda);
+                    first.index->clear();
+                    second.index->clear();
                     printf("Merged index with counts: %zu, time elapsed: %f s\n", first.count + second.count, elapsed() - t0);
                     if (multi_test_method == LARGE_FIRST) {
                         indexVec.insert(indexVec.begin(), {alg_hnsw2->getCurrentElementCount(), alg_hnsw2});
@@ -459,8 +462,11 @@ void workload(const std::string &config_path) {
             for (int i = 0; i < iterations; i++) {
                 printf("Iteration %d/%d\n", i + 1, iterations);
                 double t0 = elapsed();
+                // size_t search_ef = 20;
+                // alg_hnsw2 = hnswlib::HNSWMerger_Naive<float>(alg_hnsw0, alg_hnsw1, &space, search_ef);
                 alg_hnsw2 = hnswlib::HNSWMerger_Naive<float>(alg_hnsw0, alg_hnsw1, &space);
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+                printf("distance calls = %llu\n", (unsigned long long)alg_hnsw2->get_dist_call_counter());
                 if (save_index) {
                     std::string merged_index_path = save_base + "/ngm_" + workloadTypeToString(workload_type) + ".hnsw";
                     alg_hnsw2->saveIndex(merged_index_path);
@@ -487,8 +493,15 @@ void workload(const std::string &config_path) {
             for (int i = 0; i < iterations; i++) {
                 printf("Iteration %d/%d\n", i + 1, iterations);
                 double t0 = elapsed();
+                // size_t jump_ef = 20;
+                // size_t local_ef = 5;
+                // size_t next_step_k = 3;
+                // size_t next_step_ef = 3;
+                // size_t search_M = 20;
+                // alg_hnsw2 = hnswlib::HNSWMerger_IGTM<float>(alg_hnsw0, alg_hnsw1, &space, jump_ef, local_ef, next_step_k, next_step_ef, search_M);
                 alg_hnsw2 = hnswlib::HNSWMerger_IGTM<float>(alg_hnsw0, alg_hnsw1, &space);
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+                printf("distance calls = %llu\n", (unsigned long long)alg_hnsw2->get_dist_call_counter());
                 if (save_index) {
                     std::string merged_index_path = save_base + "/igtm_" + workloadTypeToString(workload_type) + ".hnsw";
                     alg_hnsw2->saveIndex(merged_index_path);
@@ -515,8 +528,14 @@ void workload(const std::string &config_path) {
             for (int i = 0; i < iterations; i++) {
                 printf("Iteration %d/%d\n", i + 1, iterations);
                 double t0 = elapsed();
+                // size_t jump_ef = 20;
+                // size_t local_ef = 5;
+                // size_t next_step_k = 3;
+                // size_t search_M = 20;
                 alg_hnsw2 = hnswlib::HNSWMerger_CGTM<float>(alg_hnsw0, alg_hnsw1, &space);
+                // alg_hnsw2 = hnswlib::HNSWMerger_CGTM<float>(alg_hnsw0, alg_hnsw1, &space, jump_ef, local_ef, next_step_k, search_M);
                 printf("Total time for insertion: %.3f s\n", elapsed() - t0);
+                printf("distance calls = %llu\n", (unsigned long long)alg_hnsw2->get_dist_call_counter());
                 if (save_index) {
                     std::string merged_index_path = save_base + "/cgtm_" + workloadTypeToString(workload_type) + ".hnsw";
                     alg_hnsw2->saveIndex(merged_index_path);
@@ -539,9 +558,9 @@ void workload(const std::string &config_path) {
 
     printf("Start searching\n");
     for (int ef_val : cfg.efs_array) {
-        alg_hnsw0->setEf(ef_val);
+        alg_hnsw0->setEf(ef_val) ;
         printf("set ef = %d\n", ef_val);
-        for (int iter = 0; iter < 2; iter++) {
+        for (int iter = 0; iter < 3; iter++) {
             double t_search = 0.0;
             double t0 = elapsed();
             int *I = new int[nq * k];

@@ -21,7 +21,7 @@ We implememt several baselines for comparison, including:
 
 ### 1.3 HNSW-Merger structure
 
-Now we explain every updates in our HNSW-Merger:
+We explain every updates in our HNSW-Merger:
 
 ```
 ./
@@ -68,6 +68,8 @@ Datasets can be downloaded from the following link:
   - [SIFT](http://corpus-texmex.irisa.fr/)
   - [DEEP](https://github.com/matsui528/deep1b_gt/tree/master)
   - [TURING](https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23)
+  - [GloVe25](https://nlp.stanford.edu/projects/glove/)
+  - [Cohere](https://github.com/zilliztech/VectorDBBench?tab=readme-ov-file)
 
 ### 2.2 Dependencies
 

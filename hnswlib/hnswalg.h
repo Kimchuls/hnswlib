@@ -72,7 +72,15 @@ namespace hnswlib
         std::mutex deleted_elements_lock;              // lock for deleted_elements
         std::unordered_set<tableint> deleted_elements; // contains internal ids of deleted elements
 
+        struct SearchPathNode{
+            tableint node_id;
+            int layer;
+        };
+        mutable std::vector<SearchPathNode> search_path_nodes_layers;
+        mutable std::unordered_map<tableint, std::vector<SearchPathNode>> search_path_nodes_layer0;
+
         HierarchicalNSW(SpaceInterface<dist_t> *s)
+            : label_op_locks_(MAX_LABEL_OPERATION_LOCKS)
         {
         }
 
@@ -357,11 +365,13 @@ namespace hnswlib
                     stop_condition->add_point_to_result(getExternalLabel(ep_id), ep_data, dist);
                 }
                 candidate_set.emplace(-dist, ep_id);
+                search_path_nodes_layer0[ep_id] = std::vector<SearchPathNode>{SearchPathNode{ep_id, 0}};
             }
             else
             {
                 lowerBound = std::numeric_limits<dist_t>::max();
                 candidate_set.emplace(-lowerBound, ep_id);
+                search_path_nodes_layer0[ep_id] = std::vector<SearchPathNode>{SearchPathNode{ep_id, 0}};
             }
 
             visited_array[ep_id] = visited_array_tag;
@@ -439,6 +449,8 @@ namespace hnswlib
                         if (flag_consider_candidate)
                         {
                             candidate_set.emplace(-dist, candidate_id);
+                            search_path_nodes_layer0[candidate_id] = search_path_nodes_layer0[current_node_id];
+                            search_path_nodes_layer0[candidate_id].push_back({candidate_id, 0});
 #ifdef USE_SSE
                             _mm_prefetch(data_level0_memory_ + candidate_set.top().second * size_data_per_element_ +
                                              offsetLevel0_, ///////////
@@ -1409,6 +1421,8 @@ namespace hnswlib
         std::priority_queue<std::pair<dist_t, labeltype>>
         searchKnn(const void *query_data, size_t k, BaseFilterFunctor *isIdAllowed = nullptr) const
         {
+            search_path_nodes_layers.clear();
+            search_path_nodes_layer0.clear();
             std::priority_queue<std::pair<dist_t, labeltype>> result;
             if (cur_element_count == 0)
                 return result;
@@ -1419,6 +1433,7 @@ namespace hnswlib
             for (int level = maxlevel_; level > 0; level--)
             {
                 bool changed = true;
+                search_path_nodes_layers.push_back({currObj, level});
                 while (changed)
                 {
                     changed = false;
@@ -1442,6 +1457,7 @@ namespace hnswlib
                             curdist = d;
                             currObj = cand;
                             changed = true;
+                            search_path_nodes_layers.push_back({cand, level});
                         }
                     }
                 }
